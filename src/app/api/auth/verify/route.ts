@@ -1,11 +1,10 @@
 import createUser from "@/app/models/createUser";
+import { statusCodes } from "@/lib/enums";
 import { handleCryptoDecodeValue } from "@/lib/handlers/handleCrypto";
 import connectDB from "@/lib/mongodb";
-import { NextResponse } from "next/server";
-import { postRequest } from "@/lib/types";
-import { statusCodes } from "@/lib/enums";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: postRequest) {
+export async function POST(req: Request | NextRequest) {
   try {
     const cookie = await req.json();
     if (!cookie) {

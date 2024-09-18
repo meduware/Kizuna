@@ -1,14 +1,13 @@
 import createUser from "@/app/models/createUser";
+import { statusCodes, toastMessages } from "@/lib/enums";
 import {
   handleCryptoEncodeValue,
   handleCryptoVerifyValue,
 } from "@/lib/handlers/handleCrypto";
 import connectDB from "@/lib/mongodb";
-import { postRequest } from "@/lib/types";
-import { toastMessages, statusCodes } from "@/lib/enums";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: postRequest) {
+export async function POST(req: Request | NextRequest) {
   try {
     var userData = await req.json();
     await connectDB();
