@@ -7,7 +7,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kizuna",
+  title: "Kizuna: Open-Source Solution for Secure Communication",
   description: "A self-hosted, open-source chat app tailored for secure and private communication.",
 };
 
