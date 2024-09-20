@@ -41,10 +41,10 @@ export default function Footer() {
   return (
     <footer className="pb-16 text-sm leading-6">
       <div className="mx-auto divide-y divide-slate-200 px-4 sm:px-6 md:px-8 dark:divide-slate-700">
-        <div className="flex">
+        <div className="sm:flex grid gap-2">
           {footerLinks.map((section: FooterLink) => (
             <div key={section.title} className="m-5">
-              <h2 className="font-semibold text-slate-900 dark:text-slate-100">{section.title}</h2>
+              <h2 className="font-semibold text-slate-900 text-xl dark:text-slate-100">{section.title}</h2>
               <ul className="mt-3 space-y-2">
                 {section.links.map((link: { name: string, href: string }) => (
                   <li key={link.name}>
