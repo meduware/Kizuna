@@ -12,9 +12,9 @@ const footerLinks = [
   {
     "title": "Getting Started",
     "links": [
-      { "name": "Installation", "href": "/docs/installation" },
-      { "name": "Development Environment Setup", "href": "/docs/dev-environment-setup" },
       { "name": "First Steps", "href": "/docs/first-steps" },
+      { "name": "Setup & Usage", "href": "/docs/setup-&-usage" },
+      { "name": "Development Environment Setup", "href": "/docs/dev-environment-setup" },
       { "name": "Troubleshooting", "href": "/docs/troubleshooting" },
     ]
   },

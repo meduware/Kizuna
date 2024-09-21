@@ -38,7 +38,7 @@ export default function Header() {
         <div className="space-x-2 md:block hidden">
           <Button variant={"ghost"} onClick={() => scrollToSection('about')}>About</Button>
           <Button variant={"ghost"} onClick={() => scrollToSection('features')}>Features</Button>
-          <Link href='/docs' className={buttonVariants({ variant: "ghost" })}>Docs</Link>
+          <Link href='/docs/introduction' className={buttonVariants({ variant: "ghost" })}>Docs</Link>
         </div>
       </div>
 
@@ -63,6 +63,9 @@ export default function Header() {
             </SheetClose>
             <SheetClose asChild>
               <Button variant={"ghost"} onClick={() => scrollToSection('features')}>Features</Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link href='/docs/introduction' className={buttonVariants({ variant: "ghost" })}>Docs</Link>
             </SheetClose>
             <SheetClose asChild>
               <SheetHeader>

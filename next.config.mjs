@@ -1,19 +1,22 @@
+import nextra from 'nextra';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    USERS_API: process.env.USERS_API,
-    LOGIN_API: process.env.LOGIN_API,
-    REGISTER_API: process.env.REGISTER_API,
-    ENCRYPTION_SALT: process.env.ENCRYPTION_SALT,
+    PROJECT_NAME: process.env.PROJECT_NAME,
+    PROJECT_REPO: process.env.PROJECT_REPO,
+    MONGODB_URI: process.env.MONGODB_URI,
     ENCRYPTION_SECRET: process.env.ENCRYPTION_SECRET,
-    REGISTER_API: process.env.REGISTER_API,
-    VERIFY_API: process.env.VERIFY_API,
-    SALES_API: process.env.SALES_API,
-    SALES_DETAIL_API: process.env.SALES_DETAIL_API,
+    ENCRYPTION_SALT: process.env.ENCRYPTION_SALT,
     PROJECT_NAME: process.env.PROJECT_NAME,
     PROJECT_REPO: process.env.PROJECT_REPO,
   },
 };
 
-export default nextConfig;
+const withNextra = nextra({
+  theme: 'nextra-theme-docs',
+  themeConfig: './theme.config.jsx'
+});
+
+export default withNextra(nextConfig);

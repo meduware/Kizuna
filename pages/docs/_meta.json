@@ -1,0 +1,20 @@
+{
+  "introduction": {
+    "title": "Introduction",
+    "theme": {
+      "layout": "raw"
+    }
+  },
+  "getting-started": {
+    "title": "Getting Started",
+    "display": "hidden"
+  },
+  "core-concepts": {
+    "title": "Core Concepts",
+    "display": "hidden"
+  },
+  "configuration": {
+    "title": "Configuration",
+    "display": "hidden"
+  }
+}
