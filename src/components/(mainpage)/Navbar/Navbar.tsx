@@ -1,4 +1,5 @@
 "use client"
+
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -32,7 +33,7 @@ export default function Header() {
   };
 
   return (
-    <header className={`flex justify-between items-center sticky top-6 p-3 px-4 m-3 transition-all z-50 ${scrollY > 100 ? 'w-5/6 shadow-xl rounded-xl bg-primary-foreground' : 'w-full bg-transparent'}`}>
+    <header className={` flex justify-between items-center sticky top-6 p-3 px-4 m-3 transition-all z-50 ${scrollY > 100 ? 'w-3/6 sm:min-w-[600px] min-w-[330px] shadow-xl rounded-full border bg-primary-foreground' : 'w-full bg-transparent'}`}>
       <div className="flex items-center justify-center">
         <h1 className="font-semibold text-xl mr-5 cursor-pointer bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500" onClick={() => scrollToSection('hero')}>{process.env.PROJECT_NAME}</h1>
         <div className="space-x-2 md:block hidden">
@@ -44,7 +45,7 @@ export default function Header() {
 
       <div className="space-x-2 flex">
         <div className="md:flex hidden space-x-2">
-          <Link href='/channels' className={buttonVariants({ variant: "default" })}><span className="font-semibold">GET STARTED</span></Link>
+          <Link href='/channels' className={buttonVariants({ variant: "default" })}><span className="font-semibold">Get Started</span></Link>
           <ModeToggle />
         </div>
         <Sheet>
@@ -69,7 +70,7 @@ export default function Header() {
             </SheetClose>
             <SheetClose asChild>
               <SheetHeader>
-                <Link href='/channels' className={buttonVariants({ variant: "default" })}><span className="font-semibold">GET STARTED</span></Link>
+                <Link href='/channels' className={buttonVariants({ variant: "default" })}><span className="font-semibold">Get Started</span></Link>
               </SheetHeader>
             </SheetClose>
           </SheetContent>

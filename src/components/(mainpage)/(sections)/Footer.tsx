@@ -37,7 +37,7 @@ const footerLinks = [
 ];
 
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <footer className="pb-16 text-sm leading-6">
       <div className="mx-auto divide-y divide-slate-200 px-4 sm:px-6 md:px-8 dark:divide-slate-700">
