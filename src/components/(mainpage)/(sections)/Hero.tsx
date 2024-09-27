@@ -6,7 +6,7 @@ import GridPattern from "@/components/ui/grid-pattern";
 export default function Hero(): JSX.Element {
 
   return (
-    <section id="hero" className="flex flex-col items-center justify-center space-y-4 mt-16 gap-16 px-5 overflow-hidden">
+    <section id="hero" className="flex flex-col items-center justify-center space-y-4 my-16 gap-16 px-5 overflow-hidden">
       <GridPattern className="-z-50 absolute inset-0 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] h-[800px]" />
       <div className="absolute h-[300px] w-full top-0 overflow-hidden -z-50">
         <Meteors number={10} />

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Contributor(): JSX.Element {
 
   return (
-    <section id="about" className="min-h-[200px] my-10 flex flex-col gap-5 justify-center items-center w-full">
+    <section id="contribute" className="min-h-[200px] my-10 flex flex-col gap-5 justify-center items-center w-full">
       <IconHolder icon={<FontAwesomeIcon icon={faUserGroup} />} />
       <div className="text-center space-y-4 mb-10">
         <h3 className="text-5xl font-semibold">Get Connected!</h3>

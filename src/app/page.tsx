@@ -10,7 +10,7 @@ export default function Home(): JSX.Element {
     <main className="flex flex-col items-center w-full">
       <Navbar />
       <Hero />
-      {/* <About /> */}
+      <About />
       {/* <Product /> */}
       <Contributor />
       <Footer />
