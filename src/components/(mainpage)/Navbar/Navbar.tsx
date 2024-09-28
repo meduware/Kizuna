@@ -8,7 +8,7 @@ import { Button, buttonVariants } from "../../ui/button";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "../../ui/sheet";
 import { ModeToggle } from "./ModeToggle";
 
-export default function Header() {
+export default function Navbar(): JSX.Element {
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => {
     setScrollY(window.scrollY);

@@ -6,7 +6,7 @@ import GridPattern from "@/components/ui/grid-pattern";
 export default function Hero(): JSX.Element {
 
   return (
-    <section id="hero" className="flex flex-col items-center justify-center space-y-4 my-16 gap-16 px-5 overflow-hidden">
+    <section id="hero" className="flex flex-col items-center justify-center space-y-4 my-16 gap-16 px-5 overflow-hidden w-full">
       <GridPattern className="-z-50 absolute inset-0 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] h-[800px]" />
       <div className="absolute h-[300px] w-full top-0 overflow-hidden -z-50">
         <Meteors number={10} />
@@ -28,14 +28,10 @@ export default function Hero(): JSX.Element {
         <p className="text-xl text-center opacity-80">A self-hosted, open-source chat app tailored for secure and private communication.</p>
       </div>
 
-      <section className="flex justify-end relative overflow-hidden">
-        <div className="flex h-[500px] w-full [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] flex-col items-center justify-center rounded-xl border bg-primary-foreground md:shadow-xl">
-          <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b w-[1216px] from-black to-gray-300/80 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-slate-900/10" />
-          {/* NOTE: BorderBeam is couse performance loss. */}
-          {/* <BorderBeam size={50} duration={12} delay={9} /> */}
-          {/* TODO: Add image here. */}
-        </div>
-      </section>
+      <div className="h-[500px] w-full max-w-[1231px] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] rounded-xl border bg-primary-foreground mx-auto">
+        {/* NOTE: BorderBeam is couse performance loss. */}
+        {/* TODO: Add image here. */}
+      </div>
     </section>
   );
 }

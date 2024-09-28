@@ -39,7 +39,7 @@ const footerLinks = [
 
 export default function Footer(): JSX.Element {
   return (
-    <footer className="pb-16 text-sm leading-6">
+    <footer className="pb-16 mt-32 text-sm leading-6">
       <div className="mx-auto divide-y divide-slate-200 px-4 sm:px-6 md:px-8 dark:divide-slate-700">
         <div className="sm:flex grid gap-2">
           {footerLinks.map((section: FooterLink) => (
