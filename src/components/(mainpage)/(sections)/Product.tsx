@@ -1,15 +1,28 @@
-import { IconDefinition, faBell, faCogs, faLock, faServer, faUsers } from '@fortawesome/free-solid-svg-icons'
-import { faOsi } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  IconDefinition,
+  faBell,
+  faCogs,
+  faLock,
+  faServer,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
+import { faOsi } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function generateFeature({ icon, title, description }: { icon: IconDefinition, title: string, description: string }, index: number): JSX.Element {
+function ure(
+  { icon, title, description }: { icon: IconDefinition; title: string; description: string },
+  index: number
+): JSX.Element {
   return (
-    <div key={index} className="flex flex-col text-left justify-center items-start p-5 max-w-[350px] hover:bg-secondary transition-colors min-h-[200px]">
+    <div
+      key={index}
+      className="flex flex-col text-left justify-center items-start p-5 max-w-[350px] md:hover:bg-secondary transition-colors min-h-[200px]"
+    >
       <FontAwesomeIcon icon={icon} className="mb-5 text-blue-400" />
       <h4 className="text-md font-semibold mb-1">{title}</h4>
       <p className="text-md text-secondary-foreground opacity-70">{description}</p>
     </div>
-  )
+  );
 }
 const features = [
   {
@@ -42,16 +55,23 @@ const features = [
     title: "Instant Notifications",
     description: `Stay informed with instant notifications, ensuring you never miss important moments.`,
   },
-]
+];
 const Features = (): JSX.Element => {
   return (
     <section id="features" className="text-center space-y-4">
-      <h3 className="text-4xl font-semibold mt-[100px] mx-5">What can you do with {process.env.PROJECT_NAME}?</h3>
+      <h3 className="text-4xl font-semibold mt-[100px] mx-5">
+        What can you do with {process.env.PROJECT_NAME}?
+      </h3>
       <div className="text-center gap-2 mb-10 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 items-center justify-center md:border-gradient">
-        {features.map((x: { icon: IconDefinition, title: string, description: string }, index: number): JSX.Element => (generateFeature(x, index)))}
+        {features.map(
+          (
+            x: { icon: IconDefinition; title: string; description: string },
+            index: number
+          ): JSX.Element => ure(x, index)
+        )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Features 
+export default Features;
