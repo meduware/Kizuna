@@ -2,7 +2,16 @@
 
 import IconHolder from "@/components/ui/icon-holder";
 import ShineBorder from "@/components/ui/shine-border";
-import { IconDefinition, faClockRotateLeft, faCode, faDisplay, faFileExport, faMessage, faMicrophone, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  IconDefinition,
+  faClockRotateLeft,
+  faCode,
+  faDisplay,
+  faFileExport,
+  faMessage,
+  faMicrophone,
+  faShieldAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const features = [
@@ -19,35 +28,43 @@ const features = [
   {
     icon: faMicrophone,
     title: "Seamless Voice Calls",
-    description: "Make high-quality voice calls with ease, with our crystal-clear audio technology.",
+    description:
+      "Make high-quality voice calls with ease, with our crystal-clear audio technology.",
   },
   {
     icon: faShieldAlt,
     title: "End-to-End Encryption",
-    description: "Rest assured that your conversations are secure, with our end-to-end encryption technology.",
+    description:
+      "Rest assured that your conversations are secure, with our end-to-end encryption technology.",
   },
   {
     icon: faFileExport,
     title: "File Sharing",
-    description: "Share files, images, and videos with ease, with our seamless file transfer feature.",
+    description:
+      "Share files, images, and videos with ease, with our seamless file transfer feature.",
   },
   {
     icon: faClockRotateLeft,
     title: "Message History",
     description: "Access your conversation history, with our easy-to-use message history feature.",
-  }
-]
+  },
+];
 
-function generateFeature({ icon, title, description }: { icon: IconDefinition, title: string, description: string }, index: number): JSX.Element {
+function generateFeature(
+  { icon, title, description }: { icon: IconDefinition; title: string; description: string },
+  index: number
+): JSX.Element {
   return (
-    <div key={index} className="flex flex-col text-left justify-center items-start p-5 max-w-[350px] hover:bg-secondary transition-colors min-h-[200px]">
+    <div
+      key={index}
+      className="flex flex-col text-left justify-center items-start p-5 max-w-[350px] md:hover:bg-secondary transition-colors min-h-[200px]"
+    >
       <FontAwesomeIcon icon={icon} className="mb-5 text-blue-400" />
       <h4 className="text-md font-semibold mb-1">{title}</h4>
       <p className="text-md text-secondary-foreground opacity-70">{description}</p>
     </div>
-  )
+  );
 }
-
 
 function generateCodeBlock(): JSX.Element {
   return (
@@ -62,7 +79,8 @@ function generateCodeBlock(): JSX.Element {
           <div className="h-3 w-3 rounded-full bg-green-500"></div>
         </div>
         <div className="text-white">
-          <span className="font-bold">user@computer:</span><span className="ml-1">~$</span>
+          <span className="font-bold">user@computer:</span>
+          <span className="ml-1">~$</span>
           <span className="ml-2">cat config.json</span>
         </div>
         <pre className="text-gray-300 overflow-x-auto whitespace-pre-wrap">
@@ -91,25 +109,34 @@ export default withNextra(nextConfig);
         </pre>
       </div>
     </ShineBorder>
-  )
-};
-;
-
+  );
+}
 export default function About(): JSX.Element {
   return (
     <>
       <div className="text-center gap-2 mb-10 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 items-center justify-center md:border-gradient">
-        {features.map((x: { icon: IconDefinition, title: string, description: string }, index: number): JSX.Element => (generateFeature(x, index)))}
+        {features.map(
+          (
+            x: { icon: IconDefinition; title: string; description: string },
+            index: number
+          ): JSX.Element => generateFeature(x, index)
+        )}
       </div>
 
-      <section id="about" className="min-h-[200px] pt-[100px] flex flex-col justify-center items-center mx-3">
+      <section
+        id="about"
+        className="min-h-[200px] pt-[100px] flex flex-col justify-center items-center mx-3"
+      >
         <IconHolder icon={<FontAwesomeIcon icon={faCode} />} />
         <div className="text-center space-y-4 mb-10">
           <h3 className="text-4xl font-semibold">Build the way you want</h3>
-          <p className="text-md text-left">Take control of your chat app and tailor it to your unique needs with one simple config file.</p>
+          <p className="text-md text-left">
+            Take control of your chat app and tailor it to your unique needs with one simple config
+            file.
+          </p>
         </div>
         {generateCodeBlock()}
       </section>
     </>
-  )
+  );
 }
