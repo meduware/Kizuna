@@ -36,7 +36,7 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.364.0",
     "mongoose": "^8.3.2",
-    "next": "^14.2.13",
+    "next": "^14.2.21",
     "next-themes": "^0.3.0",
     "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",
