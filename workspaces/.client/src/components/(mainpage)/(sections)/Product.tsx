@@ -9,7 +9,7 @@ import {
 import { faOsi } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function ure(
+function generateFeature(
   { icon, title, description }: { icon: IconDefinition; title: string; description: string },
   index: number
 ): JSX.Element {
@@ -67,7 +67,7 @@ const Features = (): JSX.Element => {
           (
             x: { icon: IconDefinition; title: string; description: string },
             index: number
-          ): JSX.Element => ure(x, index)
+          ): JSX.Element => generateFeature(x, index)
         )}
       </div>
     </section>
