@@ -1,43 +1,6 @@
+import { FooterLink } from "@/lib/types";
+import { footerLinks } from "@/utils/(mainpage)/constants";
 import Link from "next/link";
-
-type FooterLink = {
-  title: string;
-  links: {
-    name: string;
-    href: string;
-  }[];
-};
-
-const footerLinks = [
-  {
-    title: "Getting Started",
-    links: [
-      { name: "First Steps", href: "/docs/first-steps" },
-      { name: "Setup & Usage", href: "/docs/setup-&-usage" },
-      {
-        name: "Development Environment Setup",
-        href: "/docs/dev-environment-setup",
-      },
-      { name: "Troubleshooting", href: "/docs/troubleshooting" },
-    ],
-  },
-  {
-    title: "Core Concepts",
-    links: [
-      { name: "Managing User Data", href: "/docs/managing-user-data" },
-      { name: "Data Privacy", href: "/docs/data-privacy" },
-      { name: "Understanding Security", href: "/docs/understanding-security" },
-    ],
-  },
-  {
-    title: "Configuration",
-    links: [
-      { name: "Channel Settings", href: "/docs/channel-settings" },
-      { name: "Signup Process", href: "/docs/signup-process" },
-      { name: "API Integration", href: "/docs/api-integration" },
-    ],
-  },
-];
 
 export default function Footer(): JSX.Element {
   return (

@@ -1,7 +1,7 @@
 import { BorderBeam } from "@/components/magicui/border-beam";
 import IconHolder from "@/components/ui/icon-holder";
-import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { generateHeader } from "@/utils/(mainpage)/helperFunctions";
+import { Users } from "lucide-react";
 import Link from "next/link";
 
 export default function Contributor(): JSX.Element {
@@ -10,16 +10,11 @@ export default function Contributor(): JSX.Element {
       id="contribute"
       className="min-h-[200px] my-10 flex flex-col gap-5 justify-center items-center w-full"
     >
-      <IconHolder icon={<FontAwesomeIcon icon={faUserGroup} />} />
-      <div className="text-center space-y-4 mb-10 text-primary">
-        <h3 className="text-5xl font-semibold">Get Connected!</h3>
-        <p className="text-lg sm:text-center text-left px-5">
-          Our project is all about fostering meaningful relationships and
-          connections.
-          <br /> We&apos;re excited to have you join us and contribute to our
-          success.
-        </p>
-      </div>
+      {generateHeader(
+        "Get Connected!",
+        `Our project is all about fostering meaningful relationships and connections. We're excited to have you join us and contribute to our success.`,
+        <IconHolder icon={<Users />} />,
+      )}
       <Link href="/channels">
         <div className="flex relative group">
           <div className="border rounded-xl p-0.5">

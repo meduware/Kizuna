@@ -1,7 +1,5 @@
 "use client";
 
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button, buttonVariants } from "../../ui/button";
@@ -13,6 +11,7 @@ import {
   SheetTrigger,
 } from "../../ui/sheet";
 import { ModeToggle } from "./ModeToggle";
+import { Menu } from "lucide-react";
 
 export default function Navbar(): JSX.Element {
   const [scrollY, setScrollY] = useState(0);
@@ -78,7 +77,7 @@ export default function Navbar(): JSX.Element {
         <Sheet>
           <SheetTrigger asChild>
             <Button variant={"ghost"} className="md:hidden flex">
-              <FontAwesomeIcon icon={faBars} />
+              <Menu />
             </Button>
           </SheetTrigger>
           <SheetContent className="flex flex-col" side={"right"}>

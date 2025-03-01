@@ -1,4 +1,3 @@
-
 export type formValues = {
   username?: string;
   email: string;
@@ -16,4 +15,12 @@ export type userData = {
   password: string;
   _id?: string;
   iat?: number;
+};
+
+export type FooterLink = {
+  title: string;
+  links: {
+    name: string;
+    href: string;
+  }[];
 };
