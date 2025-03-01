@@ -10,8 +10,12 @@ import { faOsi } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function generateFeature(
-  { icon, title, description }: { icon: IconDefinition; title: string; description: string },
-  index: number
+  {
+    icon,
+    title,
+    description,
+  }: { icon: IconDefinition; title: string; description: string },
+  index: number,
 ): JSX.Element {
   return (
     <div
@@ -20,7 +24,7 @@ function generateFeature(
     >
       <FontAwesomeIcon icon={icon} className="mb-5 text-blue-400" />
       <h4 className="text-md font-semibold mb-1">{title}</h4>
-      <p className="text-md text-secondary-foreground opacity-70">{description}</p>
+      <p className="text-md text-secondary-foreground/70">{description}</p>
     </div>
   );
 }
@@ -66,8 +70,8 @@ const Features = (): JSX.Element => {
         {features.map(
           (
             x: { icon: IconDefinition; title: string; description: string },
-            index: number
-          ): JSX.Element => generateFeature(x, index)
+            index: number,
+          ): JSX.Element => generateFeature(x, index),
         )}
       </div>
     </section>
