@@ -18,12 +18,14 @@ const features = [
   {
     icon: faDisplay,
     title: "Screen Sharing",
-    description: "Share your screen with others, for presentations, demos, and more.",
+    description:
+      "Share your screen with others, for presentations, demos, and more.",
   },
   {
     icon: faMessage,
     title: "Real-time Messaging",
-    description: "Send and receive messages instantly, with our fast and reliable chat app.",
+    description:
+      "Send and receive messages instantly, with our fast and reliable chat app.",
   },
   {
     icon: faMicrophone,
@@ -46,13 +48,18 @@ const features = [
   {
     icon: faClockRotateLeft,
     title: "Message History",
-    description: "Access your conversation history, with our easy-to-use message history feature.",
+    description:
+      "Access your conversation history, with our easy-to-use message history feature.",
   },
 ];
 
 function generateFeature(
-  { icon, title, description }: { icon: IconDefinition; title: string; description: string },
-  index: number
+  {
+    icon,
+    title,
+    description,
+  }: { icon: IconDefinition; title: string; description: string },
+  index: number,
 ): JSX.Element {
   return (
     <div
@@ -61,7 +68,9 @@ function generateFeature(
     >
       <FontAwesomeIcon icon={icon} className="mb-5 text-blue-400" />
       <h4 className="text-md font-semibold mb-1">{title}</h4>
-      <p className="text-md text-secondary-foreground opacity-70">{description}</p>
+      <p className="text-md text-secondary-foreground opacity-70">
+        {description}
+      </p>
     </div>
   );
 }
@@ -74,9 +83,9 @@ function generateCodeBlock(): JSX.Element {
     >
       <div className="rounded-md bg-slate-900 overflow-hidden w-full">
         <div className="flex items-center mb-2">
-          <div className="h-3 w-3 rounded-full mr-2 bg-red-500"></div>
-          <div className="h-3 w-3 rounded-full mr-2 bg-yellow-500"></div>
-          <div className="h-3 w-3 rounded-full bg-green-500"></div>
+          <div className="h-3 w-3 rounded-full mr-2 bg-red-500" />
+          <div className="h-3 w-3 rounded-full mr-2 bg-yellow-500" />
+          <div className="h-3 w-3 rounded-full bg-green-500" />
         </div>
         <div className="text-white">
           <span className="font-bold">user@computer:</span>
@@ -118,8 +127,8 @@ export default function About(): JSX.Element {
         {features.map(
           (
             x: { icon: IconDefinition; title: string; description: string },
-            index: number
-          ): JSX.Element => generateFeature(x, index)
+            index: number,
+          ): JSX.Element => generateFeature(x, index),
         )}
       </div>
 
@@ -130,9 +139,9 @@ export default function About(): JSX.Element {
         <IconHolder icon={<FontAwesomeIcon icon={faCode} />} />
         <div className="text-center space-y-4 mb-10">
           <h3 className="text-4xl font-semibold">Build the way you want</h3>
-          <p className="text-md text-left">
-            Take control of your chat app and tailor it to your unique needs with one simple config
-            file.
+          <p className="text-md text-left text-foreground/80">
+            Take control of your chat app and tailor it to your unique needs
+            with one simple config file.
           </p>
         </div>
         {generateCodeBlock()}
