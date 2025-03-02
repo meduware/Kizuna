@@ -1,14 +1,19 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "./dist",
-      "rootDir": "../",
-      "baseUrl": "./",
-      "paths": {
-    "@/*": ["src/*"],
-    "@shared/*":["../shared/src/*"],
-    "@client/*":["../client/*"]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ESnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "../",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["../shared/src/*"],
+      "@client/*": ["../client/*"]
     }
-    },
-    "include": ["src/**/*"]
-  }
+  },
+  "include": ["src/**/*"]
+}
