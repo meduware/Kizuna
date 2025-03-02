@@ -3,7 +3,13 @@
     "compilerOptions": {
       "outDir": "./dist",
       "rootDir": "./src",
-      "declaration": true
+      "baseUrl": "./",
+      "declaration": true,
+      "paths": {
+    "@/*": ["src/*"],
+    "@server/*":["../server/src/*"],
+    "@client/*":["../client/*"]
+    }
     },
     "include": ["src/**/*"]
   }
