@@ -58,6 +58,20 @@ async function fetchSwaggerDocs() {
     },
     paths,
     tags,
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
   };
 }
 

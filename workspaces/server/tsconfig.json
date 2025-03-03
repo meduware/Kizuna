@@ -5,6 +5,8 @@
     "target": "ESnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "outDir": "./dist",
     "rootDir": "../",
@@ -15,5 +17,5 @@
       "@client/*": ["../client/*"]
     }
   },
-  "include": ["gateway/src/**/*"]
+  "include": ["gateway/src/**/*", "gateway/src/index.d.ts"]
 }
