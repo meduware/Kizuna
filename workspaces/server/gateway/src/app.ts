@@ -3,15 +3,31 @@ const dotenv = require("dotenv");
 const express = require("express");
 const { setupSwagger } = require("./swagger");
 import { Request, Response } from "express";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import { services } from "./lib/microserviceList";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.GATEWAY_PORT
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Dynamic routing for microservices
+services.forEach((service) => {
+  const path = `/api/${service.name}`;
+  const target = `http://localhost:${service.port}/api/${service.name}`;
+
+  app.use(
+    path,
+    createProxyMiddleware({
+      target,
+      changeOrigin: true,
+    }),
+  );
+});
 
 setupSwagger(app);
 

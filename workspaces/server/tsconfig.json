@@ -15,5 +15,5 @@
       "@client/*": ["../client/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["gateway/src/**/*"]
 }
