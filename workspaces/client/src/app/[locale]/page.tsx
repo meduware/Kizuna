@@ -1,3 +1,4 @@
+"use client";
 import About from "@/components/(mainpage)/(sections)/About";
 import Contributor from "@/components/(mainpage)/(sections)/Contributer";
 import Footer from "@/components/(mainpage)/(sections)/Footer";
@@ -15,5 +16,5 @@ export default function Home(): JSX.Element {
       <Contributor />
       <Footer />
     </main>
-  )
+  );
 }

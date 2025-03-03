@@ -12,8 +12,13 @@ import {
 } from "../../ui/sheet";
 import { ModeToggle } from "./ModeToggle";
 import { Menu } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useFindTranslationPath } from "@/hooks/useFindTranslationPath";
+import { LangToggle } from "@/components/ui/LangToggle";
 
 export default function Navbar(): JSX.Element {
+  const translation = useTranslation();
+
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -50,16 +55,16 @@ export default function Navbar(): JSX.Element {
         </h1>
         <div className="space-x-2 md:block hidden">
           <Button variant={"ghost"} onClick={() => scrollToSection("about")}>
-            About
+            {translation("About")}
           </Button>
           <Button variant={"ghost"} onClick={() => scrollToSection("features")}>
-            Features
+            {translation("Features")}
           </Button>
           <Link
             href="/docs/introduction"
             className={buttonVariants({ variant: "ghost" })}
           >
-            Docs
+            {translation("Docs")}
           </Link>
         </div>
       </div>
@@ -67,12 +72,13 @@ export default function Navbar(): JSX.Element {
       <div className="space-x-2 flex">
         <div className="md:flex hidden space-x-2">
           <Link
-            href="/channels"
+            href={useFindTranslationPath("channels")}
             className={buttonVariants({ variant: "default" })}
           >
-            <span className="font-semibold">Get Started</span>
+            <span className="font-semibold">{translation("Get Started")}</span>
           </Link>
           <ModeToggle />
+          <LangToggle />
         </div>
         <Sheet>
           <SheetTrigger asChild>
@@ -97,7 +103,7 @@ export default function Navbar(): JSX.Element {
                 variant={"ghost"}
                 onClick={() => scrollToSection("about")}
               >
-                About
+                {translation("About")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -105,7 +111,7 @@ export default function Navbar(): JSX.Element {
                 variant={"ghost"}
                 onClick={() => scrollToSection("features")}
               >
-                Features
+                {translation("Features")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -113,16 +119,18 @@ export default function Navbar(): JSX.Element {
                 href="/docs/introduction"
                 className={buttonVariants({ variant: "ghost" })}
               >
-                Docs
+                {translation("Docs")}
               </Link>
             </SheetClose>
             <SheetClose asChild>
               <SheetHeader>
                 <Link
-                  href="/channels"
+                  href={useFindTranslationPath("channels")}
                   className={buttonVariants({ variant: "default" })}
                 >
-                  <span className="font-semibold">Get Started</span>
+                  <span className="font-semibold">
+                    {translation("Get Started")}
+                  </span>
                 </Link>
               </SheetHeader>
             </SheetClose>
