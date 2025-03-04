@@ -4,4 +4,9 @@ export const services = [
     port: 3002,
     isTokenRequired: false,
   },
+  {
+    name: "user-managment",
+    port: 3003,
+    isTokenRequired: false,
+  },
 ];

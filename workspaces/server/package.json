@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:template\"",
+    "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:template\" \"npm run dev:user-managment\"",
     "dev:gateway": "ts-node-dev --respawn gateway/src/app.ts",
     "dev:template": "ts-node-dev --respawn services/template/app.ts",
+    "dev:user-managment": "ts-node-dev --respawn services/user-managment/app.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts"
