@@ -17,5 +17,11 @@ export function getServiceName() {
 }
 
 export function getService() {
-  return services.find((service) => service.name === getServiceName());
+  const serviceName = getServiceName();
+  const service = services.find((service) => service.name === serviceName);
+  if (!service) {
+    throw new Error(`${serviceName} service is not found in service list.`);
+  }
+  return service;
 }
+

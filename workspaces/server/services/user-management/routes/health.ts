@@ -6,17 +6,16 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: User managment
- *   description: User managment service endpoint
+ *   name: User management
+ *   description: User management service endpoint
  */
 
 /**
  * @swagger
- * /api/user-managment/health:
+ * /api/user-management/health:
  *   get:
- *     summary: Service status
- *     tags: [User managment]
- *     description: Check service status
+ *     summary: Check user-managment service status
+ *     tags: [Service status]
  *     responses:
  *       200:
  *         description: Successful response
@@ -27,8 +26,8 @@ const router = Router();
  *               properties:
  *                 msg:
  *                   type: string
- *                   example: "Template service is running"
+ *                   example: "user-management service is running"
  */
-router.get("/user-managment/health", healthCheck);
+router.get("/user-management/health", healthCheck);
 
 export default router;

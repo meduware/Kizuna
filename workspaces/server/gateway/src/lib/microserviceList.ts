@@ -5,7 +5,7 @@ export const services = [
     isTokenRequired: false,
   },
   {
-    name: "user-managment",
+    name: "user-management",
     port: 3003,
     isTokenRequired: false,
   },

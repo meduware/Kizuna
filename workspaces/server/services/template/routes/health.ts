@@ -5,18 +5,10 @@ const router = Router();
 
 /**
  * @swagger
- * tags:
- *   name: Template
- *   description: Template service endpoint
- */
-
-/**
- * @swagger
  * /api/template/health:
  *   get:
- *     summary: Service status
- *     tags: [Template]
- *     description: Check service status
+ *     summary: Check template service status
+ *     tags: [Service status]
  *     responses:
  *       200:
  *         description: Successful response
