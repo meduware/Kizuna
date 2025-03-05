@@ -3,23 +3,20 @@ import multer from "multer";
 import { createSupabaseClient } from "../../../../shared/src/supabase/createClient";
 import { v4 as uuidv4 } from "uuid";
 
-// Multer ile dosya yükleme işlemi
 const storage = multer.memoryStorage();
 export const upload = multer({ storage }).single("photo");
 
 export const updateUser = async (req: Request, res: Response) => {
   const { id, email, username, password, email_verified, phone_verified } =
     req.body;
-  const photoFile = req.file; // Yüklenen fotoğraf dosyası
+  const photoFile = req.file;
 
   if (!id) {
     return res.status(400).json({ error: "User ID is required." });
   }
 
-  // Supabase istemcisini oluştur
   const supabase = createSupabaseClient();
 
-  // Kullanıcının mevcut bilgilerini al
   const { data: userData, error: fetchError } =
     await supabase.auth.admin.getUserById(id);
   if (fetchError || !userData?.user) {
@@ -27,17 +24,14 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 
   const currentUser = userData.user;
-  let publicUrl = currentUser.user_metadata?.photo_url; // Mevcut fotoğraf URL'si
+  let publicUrl = currentUser.user_metadata?.photo_url;
 
-  // Yeni fotoğraf yüklendi mi?
   if (photoFile) {
-    // Eğer eski fotoğraf varsa sil
     if (publicUrl) {
-      const oldPhotoPath = publicUrl.split("/").slice(-2).join("/"); // Depolama yolu belirle
+      const oldPhotoPath = publicUrl.split("/").slice(-2).join("/");
       await supabase.storage.from("avatars").remove([oldPhotoPath]);
     }
 
-    // Yeni fotoğraf yükle
     const fileExtension = photoFile.originalname.split(".").pop();
     const fileName = `${uuidv4()}.${fileExtension}`;
     const filePath = `avatars/${fileName}`;
@@ -54,7 +48,6 @@ export const updateUser = async (req: Request, res: Response) => {
       .data.publicUrl;
   }
 
-  // Güncelleme nesnesini oluştur
   const updateUserData: any = {};
   if (email) updateUserData.email = email;
   if (password) updateUserData.password = password;
@@ -69,7 +62,6 @@ export const updateUser = async (req: Request, res: Response) => {
     photo_url: publicUrl,
   };
 
-  // Kullanıcıyı güncelle
   const { data: updatedUser, error } = await supabase.auth.admin.updateUserById(
     id,
     updateUserData,

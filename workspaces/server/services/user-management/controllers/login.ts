@@ -8,10 +8,8 @@ export const login = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Email and password are required." });
   }
 
-  // Supabase istemcisini oluştur
   const supabase = createSupabaseClient();
 
-  // Supabase Auth ile kullanıcıyı giriş yap
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email as string,
     password: password as string,

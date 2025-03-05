@@ -16,7 +16,6 @@ export const getUsers = async (req: Request, res: Response) => {
       return res.status(400).json({ error: error.message });
     }
 
-    // Kullanıcı verilerini istediğiniz formatta yeniden yapılandırıyoruz
     const formattedUsers = data.users.map((user) => ({
       sub: user.user_metadata.sub,
       email: user.user_metadata.email,

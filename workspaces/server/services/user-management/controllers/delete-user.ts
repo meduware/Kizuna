@@ -11,7 +11,6 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const supabase = createSupabaseClient();
 
-    // Kullanıcıyı sil
     const { error } = await supabase.auth.admin.deleteUser(userId);
 
     if (error) {
