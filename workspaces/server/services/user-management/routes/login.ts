@@ -6,22 +6,24 @@ const router = Router();
 /**
  * @swagger
  * /api/user-management/login:
- *   post:
+ *   get:
  *     summary: User login
  *     tags: [User management]
- *     description: Login a user using email and password
+ *     description: Login a user using email and password passed in the request query.
  *     parameters:
- *       - name: email
- *         in: query
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
  *         description: The user's email address
- *         required: true
- *         type: string
  *         example: ""
- *       - name: password
- *         in: query
- *         description: The user's password
+ *       - in: query
+ *         name: password
+ *         schema:
+ *           type: string
  *         required: true
- *         type: string
+ *         description: The user's password
  *         example: ""
  *     responses:
  *       200:
@@ -58,14 +60,7 @@ const router = Router();
  *                 access_token:
  *                   type: string
  *                   example: "jwt_token"
- *       400:
- *         description: Bad request, possibly due to missing or invalid data
- *       401:
- *         description: Unauthorized, invalid email or password
- *       500:
- *         description: Internal server error
  */
-router.post("/user-management/login", login);
+router.get("/user-management/login", login);
 
 export default router;
-

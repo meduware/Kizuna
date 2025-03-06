@@ -14,9 +14,9 @@ import {
   SquareTerminal,
 } from "lucide-react";
 
-import { NavTabs } from "@/app/[locale]/channels/sidebar/nav-tabs";
-import { NavUser } from "@/app/[locale]/channels/sidebar/nav-user";
-import { TeamSwitcher } from "@/app/[locale]/channels/sidebar/team-switcher";
+import { NavTabs } from "@/components/sidebar/nav-tabs";
+import { NavUser } from "@/components/sidebar/nav-user";
+import { TeamSwitcher } from "@/components/sidebar/team-switcher";
 import {
   Sidebar,
   SidebarContent,
