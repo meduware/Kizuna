@@ -16,6 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { apiHandler } from "@/lib/handlers/api";
+import { setCookie } from "cookies-next";
+
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"form"> {
   authConfig: AuthSettings;
 }
@@ -23,7 +26,7 @@ interface LoginFormProps extends React.ComponentPropsWithoutRef<"form"> {
 const loginSchema = z.object({
   email: z.string().email({ message: "Geçerli bir e-posta giriniz" }),
   password: z.string().min(6, { message: "Şifre en az 6 karakter olmalıdır" }),
-}); // all types will be moved to the type folder
+});
 
 export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -34,13 +37,26 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
     },
   });
 
-  const handleSubmit = form.handleSubmit((data) => {
-    console.log("Login Data:", data);
+  const handleSubmit = form.handleSubmit(async (data) => {
+    try {
+      const response = await apiHandler(
+        "/api/user-management/login",
+        data,
+        "GET",
+      );
+      setCookie("token", response.access_token);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   });
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
+      <form
+        onSubmit={handleSubmit}
+        className={cn("flex flex-col gap-6", className)}
+        {...props}
+      >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
           {authConfig.allowNewAccounts && (
@@ -60,7 +76,12 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input id="email" type="email" placeholder="m@example.com" {...field} />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
