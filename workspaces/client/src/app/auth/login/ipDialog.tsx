@@ -23,6 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { apiHandler } from "@/lib/handlers/api";
 
 type ServerAddressFormValues = z.infer<typeof serverAddressSchema>;
 
@@ -32,7 +33,11 @@ interface ServerAddressDialogProps {
   isAvailable: (arg: boolean) => void;
 }
 
-export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogProps) {
+export function IpDialog({
+  isOpen,
+  onClose,
+  isAvailable,
+}: ServerAddressDialogProps) {
   const form = useForm<ServerAddressFormValues>({
     resolver: zodResolver(serverAddressSchema),
     defaultValues: {
@@ -41,8 +46,26 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
     },
   });
 
-  const handleSubmit = form.handleSubmit((data) => {
-    isAvailable(true);
+  const handleSubmit = form.handleSubmit(async (data) => {
+    try {
+      const response = await apiHandler(
+        "http://" +
+          data.ipAddress +
+          ":" +
+          data.port +
+          "/api/server-management/is-joinable",
+        {},
+        "GET",
+      );
+      if (response.msg === "Server is joinable") {
+        isAvailable(true);
+      } else {
+        throw new Error("Server is not joinable");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    //isAvailable(true);
     // onClose(true);
   });
 
@@ -90,7 +113,11 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
             />
 
             <DialogFooter className="mt-4">
-              <Button type="button" variant="outline" onClick={() => onClose(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onClose(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit">Connect</Button>

@@ -9,4 +9,9 @@ export const services = [
     port: 3003,
     isTokenRequired: false,
   },
+  {
+    name: "server-management",
+    port: 3004,
+    isTokenRequired: false,
+  },
 ];

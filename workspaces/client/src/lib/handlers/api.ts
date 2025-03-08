@@ -1,7 +1,7 @@
 import { baseUrls } from "../constants";
 
 export const apiHandler = async (api: string, params: any, method: string) => {
-  const url = new URL(baseUrls.API + api);
+  const url = new URL(api.includes("http") ? api : baseUrls.API + api);
   url.search = new URLSearchParams(params).toString();
 
   try {
