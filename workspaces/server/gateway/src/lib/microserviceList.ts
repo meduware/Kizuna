@@ -14,4 +14,9 @@ export const services = [
     port: 3004,
     isTokenRequired: false,
   },
+  {
+    name: "channel-management",
+    port: 3005,
+    isTokenRequired: false,
+  },
 ];

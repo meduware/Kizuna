@@ -5,11 +5,12 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:template\" \"npm run dev:user-management\" \"npm run dev:server-management\"",
+    "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:template\" \"npm run dev:user-management\" \"npm run dev:server-management\" \"npm run dev:channel-management\"",
     "dev:gateway": "ts-node-dev --respawn gateway/src/app.ts",
     "dev:template": "ts-node-dev --respawn services/template/app.ts",
     "dev:user-management": "ts-node-dev --respawn services/user-management/app.ts",
     "dev:server-management": "ts-node-dev --respawn services/server-management/app.ts",
+    "dev:channel-management": "ts-node-dev --respawn services/channel-management/app.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts"
