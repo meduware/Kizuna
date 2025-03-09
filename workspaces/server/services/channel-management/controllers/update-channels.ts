@@ -9,7 +9,6 @@ export const updateChannels = async (req: Request, res: Response) => {
     channel_description,
     channel_permissions,
   } = req.query;
-  console.log(req.query);
 
   const supabase = createSupabaseClient();
 
