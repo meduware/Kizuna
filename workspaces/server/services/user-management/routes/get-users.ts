@@ -8,7 +8,7 @@ const router = Router();
  * /api/user-management/get-users:
  *   post:
  *     summary: Get all users with pagination
- *     tags: [Server management]
+ *     tags: [User management]
  *     description: Retrieve a paginated list of registered users. If no pagination parameters are provided, all users will be returned.
  *     parameters:
  *       - name: page
@@ -75,4 +75,3 @@ const router = Router();
 router.post("/user-management/get-users", getUsers);
 
 export default router;
-
