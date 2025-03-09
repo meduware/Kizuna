@@ -4,14 +4,12 @@ import { createSupabaseClient } from "../../../../shared/src/supabase/createClie
 export const addRole = async (req: Request, res: Response) => {
   const { role_id, user_id } = req.query;
 
-  // TypeScript hatalarını önlemek için değerleri string olarak tanımla
   if (typeof role_id !== "string" || typeof user_id !== "string") {
     return res.status(400).json({ error: "Invalid role_id or user_id" });
   }
 
   const supabase = createSupabaseClient();
 
-  // Kullanıcının zaten bir rolü var mı kontrol et
   const { data: existingRole, error: fetchError } = await supabase
     .from("user_roles")
     .select("*")
@@ -19,15 +17,13 @@ export const addRole = async (req: Request, res: Response) => {
     .single();
 
   if (fetchError && fetchError.code !== "PGRST116") {
-    // `PGRST116`: Veri bulunamazsa gelen hata kodu (PostgREST hatası)
     return res.status(400).json({ error: fetchError.message });
   }
 
   if (existingRole) {
-    // Kullanıcının rolü varsa güncelle
     const { data, error } = await supabase
       .from("user_roles")
-      .update({ role_id }) // ✅ `update()` nesne almalı
+      .update({ role_id })
       .eq("user_id", user_id);
 
     if (error) {
@@ -39,7 +35,6 @@ export const addRole = async (req: Request, res: Response) => {
       data,
     });
   } else {
-    // Kullanıcının rolü yoksa yeni bir kayıt oluştur
     const { data, error } = await supabase.from("user_roles").insert([
       {
         user_id,

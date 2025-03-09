@@ -22,15 +22,6 @@ export const getRolesWithUsers = async (req: Request, res: Response) => {
       `,
   );
 
-  //const { data, error } = await supabase.from("user_roles").select("*");
-
-  //const { data, error } = await supabase.from("user_roles").insert([
-  //  {
-  //    user_id,
-  //    role_id,
-  //  },
-  //]);
-
   if (error) {
     return res.status(400).json({ error: error.message });
   }
