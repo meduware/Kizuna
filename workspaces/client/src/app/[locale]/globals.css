@@ -87,6 +87,7 @@
 @layer utilities {
   .border-gradient {
     @apply border-x;
-    border-image: linear-gradient(to bottom, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0)) 1 100%;
+    border-image: linear-gradient(to bottom, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0)) 1
+      100%;
   }
 }
