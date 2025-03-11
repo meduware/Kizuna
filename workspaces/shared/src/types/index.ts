@@ -81,3 +81,5 @@ export interface Server {
   logChannel: string;
   channels: Channel[];
 }
+
+export * from "./settings-page";
