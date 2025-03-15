@@ -107,12 +107,7 @@ export function ServerSwitcher() {
         onClose={() => setIpDialog(false)}
         isAvailable={() => setLoginDialog(true)}
       />
-      {status && (
-        <LoginDialog
-          isOpen={loginDialog}
-          onClose={() => setLoginDialog(false)}
-        />
-      )}
+      <LoginDialog isOpen={loginDialog} onClose={() => setLoginDialog(false)} />
     </SidebarMenu>
   );
 }

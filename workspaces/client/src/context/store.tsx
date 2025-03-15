@@ -2,6 +2,7 @@
 import { apiHandler } from "@/lib/handlers/api";
 import { GlobalContextType, initialGlobalContext, Server } from "@/lib/types";
 import { parseJwt } from "@/lib/utils";
+import { deleteCookie, setCookie } from "cookies-next";
 import Cookies from "js-cookie";
 import { createContext, useContext, useState, useEffect } from "react";
 
@@ -16,11 +17,22 @@ export const GlobalContextProvider = ({
   const [currentServer, setCurrentServer] = useState<any>(null);
   const [serverList, setServerList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const currentUser = parseJwt(Cookies.get("token") || "");
+  const [currentUser, setCurrentUser] = useState<string>(
+    parseJwt(Cookies.get("token") || ""),
+  );
 
   useEffect(() => {
     reloadServerList();
   }, []);
+
+  function changeUser(token: string) {
+    if (token === "") {
+      deleteCookie("token");
+    } else {
+      setCookie("token", token);
+    }
+    setCurrentUser(parseJwt(token));
+  }
 
   async function changeServer(server: any) {
     setLoading(true);
@@ -110,10 +122,6 @@ export const GlobalContextProvider = ({
       // Seçili sunucuyu güncelle
       setCurrentServer(serverResponse.server_details);
       localStorage.setItem("currentServer", JSON.stringify(newServerInfo));
-
-      console.log(serverResponse);
-      console.log(storedServers);
-      console.log(serverList);
     } catch (error) {
       console.error("Error changing server:", error);
     } finally {
@@ -220,6 +228,7 @@ export const GlobalContextProvider = ({
         currentUser,
         currentServer,
         changeServer,
+        changeUser,
         serverList,
         reloadServerList,
         loading,

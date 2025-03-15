@@ -33,7 +33,7 @@ export interface Server {
 export interface GlobalContextType {
   currentUser: any;
   changeServer: (server: Server) => void;
-
+  changeUser: (token: string) => void;
   reloadServerList: () => void;
   currentServer: any;
   serverList: any;
@@ -44,6 +44,7 @@ export const initialGlobalContext: GlobalContextType = {
   currentUser: null,
   currentServer: null,
   changeServer: () => { },
+  changeUser: () => { },
   reloadServerList: () => { },
   serverList: [],
   loading: true,
