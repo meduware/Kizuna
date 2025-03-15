@@ -23,6 +23,8 @@ import Image from "next/image";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useGlobalContext } from "@/context/store";
 import { useState } from "react";
+import { Server } from "@/lib/types";
+import LoadingServerSwitcher from "./nav-main/loadingServerSwitcher";
 
 export function ServerSwitcher() {
   const { currentServer, changeServer, serverList, loading } =
@@ -35,8 +37,9 @@ export function ServerSwitcher() {
   const translation = useTranslation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingServerSwitcher />;
   }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -63,13 +66,13 @@ export function ServerSwitcher() {
             <DropdownMenuLabel className="text-xs text-muted-foreground">
               {translation("Servers")}
             </DropdownMenuLabel>
-            {serverList.map((server: any, index: number) => (
+            {serverList.map((server: Server, index: number) => (
               <DropdownMenuItem
                 key={index}
                 onClick={() =>
                   changeServer({
                     ipAddress: server.technical_details.ipAddress,
-                    port: server.technical_details.port.toString(),
+                    port: server.technical_details.port,
                   })
                 }
                 className="gap-2 p-2 cursor-pointer"

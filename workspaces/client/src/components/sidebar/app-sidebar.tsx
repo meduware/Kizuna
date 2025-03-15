@@ -10,11 +10,8 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { ServerSwitcher } from "./server-switcher";
-import { useGlobalContext } from "@/context/store";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { currentUser } = useGlobalContext();
-
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

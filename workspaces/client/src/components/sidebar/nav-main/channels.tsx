@@ -6,23 +6,15 @@ import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { Channel } from "@/lib/types";
 
-type typeChannel = {
-  id: number;
-  channel_name: string;
-  channel_type: "text" | "voice";
-  channel_description: string;
-  channel_permissions: {};
-};
-
-export function Channels({ channels }: { channels: typeChannel[] }) {
+export function Channels({ channels }: { channels: Channel[] }) {
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {channels.map((channel: typeChannel, index: number) => (
+        {channels.map((channel: Channel, index: number) => (
           <Link key={index} href={`/channels/${channel.id}`} className="w-full">
             <SidebarMenuItem className="hover:bg-secondary p-2 rounded-md hover:cursor-pointer text-foreground flex gap-2 items-center">
               {channel.channel_type === "text" ? (

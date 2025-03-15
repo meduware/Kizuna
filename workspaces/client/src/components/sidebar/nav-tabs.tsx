@@ -1,18 +1,23 @@
 "use client";
 
-import { SidebarGroup } from "@/components/ui/sidebar";
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsTrigger, TabsList } from "@/components/ui/tabs";
 import { Channels } from "./nav-main/channels";
 import { Users } from "./nav-main/users";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useGlobalContext } from "@/context/store";
+import LoadingTabs from "./nav-main/loadingTabs";
 
 export function NavTabs() {
   const { currentServer, loading, currentUser } = useGlobalContext();
   const translation = useTranslation();
 
   if (loading || !currentServer) {
-    return <div>Loading...</div>;
+    return <LoadingTabs />;
   }
 
   return (

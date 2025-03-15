@@ -54,7 +54,7 @@ export function NavUser() {
     const user = {
       name: currentUser.user_metadata.username,
       email: currentUser.user_metadata.email,
-      avatar: currentUser.user_metadata.picture,
+      avatar: currentUser.user_metadata.photo_url,
     };
 
     const logout = () => {

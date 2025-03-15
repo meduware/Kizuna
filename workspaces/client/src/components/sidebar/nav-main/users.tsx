@@ -7,20 +7,9 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Role } from "@/lib/types";
 
-type typeRole = {
-  role_name: string;
-  role_color: string;
-  permissions: {};
-  users: typeUser[];
-};
-type typeUser = {
-  username: string;
-  email: string;
-  photo_url: string;
-};
-
-export function Users({ roles }: { roles: typeRole[] }) {
+export function Users({ roles }: { roles: Role[] }) {
   return (
     <SidebarGroup>
       {roles.map((role, roleIndex) => (

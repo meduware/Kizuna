@@ -44,7 +44,6 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
         data,
         "GET",
       );
-      console.log(response);
       changeUser(response.access_token);
     } catch (error) {
       console.error("Error:", error);
