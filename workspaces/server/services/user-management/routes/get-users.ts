@@ -6,7 +6,7 @@ const router = Router();
 /**
  * @swagger
  * /api/user-management/get-users:
- *   post:
+ *   get:
  *     summary: Get all users with pagination
  *     tags: [User management]
  *     description: Retrieve a paginated list of registered users. If no pagination parameters are provided, all users will be returned.
@@ -72,6 +72,6 @@ const router = Router();
  *                       type: integer
  *                       example: 100
  */
-router.post("/user-management/get-users", getUsers);
+router.get("/user-management/get-users", getUsers);
 
 export default router;

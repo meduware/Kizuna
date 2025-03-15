@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +16,7 @@ import {
 } from "@/components/ui/form";
 
 import { apiHandler } from "@/lib/handlers/api";
-import { setCookie } from "cookies-next";
+import { useGlobalContext } from "@/context/store";
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"form"> {
   authConfig: AuthSettings;
@@ -29,6 +28,7 @@ const loginSchema = z.object({
 });
 
 export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
+  const { changeUser } = useGlobalContext();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -44,7 +44,7 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
         data,
         "GET",
       );
-      setCookie("token", response.access_token);
+      changeUser(response.access_token);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -95,7 +95,10 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
                   <FormItem>
                     <div className="flex items-center">
                       <FormLabel>Password</FormLabel>
-                      <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
+                      <a
+                        href="#"
+                        className="ml-auto text-sm underline-offset-4 hover:underline"
+                      >
                         Forgot your password?
                       </a>
                     </div>

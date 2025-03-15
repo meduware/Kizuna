@@ -41,7 +41,7 @@ export default function Contributor(): JSX.Element {
                   colorFrom="grey"
                   colorTo="grey"
                 />
-                <div className="bg-gradient-to-br from-green-400 to-blue-500 group-hover:from-green-300 group-hover:to-blue-400 rounded-md p-2 text-lg cursor-pointer transition-all text-white">
+                <div className="bg-primary group-hover:bg-primary/80 transition-all rounded-md p-2 text-lg cursor-pointer transition-all text-primary-foreground">
                   Get Started
                 </div>
               </div>

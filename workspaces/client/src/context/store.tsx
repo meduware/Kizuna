@@ -1,27 +1,73 @@
-"use client"
-import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
-interface GlobalContextType {
-  userId: string;
-  setUserId: Dispatch<SetStateAction<string>>;
-  data: string;
-  setData: Dispatch<SetStateAction<string>>;
-}
+"use client";
+import {
+  GlobalContextType,
+  initialGlobalContext,
+  localServer,
+  Server,
+} from "@/lib/types";
+import {
+  changeServer,
+  changeUser,
+  getCurrentAccount,
+  reloadServerList,
+  sortServersByPort,
+} from "@/lib/utils";
+import { createContext, useContext, useState, useEffect } from "react";
 
-const initialGlobalContext: GlobalContextType = {
-  userId: '',
-  setUserId: () => {},
-  data: '',
-  setData: () => '',
-};
+export const GlobalContext =
+  createContext<GlobalContextType>(initialGlobalContext);
 
-export const GlobalContext = createContext(initialGlobalContext);
+export const GlobalContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [currentServer, setCurrentServer] = useState<Server | null>(null);
+  const [serverList, setServerList] = useState<Server[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userId, setUserId] = useState<string>('test');
-  const [data, setData] = useState<string>('test2');
+  useEffect(() => {
+    handleReloadServerList();
+  }, []);
+
+  sortServersByPort(serverList);
+
+  const currentAccount = currentServer
+    ? getCurrentAccount(currentServer)
+    : null;
+
+  function handleChangeUser(token: string) {
+    changeUser(token, currentServer);
+    handleReloadServerList();
+  }
+
+  async function handleChangeServer(server: localServer) {
+    await changeServer(
+      server,
+      setLoading,
+      currentServer,
+      setCurrentServer,
+      setServerList,
+    );
+    handleReloadServerList();
+  }
+
+  async function handleReloadServerList() {
+    await reloadServerList(setLoading, setServerList, setCurrentServer);
+  }
 
   return (
-    <GlobalContext.Provider value={{ userId, setUserId, data, setData }}>
+    <GlobalContext.Provider
+      value={{
+        currentUser: currentAccount,
+        currentServer,
+        changeServer: handleChangeServer,
+        changeUser: handleChangeUser,
+        serverList,
+        reloadServerList: handleReloadServerList,
+        loading,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

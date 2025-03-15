@@ -1,6 +1,247 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { apiHandler } from "./handlers/api";
+import { localServer, Server } from "./types";
+import { getCookie, setCookie } from "cookies-next";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function parseJwt(token: string) {
+  if (!token) {
+    return;
+  }
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace("-", "+").replace("_", "/");
+  return JSON.parse(window.atob(base64));
+}
+
+// Mevcut sunucuya bağlı hesabı döndürür
+export function getCurrentAccount(currentServer: Server) {
+  if (!currentServer) return null;
+  const cookie = getCookie("accountTokens");
+  if (!cookie) return null;
+  try {
+    const accountTokens = JSON.parse(cookie);
+    if (!Array.isArray(accountTokens)) return null;
+    const currentAccount = accountTokens.find(
+      (account: { ipAddress: string; port: number; token: string }) =>
+        account.ipAddress === currentServer.technical_details.ipAddress &&
+        account.port === currentServer.technical_details.port,
+    );
+    return currentAccount ? parseJwt(currentAccount.token) : null;
+  } catch (error) {
+    console.error("Error parsing accountTokens cookie:", error);
+    return null;
+  }
+}
+
+// Kullanıcıyı değiştirir ve cookie'yi günceller
+export function changeUser(token: string, currentServer: Server | null) {
+  if (!currentServer) {
+    console.error("No current server found.");
+    return;
+  }
+
+  let accountTokens: { ipAddress: string; port: number; token: string }[] = [];
+  const existingCookie = getCookie("accountTokens");
+
+  if (existingCookie) {
+    try {
+      accountTokens = JSON.parse(existingCookie);
+      if (!Array.isArray(accountTokens)) accountTokens = [];
+    } catch (error) {
+      console.error("Error parsing accountTokens cookie:", error);
+    }
+  }
+
+  if (token === "") {
+    accountTokens = accountTokens.filter(
+      (server) =>
+        server.ipAddress !== currentServer.technical_details.ipAddress ||
+        server.port !== currentServer.technical_details.port,
+    );
+  } else {
+    const existingIndex = accountTokens.findIndex(
+      (server) =>
+        server.ipAddress === currentServer.technical_details.ipAddress &&
+        server.port === currentServer.technical_details.port,
+    );
+    if (existingIndex !== -1) {
+      accountTokens[existingIndex].token = token;
+    } else {
+      accountTokens.push({
+        ipAddress: currentServer.technical_details.ipAddress,
+        port: currentServer.technical_details.port,
+        token: token,
+      });
+    }
+  }
+
+  setCookie("accountTokens", JSON.stringify(accountTokens));
+}
+
+export async function changeServer(
+  server: localServer,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  currentServer: Server | null,
+  setCurrentServer: React.Dispatch<Server | null>,
+  setServerList: React.Dispatch<React.SetStateAction<Server[]>>,
+) {
+  setLoading(true);
+  try {
+    let serverResponse = await apiHandler(
+      `http://${server.ipAddress}:${server.port}/api/server-management/server-details`,
+      {},
+      "GET",
+    );
+    if (!serverResponse) {
+      throw new Error(`${server.ipAddress}:${server.port} is not available`);
+    }
+    // Kanal ve rol verilerini çek
+    const channelResponse = await apiHandler(
+      `http://${server.ipAddress}:${server.port}/api/channel-management/get-channels`,
+      {},
+      "GET",
+    ).catch(() => ({ channels: [] }));
+    const roleResponse = await apiHandler(
+      `http://${server.ipAddress}:${server.port}/api/role-management/get-roles-with-users`,
+      {},
+      "GET",
+    ).catch(() => []);
+    serverResponse.server_details.channels = channelResponse.channels || [];
+    serverResponse.server_details.roles = roleResponse || [];
+
+    if (
+      currentServer &&
+      currentServer.technical_details.ipAddress === server.ipAddress &&
+      currentServer.technical_details.port === server.port
+    ) {
+      console.log("Same server.");
+      setLoading(false);
+      return;
+    }
+
+    let storedServers: { ipAddress: string; port: number }[] = [];
+    const storedData = localStorage.getItem("serverList");
+    if (storedData) {
+      try {
+        storedServers = JSON.parse(storedData);
+        if (!Array.isArray(storedServers)) storedServers = [];
+      } catch (error) {
+        console.error("Error parsing serverList:", error);
+      }
+    }
+    const newServerInfo = {
+      ipAddress: server.ipAddress,
+      port: server.port,
+    };
+    if (
+      !storedServers.some(
+        (s) =>
+          s.ipAddress == newServerInfo.ipAddress &&
+          s.port == newServerInfo.port,
+      )
+    ) {
+      storedServers.push(newServerInfo);
+    }
+    localStorage.setItem("serverList", JSON.stringify(storedServers));
+    setServerList((prevState: any) => {
+      const exists = prevState.some(
+        (s: any) =>
+          s.technical_details.ipAddress == server.ipAddress &&
+          s.technical_details.port == server.port,
+      );
+      return exists ? prevState : [...prevState, serverResponse.server_details];
+    });
+    setCurrentServer(serverResponse.server_details);
+    localStorage.setItem("currentServer", JSON.stringify(newServerInfo));
+  } catch (error) {
+    console.error("Error changing server:", error);
+  } finally {
+    setLoading(false);
+  }
+}
+
+export async function reloadServerList(
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setServerList: React.Dispatch<React.SetStateAction<Server[]>>,
+  setCurrentServer: React.Dispatch<Server | null>,
+) {
+  const storedServerList = localStorage.getItem("serverList");
+  const storedCurrentServer = localStorage.getItem("currentServer");
+  let parsedLocalServerList: localServer[] = [];
+  let parsedCurrentLocalServer: localServer | null = null;
+
+  if (storedServerList) {
+    try {
+      parsedLocalServerList = JSON.parse(storedServerList);
+      if (!Array.isArray(parsedLocalServerList)) parsedLocalServerList = [];
+    } catch (error) {
+      console.error("Error parsing serverList:", error);
+    }
+  }
+
+  if (storedCurrentServer) {
+    try {
+      parsedCurrentLocalServer = JSON.parse(storedCurrentServer);
+    } catch (error) {
+      console.error("Error parsing currentServer:", error);
+    }
+  }
+
+  if (parsedLocalServerList.length > 0) {
+    const fetchedServers: Server[] = [];
+
+    await Promise.all(
+      parsedLocalServerList.map(async (server) => {
+        try {
+          let serverResponse = await apiHandler(
+            `http://${server.ipAddress}:${server.port}/api/server-management/server-details`,
+            {},
+            "GET",
+          );
+
+          if (!serverResponse) {
+            throw new Error(
+              `${server.ipAddress}:${server.port} is not available`,
+            );
+          }
+
+          if (
+            parsedCurrentLocalServer &&
+            parsedCurrentLocalServer.ipAddress == server.ipAddress &&
+            parsedCurrentLocalServer.port == server.port
+          ) {
+            const channelResponse = await apiHandler(
+              `http://${server.ipAddress}:${server.port}/api/channel-management/get-channels`,
+              {},
+              "GET",
+            );
+            const roleResponse = await apiHandler(
+              `http://${server.ipAddress}:${server.port}/api/role-management/get-roles-with-users`,
+              {},
+              "GET",
+            );
+
+            serverResponse.server_details.channels = channelResponse.channels;
+            serverResponse.server_details.roles = roleResponse;
+            setCurrentServer(serverResponse.server_details);
+          }
+          fetchedServers.push(serverResponse.server_details);
+        } catch (error) {
+          console.log("Error fetching server details:", error);
+        }
+      }),
+    );
+    setServerList(fetchedServers);
+  }
+  setLoading(false);
+}
+
+export function sortServersByPort(serverList: Server[]) {
+  return serverList.sort((a: Server, b: Server) => {
+    return a.technical_details.port - b.technical_details.port;
+  });
 }

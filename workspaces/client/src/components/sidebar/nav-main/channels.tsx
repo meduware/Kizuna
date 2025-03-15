@@ -1,70 +1,30 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { Hash, Volume2 } from "lucide-react";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
+import { Channel } from "@/lib/types";
 
-export function Channels({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function Channels({ channels }: { channels: Channel[] }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Channels?????????????</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuSubButton>
-                  {/* {item.icon && <item.icon />} */}
-                  (icon?)
-                  <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuSubButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <div>
-                          <h1 className="text-xs">(icon?)</h1>
-                          <a href={subItem.url}>
-                            <span>{subItem.title}</span>
-                          </a>
-                        </div>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
+        {channels.map((channel: Channel, index: number) => (
+          <Link key={index} href={`/channels/${channel.id}`} className="w-full">
+            <SidebarMenuItem className="hover:bg-secondary p-2 rounded-md hover:cursor-pointer text-foreground flex gap-2 items-center">
+              {channel.channel_type === "text" ? (
+                <Hash className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
+              <span className="text-sm">{channel.channel_name}</span>
             </SidebarMenuItem>
-          </Collapsible>
+          </Link>
         ))}
       </SidebarMenu>
     </SidebarGroup>

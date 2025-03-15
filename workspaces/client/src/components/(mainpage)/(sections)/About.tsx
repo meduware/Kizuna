@@ -12,21 +12,21 @@ import { Code } from "lucide-react";
 function generateCodeBlock(): JSX.Element {
   return (
     <ShineBorder
-      className="relative flex w-full flex-col items-start justify-start rounded-lg border bg-slate-900"
-      color={["#4ade80", "#3b82f6"]}
+      className="relative flex w-full flex-col items-start justify-start rounded-lg border bg-muted"
+      color={["#f97316"]}
     >
-      <div className="rounded-md bg-slate-900 overflow-hidden w-full">
+      <div className="rounded-md bg-muted overflow-hidden w-full">
         <div className="flex items-center mb-2">
           <div className="h-3 w-3 rounded-full mr-2 bg-red-500" />
           <div className="h-3 w-3 rounded-full mr-2 bg-yellow-500" />
           <div className="h-3 w-3 rounded-full bg-green-500" />
         </div>
-        <div className="text-white">
+        <div className="text-card-foreground">
           <span className="font-bold">user@computer:</span>
           <span className="ml-1">~$</span>
           <span className="ml-2">cat config.json</span>
         </div>
-        <pre className="text-gray-300 overflow-x-auto whitespace-pre-wrap">
+        <pre className="text-card-foreground overflow-x-auto whitespace-pre-wrap">
           <code>{terminalCode}</code>
         </pre>
       </div>

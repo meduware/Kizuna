@@ -11,7 +11,7 @@ function generateFeature(
       key={index}
       className="flex flex-col text-left justify-center items-start p-5 max-w-[350px] md:hover:bg-secondary transition-colors min-h-[200px]"
     >
-      <div className="mb-5 text-blue-400">{icon}</div>
+      <div className="mb-5 text-primary">{icon}</div>
       <h4 className="text-md font-semibold mb-1">{title}</h4>
       <p className="text-md text-secondary-foreground/70">{description}</p>
     </div>

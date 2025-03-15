@@ -9,14 +9,14 @@ export default function Footer(): JSX.Element {
         <div className="sm:flex grid gap-2">
           {footerLinks.map((section: FooterLink) => (
             <div key={section.title} className="m-5">
-              <h2 className="font-semibold text-primary text-xl">
+              <h2 className="font-semibold text-foreground/80 text-sm">
                 {section.title}
               </h2>
               <ul className="mt-3 space-y-2">
                 {section.links.map((link: { name: string; href: string }) => (
                   <li key={link.name}>
                     <Link
-                      className="hover:text-foreground text-muted-foreground"
+                      className="hover:text-foreground/80 text-foreground/60"
                       href={link.href}
                     >
                       {link.name}
@@ -29,9 +29,7 @@ export default function Footer(): JSX.Element {
         </div>
         <div className="mt-16 pt-10">
           <Link href="/" className="text-3xl font-bold text-left">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
-              {process.env.PROJECT_NAME}
-            </span>
+            <span className="text-primary">{process.env.PROJECT_NAME}</span>
           </Link>
         </div>
       </div>

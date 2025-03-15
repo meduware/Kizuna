@@ -44,11 +44,11 @@ export default function Navbar(): JSX.Element {
 
   return (
     <header
-      className={`flex justify-between items-center sticky top-6 p-3 px-4 m-3 transition-all z-50 ${scrollY > 100 ? "w-3/6 sm:min-w-[600px] min-w-[330px] shadow-xl rounded-full border bg-primary-foreground" : "w-full bg-transparent"}`}
+      className={`flex justify-between items-center sticky top-6 p-3 px-4 m-3 transition-all z-50 ${scrollY > 100 ? "w-3/6 sm:min-w-[600px] min-w-[330px] shadow-xl rounded-full border bg-background" : "w-full"}`}
     >
       <div className="flex items-center justify-center">
         <h1
-          className="font-semibold text-xl mr-5 cursor-pointer bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500"
+          className="font-semibold text-xl mr-5 cursor-pointer bg-clip-text text-primary"
           onClick={() => scrollToSection("hero")}
         >
           {process.env.PROJECT_NAME}

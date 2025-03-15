@@ -65,7 +65,7 @@ export const portSchema = z.string().refine(
 
 export const serverAddressSchema = z.object({
   ipAddress: ipAddressSchema,
-  port: portSchema.optional(),
+  port: portSchema,
 });
 
 export interface Channel {

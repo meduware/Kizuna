@@ -7,36 +7,44 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Role } from "@/lib/types";
 
-export function Users({
-  items,
-}: {
-  items: {
-    username: string;
-    userImage?: string;
-  }[];
-}) {
+export function Users({ roles }: { roles: Role[] }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Users?????????????</SidebarGroupLabel>
-      <SidebarMenu>
-        {items.map((item, index) => (
-          <SidebarMenuItem key={index} className="flex justify-start items-center space-x-5 mb-2">
-            <Avatar>
-              <AvatarImage
-                src={item.userImage}
-                className="w-8 h-8 rounded-full overflow-hidden object-cover"
-              />
-              <AvatarFallback className="text-sm font-semibold">
-                {item.username.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            <div className="font-medium flex flex-col justify-start -mt-2 truncate">
-              <span className="text-lg hover:cursor-pointer w-fit">{item.username}</span>
-            </div>
-          </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+      {roles.map((role, roleIndex) => (
+        <div key={roleIndex}>
+          <SidebarGroupLabel>
+            {role.role_name} - {role.users.length}
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            {role.users.map((user, userIndex) => (
+              <SidebarMenuItem
+                key={userIndex}
+                className="flex justify-start items-center space-x-5 mb-2 hover:bg-secondary p-2 rounded-md hover:cursor-pointer"
+              >
+                <Avatar>
+                  <AvatarImage
+                    src={user.photo_url}
+                    className="w-8 h-8 rounded-full overflow-hidden object-cover"
+                  />
+                  <AvatarFallback className="text-sm font-semibold">
+                    {user.username.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="font-medium flex flex-col justify-start items-center truncate">
+                  <span
+                    className="text-sm w-fit"
+                    style={{ color: role.role_color }}
+                  >
+                    {user.username}
+                  </span>
+                </div>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </div>
+      ))}
     </SidebarGroup>
   );
 }
