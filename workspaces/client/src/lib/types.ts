@@ -24,3 +24,27 @@ export type FooterLink = {
     href: string;
   }[];
 };
+
+export interface Server {
+  ipAddress: string;
+  port: number;
+}
+
+export interface GlobalContextType {
+  currentUser: any;
+  changeServer: (server: Server) => void;
+
+  reloadServerList: () => void;
+  currentServer: any;
+  serverList: any;
+  loading: boolean;
+}
+
+export const initialGlobalContext: GlobalContextType = {
+  currentUser: null,
+  currentServer: null,
+  changeServer: () => { },
+  reloadServerList: () => { },
+  serverList: [],
+  loading: true,
+};

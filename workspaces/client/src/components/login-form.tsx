@@ -45,6 +45,7 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
         "GET",
       );
       setCookie("token", response.access_token);
+
     } catch (error) {
       console.error("Error:", error);
     }

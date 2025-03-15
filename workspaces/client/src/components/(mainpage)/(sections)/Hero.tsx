@@ -39,12 +39,8 @@ export default function Hero(): JSX.Element {
             </span>
           </button>
         </a>
-        <h1 className="sm:text-7xl text-3xl font-bold text-center text-primary">
-          Where{" "}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
-            privacy-first
-          </span>{" "}
-          chat begins
+        <h1 className="sm:text-7xl text-3xl font-bold text-center text-foreground/95">
+          Where <span className="text-primary">privacy-first</span> chat begins
         </h1>
         <p className="text-xl text-center text-foreground/80">
           A self-hosted, open-source chat app tailored for secure and private
@@ -52,7 +48,7 @@ export default function Hero(): JSX.Element {
         </p>
       </div>
 
-      <div className="h-[500px] w-full max-w-[1231px] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] rounded-xl border bg-primary-foreground mx-auto">
+      <div className="h-[500px] w-full max-w-[1231px] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] rounded-xl border bg-secondary mx-auto">
         {/* TODO: Add image or gif here. */}
       </div>
     </section>

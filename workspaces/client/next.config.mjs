@@ -3,6 +3,14 @@ import nextra from "nextra";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "rzaovnuywoiiquidnqhe.supabase.co",
+      },
+    ],
+  },
   env: {
     PROJECT_NAME: process.env.PROJECT_NAME,
     PROJECT_REPO: process.env.PROJECT_REPO,

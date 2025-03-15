@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { apiHandler } from "@/lib/handlers/api";
+import { useGlobalContext } from "@/context/store";
 
 type ServerAddressFormValues = z.infer<typeof serverAddressSchema>;
 
@@ -45,28 +46,65 @@ export function IpDialog({
       port: "",
     },
   });
+  const { reloadServerList } = useGlobalContext();
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
       const response = await apiHandler(
         "http://" +
-          data.ipAddress +
-          ":" +
-          data.port +
-          "/api/server-management/is-joinable",
+        data.ipAddress +
+        ":" +
+        data.port +
+        "/api/server-management/is-joinable",
         {},
         "GET",
       );
       if (response.msg === "Server is joinable") {
         isAvailable(true);
+        const server = await apiHandler(
+          `http://${data.ipAddress}:${data.port}/api/server-management/server-details`,
+          {},
+          "GET",
+        );
+        if (!server) {
+          throw new Error("Server is not available");
+        }
+
+        // NOTE: This area is adding server in local storage
+        const currentServer = {
+          ipAddress: data.ipAddress,
+          port: data.port,
+        };
+        let serverList: { ipAddress: string; port: string }[] = [];
+        const localServerList = localStorage.getItem("serverList");
+        if (localServerList) {
+          const parsedLocalServerList = JSON.parse(localServerList);
+
+          if (Array.isArray(parsedLocalServerList)) {
+            const exists = parsedLocalServerList.some(
+              (server) =>
+                server.ipAddress === currentServer.ipAddress &&
+                server.port === currentServer.port,
+            );
+
+            serverList = exists
+              ? parsedLocalServerList
+              : [...parsedLocalServerList, currentServer];
+          } else {
+            serverList = [currentServer];
+          }
+        } else {
+          serverList = [currentServer];
+        }
+        localStorage.setItem("currentServer", JSON.stringify(currentServer));
+        localStorage.setItem("serverList", JSON.stringify(serverList));
+        reloadServerList();
       } else {
         throw new Error("Server is not joinable");
       }
     } catch (error) {
       console.log(error);
     }
-    //isAvailable(true);
-    // onClose(true);
   });
 
   return (
@@ -103,7 +141,7 @@ export function IpDialog({
               name="port"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Port (Optional)</FormLabel>
+                  <FormLabel>Port</FormLabel>
                   <FormControl>
                     <Input placeholder="8080" {...field} />
                   </FormControl>
