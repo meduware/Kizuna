@@ -10,6 +10,7 @@ export type postRequest = {
 
 export type userData = {
   id: string;
+  sub: string;
   photo_url: string;
   username: string;
   email: string;
@@ -18,6 +19,15 @@ export type userData = {
     email: string;
     photo_url: string;
   };
+  created_at: number;
+};
+
+export type message = {
+  id: string;
+  channel_id: string;
+  user_id: string;
+  message: string;
+  files: string[];
   created_at: number;
 };
 
@@ -85,9 +95,9 @@ export interface GlobalContextType {
 export const initialGlobalContext: GlobalContextType = {
   currentUser: null,
   currentServer: null,
-  changeServer: () => { },
-  changeUser: () => { },
-  reloadServerList: () => { },
+  changeServer: () => {},
+  changeUser: () => {},
+  reloadServerList: () => {},
   serverList: [],
   loading: true,
 };
