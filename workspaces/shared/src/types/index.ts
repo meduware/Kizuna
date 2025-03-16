@@ -82,4 +82,29 @@ export interface Server {
   channels: Channel[];
 }
 
+export interface User {
+  id: string;
+  email: string;
+  username: string;
+  photo_url: string;
+  created_at: Date;
+}
+
+export interface RolePermissions {
+  owner: boolean;
+  manage_users: boolean;
+  manage_server: boolean;
+}
+
+export interface Role {
+  id: number;
+  role_name: string;
+  permissions: RolePermissions;
+  role_color: string;
+}
+
+export interface roles_with_users extends Role {
+  users: User[];
+}
+
 export * from "./settings-page";
