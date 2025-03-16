@@ -5,6 +5,7 @@ import { ServerIdentityCard } from "./ServerIdentityCard";
 import { WelcomeSettingsCard } from "./WelcomeSettingsCard";
 import { LogSettingsCard } from "./LogSettingsCard";
 import { useServerSettings } from "@/hooks/useServerSettings";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ServerOverview() {
   const initialServer = {
@@ -23,6 +24,7 @@ export default function ServerOverview() {
       { id: "logs", name: "logs" },
     ],
   };
+  const translation = useTranslation();
 
   const {
     serverInfo,
@@ -37,8 +39,10 @@ export default function ServerOverview() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Server Overview Settings</h1>
-        <Button onClick={saveSettings}>Save Changes</Button>
+        <h1 className="text-3xl font-bold tracking-tight">
+          {translation("Server Overview Settings")}
+        </h1>
+        <Button onClick={saveSettings}>{translation("Save Changes")}</Button>
       </div>
       <div className="w-full space-y-4">
         <ServerIdentityCard

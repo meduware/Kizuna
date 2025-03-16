@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { FC } from "react";
 import { Channel } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface WelcomeSettingsProps {
   welcomeChannel: string;
@@ -23,20 +24,21 @@ export const WelcomeSettingsCard: FC<WelcomeSettingsProps> = ({
   channels,
   onWelcomeChannelChange,
 }) => {
+  const translation = useTranslation();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Welcome Settings</CardTitle>
+        <CardTitle>{translation("Welcome Settings")}</CardTitle>
         <CardDescription>
-          Configure what new users see when they first join your server
+          {translation("Configure what new users see when they first join your server")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="welcome-channel">Default Welcome Channel</Label>
+          <Label htmlFor="welcome-channel">{translation("Default Welcome Channel")}</Label>
           <Select value={welcomeChannel} onValueChange={onWelcomeChannelChange}>
             <SelectTrigger id="welcome-channel">
-              <SelectValue placeholder="Select a channel" />
+              <SelectValue placeholder={translation("Select a channel")} />
             </SelectTrigger>
             <SelectContent>
               {channels.map((channel) => (
@@ -47,7 +49,7 @@ export const WelcomeSettingsCard: FC<WelcomeSettingsProps> = ({
             </SelectContent>
           </Select>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            This is the first channel users will see when they join your server
+            {translation("This is the first channel users will see when they join your server")}
           </p>
         </div>
       </CardContent>
