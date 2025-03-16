@@ -8,14 +8,14 @@ import { sendMessage } from "@/lib/messages";
 import { useGlobalContext } from "@/context/store";
 
 export default function MessageInput() {
-  const { currentUser } = useGlobalContext();
+  const { currentUser, currentChannel } = useGlobalContext();
   const translate = useTranslation();
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
 
-  if (!currentUser) {
+  if (!currentUser || !currentChannel) {
     return null;
   }
 
@@ -30,7 +30,12 @@ export default function MessageInput() {
       return;
     }
 
-    await sendMessage(trimmedInput, selectedFiles, currentUser.sub, 1);
+    await sendMessage(
+      trimmedInput,
+      selectedFiles,
+      currentUser.sub,
+      currentChannel,
+    );
 
     setInputValue("");
     setSelectedFiles([]);

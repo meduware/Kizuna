@@ -6,12 +6,15 @@ import {
   Server,
 } from "@/lib/types";
 import {
+  changeChannel,
   changeServer,
   changeUser,
   getCurrentAccount,
+  parseJwt,
   reloadServerList,
   sortServersByPort,
 } from "@/lib/utils";
+import { getCookie } from "cookies-next";
 import { createContext, useContext, useState, useEffect } from "react";
 
 export const GlobalContext =
@@ -24,6 +27,7 @@ export const GlobalContextProvider = ({
 }) => {
   const [currentServer, setCurrentServer] = useState<Server | null>(null);
   const [serverList, setServerList] = useState<Server[]>([]);
+  const [currentChannel, setCurrentChannel] = useState<any>(null); // Add state for currentChannel
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -47,13 +51,30 @@ export const GlobalContextProvider = ({
       setLoading,
       currentServer,
       setCurrentServer,
+      setCurrentChannel,
       setServerList,
     );
     handleReloadServerList();
   }
 
   async function handleReloadServerList() {
-    await reloadServerList(setLoading, setServerList, setCurrentServer);
+    await reloadServerList(
+      setLoading,
+      setServerList,
+      setCurrentServer,
+      setCurrentChannel,
+    );
+  }
+
+  // Add function to change the currentChannel
+  async function handleChangeChannel(
+    channel_id: number,
+    ipAddress: string,
+    port: number,
+  ) {
+    if (!currentServer) return;
+
+    changeChannel(channel_id, ipAddress, port, setCurrentChannel);
   }
 
   return (
@@ -61,11 +82,14 @@ export const GlobalContextProvider = ({
       value={{
         currentUser: currentAccount,
         currentServer,
+        currentChannel,
         changeServer: handleChangeServer,
         changeUser: handleChangeUser,
-        serverList,
         reloadServerList: handleReloadServerList,
+        serverList,
         loading,
+        changeChannel: handleChangeChannel,
+        setCurrentChannel,
       }}
     >
       {children}

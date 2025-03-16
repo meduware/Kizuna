@@ -84,6 +84,9 @@ export interface localServer {
 
 export interface GlobalContextType {
   currentUser: userData | null;
+  currentChannel: any;
+  changeChannel: any;
+  setCurrentChannel: any;
   changeServer: (server: localServer) => void;
   changeUser: (token: string) => void;
   reloadServerList: () => void;
@@ -95,6 +98,9 @@ export interface GlobalContextType {
 export const initialGlobalContext: GlobalContextType = {
   currentUser: null,
   currentServer: null,
+  currentChannel: null,
+  setCurrentChannel: () => {},
+  changeChannel: () => {},
   changeServer: () => {},
   changeUser: () => {},
   reloadServerList: () => {},

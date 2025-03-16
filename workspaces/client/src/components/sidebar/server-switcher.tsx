@@ -75,7 +75,14 @@ export function ServerSwitcher() {
                     port: server.technical_details.port,
                   })
                 }
-                className="gap-2 p-2 cursor-pointer"
+                className={`gap-2 p-2 cursor-pointer ${
+                  currentServer &&
+                  currentServer.technical_details.ipAddress ===
+                    server.technical_details.ipAddress &&
+                  currentServer.technical_details.port ===
+                    server.technical_details.port &&
+                  "bg-secondary/50"
+                }`}
               >
                 <div className="flex size-6 items-center justify-center rounded-sm border">
                   <Image
