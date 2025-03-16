@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Upload } from "lucide-react";
 import { FC } from "react";
 
@@ -21,11 +22,12 @@ export const ServerIdentityCard: FC<ServerIdentityProps> = ({
   onServerNameChange,
   onPhotoChange,
 }) => {
+  const translation = useTranslation();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Server Identity</CardTitle>
-        <CardDescription>Customize how your server appears to users</CardDescription>
+        <CardTitle>{translation("Server Identity")}</CardTitle>
+        <CardDescription>{"Customize how your server appears to users"}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex flex-col md:flex-row gap-6">
@@ -48,23 +50,25 @@ export const ServerIdentityCard: FC<ServerIdentityProps> = ({
                 onClick={() => document.getElementById("server-photo")?.click()}
               >
                 <Upload className="h-4 w-4 mr-2" />
-                Change Photo
+                {translation("Change Photo")}
               </Button>
             </div>
           </div>
 
           <div className="space-y-4 flex-1">
             <div className="space-y-2">
-              <Label htmlFor="server-name">Server Name</Label>
+              <Label htmlFor="server-name">{translation("Server Name")}</Label>
               <Input
                 id="server-name"
                 value={serverName}
                 onChange={(e) => onServerNameChange(e.target.value)}
-                placeholder="Enter server name"
+                placeholder={translation(`Enter server name`)}
               />
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                For best results, upload a square image (512x512 pixels). Supports JPG, PNG, and GIF
-                formats up to 5MB.
+                {translation(
+                  "For best results, upload a square image (512x512 pixels). Supports JPG, PNG, and GIF formats up to 5MB"
+                )}
+                .
               </p>
             </div>
           </div>

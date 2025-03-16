@@ -13,7 +13,6 @@ import {
 import { ModeToggle } from "./ModeToggle";
 import { Menu } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useFindTranslationPath } from "@/hooks/useFindTranslationPath";
 import { LangToggle } from "@/components/ui/LangToggle";
 
 export default function Navbar(): JSX.Element {
@@ -72,7 +71,7 @@ export default function Navbar(): JSX.Element {
       <div className="space-x-2 flex">
         <div className="md:flex hidden space-x-2">
           <Link
-            href={useFindTranslationPath("channels")}
+            href="/channels"
             className={buttonVariants({ variant: "default" })}
           >
             <span className="font-semibold">{translation("Get Started")}</span>
@@ -125,7 +124,7 @@ export default function Navbar(): JSX.Element {
             <SheetClose asChild>
               <SheetHeader>
                 <Link
-                  href={useFindTranslationPath("channels")}
+                  href="/channels"
                   className={buttonVariants({ variant: "default" })}
                 >
                   <span className="font-semibold">

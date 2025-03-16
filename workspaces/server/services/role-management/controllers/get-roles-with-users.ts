@@ -13,11 +13,12 @@ export const getRolesWithUsers = async (req: Request, res: Response) => {
         users!inner(
           id,
           email,
+          created_at,
           username,
           photo_url
         )
       )
-    `,
+    `
   );
 
   if (error) {

@@ -14,6 +14,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface NavItem {
   name: string;
@@ -28,19 +29,24 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const pathname = usePathname();
+  const translation = useTranslation();
 
   const navItems: NavItem[] = [
-    { name: "Server Settings", icon: <Settings size={20} />, path: "/en/settings" },
-    { name: "Roles", icon: <Shield size={20} />, path: "/en/settings/roles" },
-    { name: "Users", icon: <Users size={20} />, path: "/en/settings/user-management" },
-    { name: "Logs", icon: <FileText size={20} />, path: "/en/settings/logs" },
+    { name: translation("Server Settings"), icon: <Settings size={20} />, path: "/settings" },
+    { name: translation("Roles"), icon: <Shield size={20} />, path: "/settings/roles" },
+    { name: translation("Users"), icon: <Users size={20} />, path: "/settings/user-management" },
+    { name: translation("Logs"), icon: <FileText size={20} />, path: "/settings/logs" },
     {
-      name: "Technical Details",
+      name: translation("Technical Details"),
       icon: <Server size={20} />,
-      path: "/en/settings/technical-details",
+      path: "/settings/technical-details",
     },
-    { name: "AutoMod", icon: <Shield size={20} />, path: "/en/settings/auto-mod" },
-    { name: "Bans Management", icon: <UserX size={20} />, path: "/en/settings/bans-management" },
+    { name: translation("AutoMod"), icon: <Shield size={20} />, path: "/settings/auto-mod" },
+    {
+      name: translation("Bans Management"),
+      icon: <UserX size={20} />,
+      path: "/settings/bans-management",
+    },
   ];
 
   const toggleSidebar = (): void => {

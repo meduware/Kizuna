@@ -5,5 +5,69 @@
   "Get Started": "Şimdi Başla",
   "Light": "Aydınlık",
   "Dark": "Karanlık",
-  "System": "Sistem"
+  "System": "Sistem",
+
+  ".-------------------------------------------------------.": "Settings Folder -----------------------------------------------------------------------------",
+
+  "Server Settings": "Sunucu Ayarları",
+  "Roles": "Roller",
+  "Users": "Kullanıcılar",
+  "Logs": "Denetim Kayıtları",
+  "Technical Details": "Teknik Detaylar",
+  "Bans Management": "Yasaklar",
+
+  "------.": "Server Overview Page  ------",
+
+  "Log Settings": "Denetim Kaydı Ayarları",
+  "Configure how user activity is logged in your server": "Kullanıcı etkinliğinin sunucunuzda nasıl kaydedileceğini yapılandırın",
+  "Enable New User Logs": "Yeni Kullanıcı Kayıtlarını Etkinleştir",
+  "Log Channel": "Denetim Kaydı Kanalı",
+  "All new user join events will be posted to this channel": "Tüm yeni kullanıcı katılım olayları bu kanala gönderilecektir",
+
+  "Server Overview Settings": "Sunucu Genel Ayarları",
+
+  "Server Identity": "Sunucu Kimliği",
+  "Customize how your server appears to users": "Sunucunuzun kullanıcılara nasıl göründüğünü özelleştirin",
+  "Change Photo": "Fotoğraf Değiştir",
+  "Server Name": "Sunucu İsmi",
+  "For best results, upload a square image (512x512 pixels). Supports JPG, PNG, and GIF formats up to 5MB": "En iyi sonuç için kare bir resim yükleyin (512x512 piksel). JPG, PNG ve GIF formatlarını 5MB'a kadar destekler",
+
+  "Welcome Settings": "Karşılama Ayarları",
+  "Configure what new users see when they first join your server": "Yeni kullanıcıların sunucunuza ilk katıldıklarında ne göreceğini yapılandırın",
+  "Default Welcome Channel": "Varsayılan Karşılama Kanalı",
+  "This is the first channel users will see when they join your server": "Bu, kullanıcıların sunucunuza katıldıklarında görecekleri ilk kanaldır",
+
+  "-------": "User Management Page -------",
+
+  "Edit User Profile": "Kullanıcı Profilini Düzenle",
+  "Update user details and profile information": "Kullanıcı ayrıntılarını ve profil bilgilerini güncelleyin",
+  "Processing": "Yükleniyor",
+  "Change Avatar": "Avatar Değiştir",
+  "Display Name": "Kullanıcı Adı",
+  "Cancel": "Vazgeç",
+  "Save Changes": "Değişiklikleri kaydet",
+
+  "Manage User Roles": "Kullanıcı Rollerini Yönet",
+  "Assign or remove roles for": "Rolleri ata veya kaldır",
+  "Current Role": "Mevcut Rol",
+  "Assign": "Rolü Ata",
+
+  "Edit Profile": "Kullanıcıyı Düzenle",
+  "Manage Roles": "Rolleri Düzenle",
+  "Remove User": "Kullanıcıyı At",
+
+  "Search Users": "Kullanıcıları Ara",
+  "Loading user data": "Kullanıcı verileri yükleniyor",
+  "User": "Kullanıcı",
+  "Role": "Rol",
+  "Status": "Durum",
+  "Join Date": "Katılma Tarihi",
+  "Actions": "Eylemler",
+  "Online": "Çevrimiçi",
+  "Offline": "Çevrimdışı",
+  "No users found": "Hiçbir Kullanıcı Bulunamadı",
+
+  "Users Management": "Kullanıcıları Yönet",
+  "Manage users, assign roles, and edit user profiles": "Kullanıcıları yönet, roller ata ve kullanıcı profillerini düzenle",
+  "users in this server": "kullanıcı bu sunucuda"
 }
