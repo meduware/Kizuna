@@ -1,31 +1,57 @@
 "use client";
 
 import { defaultLocale } from "@/lib/translation";
-import { usePathname } from "next/navigation";
+import { getCookie, setCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
 export const useTranslation = () => {
-  const pathname = usePathname();
-  const language = pathname?.split("/")[1] || defaultLocale;
+  const [languagePreference, setLanguagePreference] =
+    useState<string>(defaultLocale);
   const [translations, setTranslations] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    import(`@/locales/${language}.json`)
+    const choice = getCookie("languagePreference");
+    if (choice) {
+      setLanguagePreference(choice);
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    import(`@/locales/${languagePreference}.json`)
       .then((module) => {
         setTranslations(module.default);
-        setIsLoading(false);
       })
       .catch(() => {
         setTranslations({});
+      })
+      .finally(() => {
         setIsLoading(false);
       });
-  }, [language]);
+  }, [languagePreference]);
 
-  const t = (key: string) => {
+  useEffect(() => {
+    const handleLanguageChange = (event: Event) => {
+      const lang = (event as CustomEvent).detail;
+      setLanguagePreference(lang);
+    };
+
+    window.addEventListener("languageChange", handleLanguageChange);
+    return () => {
+      window.removeEventListener("languageChange", handleLanguageChange);
+    };
+  }, []);
+
+  const translation = (key: string) => {
     if (isLoading) return key;
     return translations[key] || key;
   };
 
-  return t;
+  return translation;
+};
+
+export const changeLanguage = (lang: string) => {
+  setCookie("languagePreference", lang);
+  window.dispatchEvent(new CustomEvent("languageChange", { detail: lang }));
 };

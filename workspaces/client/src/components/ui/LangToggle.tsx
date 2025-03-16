@@ -1,5 +1,4 @@
 import { Languages } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,21 +6,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTranslation } from "@/hooks/useTranslation";
-import { usePathname, useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+import { useTranslation, changeLanguage } from "@/hooks/useTranslation"; // changeLanguage'ı import ettik
 
 export function LangToggle() {
   const translation = useTranslation();
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const Navigate = async (lang: string) => {
-    const remainingPath = lang + "/" + pathname?.split("/").slice(2).join("/");
-    setCookie("languagePreference", lang);
-
-    router.push(remainingPath);
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,13 +20,14 @@ export function LangToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => Navigate("/en")}>
+        <DropdownMenuItem onClick={() => changeLanguage("en")}>
           {translation("lang_en")}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => Navigate("/tr")}>
+        <DropdownMenuItem onClick={() => changeLanguage("tr")}>
           {translation("lang_tr")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
+
