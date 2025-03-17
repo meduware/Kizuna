@@ -3,6 +3,7 @@ import { ModeToggle } from "@/components/(mainpage)/Navbar/ModeToggle";
 import MessageInput from "@/components/message/MessageInput";
 import Messages from "@/components/message/Messages";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { LangToggle } from "@/components/ui/LangToggle";
 import {
   SidebarInset,
   SidebarProvider,
@@ -17,6 +18,7 @@ export default function Page() {
   const currentChannelData = currentServer?.channels.find(
     (channel) => channel.id === currentChannel,
   );
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -45,10 +47,13 @@ export default function Page() {
           <div className="flex justify-end w-full gap-2 px-4">
             <SidebarTrigger />
             <ModeToggle />
+            <LangToggle />
           </div>
         </header>
-        <div className="flex flex-col justify-between h-full gap-4">
-          <Messages />
+        <div className="absolute h-full w-full">
+          <div className="flex flex-col justify-between h-full gap-4">
+            <Messages />
+          </div>
           <MessageInput />
         </div>
       </SidebarInset>

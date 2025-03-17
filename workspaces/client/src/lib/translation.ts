@@ -16,7 +16,7 @@ export const useFormattedDate = () => {
 
       const options: Intl.DateTimeFormatOptions = {
         day: "numeric",
-        month: "long",
+        month: "numeric",
         year: "numeric",
         hour: "numeric",
         minute: "numeric",
