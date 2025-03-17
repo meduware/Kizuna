@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "../ui/button";
 import { Send, Upload, X } from "lucide-react";
 import { Input } from "../ui/input";
@@ -14,6 +14,46 @@ export default function MessageInput() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    // Adding the Escape key listener to clear selected files
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedFiles([]);
+        setPreviewUrls([]);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handlePaste = useCallback((event: ClipboardEvent) => {
+    const clipboardItems = event.clipboardData?.items;
+    if (!clipboardItems) return;
+
+    const images: File[] = [];
+    for (let i = 0; i < clipboardItems.length; i++) {
+      const item = clipboardItems[i];
+      if (item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+        if (file) images.push(file);
+      }
+    }
+
+    if (images.length > 0) {
+      addFiles(images);
+    }
+  }, []); // Memoizing the function
+
+  useEffect(() => {
+    document.addEventListener("paste", handlePaste);
+    return () => {
+      document.removeEventListener("paste", handlePaste);
+    };
+  }, [handlePaste]);
 
   if (!currentUser || !currentChannel) {
     return null;
@@ -45,22 +85,21 @@ export default function MessageInput() {
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
       const files = Array.from(event.target.files);
-
-      setSelectedFiles((prevSelectedFiles) => {
-        const newFiles = files.filter(
-          (file) =>
-            !prevSelectedFiles.some(
-              (selectedFile) => selectedFile.name === file.name,
-            ),
-        );
-        return [...prevSelectedFiles, ...newFiles];
-      });
-
-      setPreviewUrls((prevUrls) => {
-        const newUrls = files.map((file) => URL.createObjectURL(file));
-        return [...prevUrls, ...newUrls];
-      });
+      addFiles(files);
     }
+  }
+
+  function addFiles(files: File[]) {
+    const newFiles = files; // Aynı isimli dosyaları kontrol etmeden tüm dosyaları ekle
+
+    setSelectedFiles((prevSelectedFiles) => [
+      ...prevSelectedFiles,
+      ...newFiles,
+    ]);
+    setPreviewUrls((prevUrls) => [
+      ...prevUrls,
+      ...newFiles.map((file) => URL.createObjectURL(file)),
+    ]);
   }
 
   function removeFile(index: number) {
@@ -69,7 +108,7 @@ export default function MessageInput() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full sticky bottom-0 bg-sidebar border-t border-sidebar-border p-2 flex flex-col gap-4">
       {selectedFiles.length > 0 && (
         <div className="flex gap-2 flex-wrap">
           {selectedFiles.map((file, index) => (
@@ -98,7 +137,7 @@ export default function MessageInput() {
           ))}
         </div>
       )}
-      <div className="flex gap-4 w-full">
+      <div className="flex items-center gap-4 p-2 w-full">
         <input
           id="file-upload"
           type="file"
@@ -120,7 +159,7 @@ export default function MessageInput() {
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSubmit();
           }}
-          className="flex items-center gap-2 w-full"
+          className="flex items-center gap-2 w-full h-[60px]"
           placeholder={translate("Send a message")}
         />
 

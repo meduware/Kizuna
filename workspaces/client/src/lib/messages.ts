@@ -1,6 +1,5 @@
-import { useGlobalContext } from "@/context/store";
 import { createSupabaseClient } from "../../../shared/src/supabase/createClient";
-import { v4 as uuidv4 } from "uuid"; // UUID modülünü ekliyoruz
+import { v4 as uuidv4 } from "uuid";
 
 const supabase = createSupabaseClient();
 
@@ -8,12 +7,11 @@ async function uploadFiles(files: File[]): Promise<string[]> {
   const fileUrls: string[] = [];
 
   for (const file of files) {
-    // Rastgele bir UUID oluşturuluyor
     const randomFileName = `${uuidv4()}-${file.name}`;
 
     const { data, error } = await supabase.storage
-      .from("files") // "uploads" storage bucket'ını kullan
-      .upload(`images/${randomFileName}`, file); // Dosyayı yükle ve rastgele bir isim ver
+      .from("files")
+      .upload(`images/${randomFileName}`, file);
 
     if (error) {
       console.error("File upload error:", error.message);
@@ -33,15 +31,24 @@ export async function sendMessage(
   user_id: string,
   channel_id: number,
 ) {
-  // Dosyaları Supabase Storage'a yükle
   const fileUrls = await uploadFiles(files);
 
-  // Mesajı ve dosya URL'lerini messages tablosuna kaydet
+  const { data: user_role, error: userRolesError } = await supabase
+    .from("user_roles")
+    .select("id")
+    .eq("user_id", user_id)
+    .single();
+
+  if (userRolesError) {
+    console.error("Error fetching user roles:", userRolesError);
+    return;
+  }
+
   const { data, error } = await supabase.from("messages").insert([
     {
       message: inputValue,
-      files: fileUrls.length > 0 ? fileUrls : [], // Eğer dosya varsa dosya URL'lerini array olarak sakla, yoksa boş array
-      user_id,
+      files: fileUrls.length > 0 ? fileUrls : [],
+      user_role_id: user_role.id,
       channel_id,
     },
   ]);
