@@ -5,20 +5,20 @@ export const getRolesWithUsers = async (req: Request, res: Response) => {
   const supabase = createSupabaseClient();
   const { data, error } = await supabase.from("roles").select(
     `
-      id,
-      role_name,
-      role_color,
-      permissions,
-      users:user_roles!inner(
-        users!inner(
-          id,
-          email,
-          created_at,
-          username,
-          photo_url
+        id,
+        role_name,
+        role_color,
+        permissions,
+        users:user_roles(
+          users(
+            id,
+            email,
+            created_at,
+            username,
+            photo_url
+          )
         )
-      )
-    `
+      `
   );
 
   if (error) {

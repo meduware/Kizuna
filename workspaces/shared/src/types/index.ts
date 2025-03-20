@@ -94,6 +94,7 @@ export interface RolePermissions {
   owner: boolean;
   manage_users: boolean;
   manage_server: boolean;
+  [key: string]: boolean | undefined;
 }
 
 export interface Role {
@@ -101,9 +102,6 @@ export interface Role {
   role_name: string;
   permissions: RolePermissions;
   role_color: string;
-}
-
-export interface roles_with_users extends Role {
   users: User[];
 }
 

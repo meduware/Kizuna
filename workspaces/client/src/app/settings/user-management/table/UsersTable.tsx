@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useFormattedDate } from "@/lib/translation";
-import { roles_with_users, UsersTableProps } from "@shared/types";
+import { Role, UsersTableProps } from "@shared/types";
 import { UserProfileCell } from "./UserProfileCell";
 import { RoleBadge } from "./RoleBadge";
 import { UserAction } from "./UserAction";
@@ -30,7 +30,7 @@ export default function UsersTable({
   const { selectAll, handleSelectAllChange, handleUserCheckboxChange, isUserChecked } =
     useUserSelection(users); // For later use
 
-  const getUserRoles = (userId: string): roles_with_users | null => {
+  const getUserRoles = (userId: string): Role | null => {
     const userRole = roles.find((role) => role.users.some((userRole) => userRole.id === userId));
     return userRole || null;
   };

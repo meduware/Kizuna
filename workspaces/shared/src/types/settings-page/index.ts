@@ -1,4 +1,4 @@
-import { User, Role, roles_with_users } from "..";
+import { User, Role, RolePermissions } from "..";
 
 // AutoMod
 export type ActionType = "delete" | "warn" | "timeout" | "kick" | "ban";
@@ -36,7 +36,7 @@ export interface AdvancedSettings {
 // User-Management
 export interface UsersTableProps {
   users: User[];
-  roles: roles_with_users[];
+  roles: Role[];
   isLoading: boolean;
   onEditUser: (user: User) => void;
   onManageRoles: (user: User) => void;
@@ -60,11 +60,66 @@ export interface EditUserDialogProps {
 
 export interface ManageRoleDialogProps {
   user: User | null;
-  roles: Role[];
-  userRoles: roles_with_users[];
+  userRoles: Role[];
   isOpen: boolean;
   onClose: () => void;
   onAssignRole: (roleId: number) => void;
 }
 
 // User-Management
+
+// Roles
+
+export interface RoleListProps {
+  roles: Role[];
+  activeRole: Role | null;
+  onRoleSelect: (role: Role) => void;
+  onCreateRoleClick: () => void;
+}
+
+export interface CreateRoleDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateRole: (roleName: string, roleColor: string) => Promise<boolean>;
+}
+
+export interface RoleGeneralSettingsProps {
+  roleName: string;
+  roleColor: string;
+  onRoleNameChange: (name: string) => void;
+  onRoleColorChange: (color: string) => void;
+}
+
+export interface Permission {
+  id: string;
+  label: string;
+}
+
+export interface PermissionCategory {
+  name: string;
+  permissions: Permission[];
+}
+export interface RolePermissionsProps {
+  permissionCategories: PermissionCategory[];
+  activePermissions: RolePermissions;
+  onTogglePermission: (permissionId: string) => void;
+}
+
+export interface RoleMembersProps {
+  users: User[];
+  onRemoveUser: (userId: string) => void;
+  formatDate: (date: Date) => string;
+}
+
+export interface RoleEditorProps {
+  role: Role;
+  permissionCategories: PermissionCategory[];
+  formatDate: (date: Date) => string;
+  onUpdateRole: (role: Role) => void;
+  onDeleteRole: (roleId: number) => void;
+  onRemoveUser: (userId: string) => void;
+  onRoleNameChange: (name: string) => void;
+  onRoleColorChange: (color: string) => void;
+  onTogglePermission: (permissionId: string) => void;
+}
+// Roles
