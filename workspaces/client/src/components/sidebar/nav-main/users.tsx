@@ -14,8 +14,9 @@ export function Users({ roles }: { roles: Role[] }) {
     <SidebarGroup>
       {roles.map((role, roleIndex) => (
         <div key={roleIndex}>
-          <SidebarGroupLabel>
-            {role.role_name} - {role.users.length}
+          <SidebarGroupLabel className="space-x-1">
+            <span className="max-w-[170px] truncate">{role.role_name}</span>
+            <span> - {role.users.length}</span>
           </SidebarGroupLabel>
           <SidebarMenu>
             {role.users.map((user, userIndex) => (
@@ -32,9 +33,9 @@ export function Users({ roles }: { roles: Role[] }) {
                     {user.username.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="font-medium flex flex-col justify-start items-center truncate">
+                <div className="font-medium flex flex-col justify-start items-center  ">
                   <span
-                    className="text-sm w-fit"
+                    className="text-sm max-w-[140px] truncate"
                     style={{ color: role.role_color }}
                   >
                     {user.username}

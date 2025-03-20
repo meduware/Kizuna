@@ -47,16 +47,36 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }, []);
 
   const navItems: NavItem[] = [
-    { name: translation("Server Settings"), icon: <Settings size={20} />, path: "/settings" },
-    { name: translation("Roles"), icon: <Shield size={20} />, path: "/settings/roles" },
-    { name: translation("Users"), icon: <Users size={20} />, path: "/settings/user-management" },
-    { name: translation("Logs"), icon: <FileText size={20} />, path: "/settings/logs" },
+    {
+      name: translation("Server Settings"),
+      icon: <Settings size={20} />,
+      path: "/settings",
+    },
+    {
+      name: translation("Roles"),
+      icon: <Shield size={20} />,
+      path: "/settings/roles",
+    },
+    {
+      name: translation("Users"),
+      icon: <Users size={20} />,
+      path: "/settings/user-management",
+    },
+    {
+      name: translation("Logs"),
+      icon: <FileText size={20} />,
+      path: "/settings/logs",
+    },
     {
       name: translation("Technical Details"),
       icon: <Server size={20} />,
       path: "/settings/technical-details",
     },
-    { name: translation("AutoMod"), icon: <Shield size={20} />, path: "/settings/auto-mod" },
+    {
+      name: translation("AutoMod"),
+      icon: <Shield size={20} />,
+      path: "/settings/auto-mod",
+    },
     {
       name: translation("Bans Management"),
       icon: <UserX size={20} />,
@@ -71,7 +91,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const sidebar = document.getElementById("sidebar");
-      if (isMobile && !collapsed && sidebar && !sidebar.contains(event.target as Node)) {
+      if (
+        isMobile &&
+        !collapsed &&
+        sidebar &&
+        !sidebar.contains(event.target as Node)
+      ) {
         setCollapsed(true);
       }
     };
@@ -83,7 +108,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="h-screen flex">
       {isMobile && !collapsed && (
-        <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setCollapsed(true)} />
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setCollapsed(true)}
+        />
       )}
 
       <div

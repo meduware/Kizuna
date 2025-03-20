@@ -18,7 +18,7 @@ const LoadingServerSwitcher = () => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="bg-secondary hover:bg-secondary animate-pulse"
+              className="bg-accent hover:bg-accent animate-pulse"
             >
               <div className="grid flex-1 text-left text-sm leading-tight"></div>
               <ChevronsUpDown className="ml-auto" />
