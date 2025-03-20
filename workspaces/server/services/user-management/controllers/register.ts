@@ -26,12 +26,9 @@ export const register = async (req: Request, res: Response) => {
       return res.status(400).json({ error: uploadError.message });
     }
 
-    publicUrl = supabase.storage.from("avatars").getPublicUrl(filePath)
-      .data.publicUrl;
+    publicUrl = supabase.storage.from("avatars").getPublicUrl(filePath).data.publicUrl;
   } else {
-    publicUrl = supabase.storage
-      .from("avatars")
-      .getPublicUrl("default/profile-picture.png").data.publicUrl;
+    publicUrl = supabase.storage.from("default").getPublicUrl("profile-picture").data.publicUrl;
   }
 
   const { data: userData, error: signUpError } = await supabase.auth.signUp({
@@ -50,9 +47,7 @@ export const register = async (req: Request, res: Response) => {
   }
 
   if (!userData || !userData.user) {
-    return res
-      .status(500)
-      .json({ error: "User registration failed, no user data returned." });
+    return res.status(500).json({ error: "User registration failed, no user data returned." });
   }
 
   const formattedUser = {

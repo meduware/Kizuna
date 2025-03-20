@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -14,6 +14,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface NavItem {
   name: string;
@@ -27,29 +28,57 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const pathname = usePathname();
+  const translation = useTranslation();
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      setCollapsed(mobile);
+    };
+
+    checkScreenSize();
+
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   const navItems: NavItem[] = [
     {
-      name: "Server Settings",
+      name: translation("Server Settings"),
       icon: <Settings size={20} />,
       path: "/settings",
     },
-    { name: "Roles", icon: <Shield size={20} />, path: "/settings/roles" },
     {
-      name: "Users",
+      name: translation("Roles"),
+      icon: <Shield size={20} />,
+      path: "/settings/roles",
+    },
+    {
+      name: translation("Users"),
       icon: <Users size={20} />,
       path: "/settings/user-management",
     },
-    { name: "Logs", icon: <FileText size={20} />, path: "/settings/logs" },
     {
-      name: "Technical Details",
+      name: translation("Logs"),
+      icon: <FileText size={20} />,
+      path: "/settings/logs",
+    },
+    {
+      name: translation("Technical Details"),
       icon: <Server size={20} />,
       path: "/settings/technical-details",
     },
-    { name: "AutoMod", icon: <Shield size={20} />, path: "/settings/auto-mod" },
     {
-      name: "Bans Management",
+      name: translation("AutoMod"),
+      icon: <Shield size={20} />,
+      path: "/settings/auto-mod",
+    },
+    {
+      name: translation("Bans Management"),
       icon: <UserX size={20} />,
       path: "/settings/bans-management",
     },
@@ -59,11 +88,40 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     setCollapsed(!collapsed);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const sidebar = document.getElementById("sidebar");
+      if (
+        isMobile &&
+        !collapsed &&
+        sidebar &&
+        !sidebar.contains(event.target as Node)
+      ) {
+        setCollapsed(true);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMobile, collapsed]);
+
   return (
     <div className="h-screen flex">
-      <div // Sidebar will be removed to another file as component or not.
-        className={`relative h-full transition-all duration-300 border-r 
-        ${collapsed ? "w-16" : "w-64"} flex flex-col`}
+      {isMobile && !collapsed && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
+
+      <div
+        id="sidebar"
+        className={`
+          ${isMobile && !collapsed ? "fixed left-0 top-0 bottom-0 z-50" : isMobile ? "w-16" : ""}
+          ${collapsed ? "w-16" : "w-64"} 
+          h-full transition-all duration-300 border-r bg-background
+          flex flex-col
+        `}
       >
         <div className="p-4 flex items-center justify-between">
           {!collapsed && <h1 className="text-xl font-bold">Dashboard</h1>}
@@ -87,13 +145,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 px-3 py-3 rounded-md transition-colors
                 group hover:bg-secondary
                 ${pathname === item.path ? "bg-secondary" : ""}`}
+                onClick={() => isMobile && setCollapsed(true)}
               >
                 <div className="flex items-center">
                   <span className="flex-shrink-0">{item.icon}</span>
                   {!collapsed && <span className="ml-3">{item.name}</span>}
                 </div>
                 {collapsed && (
-                  <div className="absolute left-16 truncate bg-secondary transform p-2 rounded opacity-0 invisible lg:group-hover:opacity-100 group-hover:visible transition-opacity">
+                  <div className="absolute left-16 truncate bg-secondary transform p-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity">
                     {item.name}
                   </div>
                 )}
