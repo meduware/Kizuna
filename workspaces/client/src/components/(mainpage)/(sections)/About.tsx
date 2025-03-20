@@ -13,7 +13,7 @@ function generateCodeBlock(): JSX.Element {
   return (
     <ShineBorder
       className="relative flex w-full flex-col items-start justify-start rounded-lg border bg-muted"
-      color={["#f97316"]}
+      color={["#259d51"]}
     >
       <div className="rounded-md bg-muted overflow-hidden w-full">
         <div className="flex items-center mb-2">

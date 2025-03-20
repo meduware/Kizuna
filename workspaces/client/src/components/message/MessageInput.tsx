@@ -104,7 +104,7 @@ export default function MessageInput() {
   }
 
   return (
-    <div className="w-full absolute bottom-0 bg-sidebar border-t border-sidebar-border p-2 flex flex-col gap-4">
+    <div className="w-full absolute bottom-0 bg-background p-2 flex flex-col gap-4">
       {selectedFiles.length > 0 && (
         <div className="flex gap-2 flex-wrap">
           {selectedFiles.map((file, index) => (

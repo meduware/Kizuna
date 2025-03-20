@@ -175,7 +175,7 @@ const Messages = () => {
           messages.map((msg) => (
             <div
               key={msg.id}
-              className="flex gap-5 justify-start items-start hover:bg-secondary p-2 rounded-md text-foreground"
+              className="flex gap-5 justify-start items-start hover:bg-accent p-4 pt-2 rounded-md text-foreground"
             >
               <Avatar className="h-10 w-10 mt-2">
                 <AvatarImage src={msg.userData.user.photo_url} />
@@ -213,7 +213,7 @@ const Messages = () => {
         {!isAtBottom && (
           <button
             onClick={scrollToBottom}
-            className="fixed bottom-32 right-6 p-3 bg-primary hover:bg-primary transition-all rounded-md shadow-lg"
+            className="fixed bottom-32 right-6 p-3 bg-primary  transition-all rounded-md shadow-lg"
           >
             <ChevronDown />
           </button>

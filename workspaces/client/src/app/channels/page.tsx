@@ -23,7 +23,7 @@ export default function Page() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-50 bg-sidebar border-b border-sidebar-border flex h-16 justify-center items-center gap-2">
+        <header className="sticky top-0 z-50 shadow-sm flex h-16 justify-center items-center gap-2">
           {currentChannelData && currentUser && (
             <div className="flex items-center w-full gap-2 px-4">
               {currentChannelData.channel_type === "text" ? (

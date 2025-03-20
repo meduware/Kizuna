@@ -40,7 +40,7 @@ export function Channels({ channels }: { channels: Channel[] }) {
                 currentServer.technical_details.port,
               )
             }
-            className={`hover:bg-secondary ${channel.id === currentChannel && "bg-secondary"} p-2 rounded-md hover:cursor-pointer text-foreground flex gap-2 items-center`}
+            className={`hover:bg-sidebar-accent text-foreground/50 ${channel.id === currentChannel && "bg-sidebar-accent text-foreground"} p-2 rounded-md hover:cursor-pointer flex gap-2 items-center transition-all`}
           >
             {channel.channel_type === "text" ? (
               <Hash className="h-4 w-4" />
