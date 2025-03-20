@@ -14,7 +14,6 @@ export default function UsersManagement(): JSX.Element {
   const {
     users,
     roles,
-    allRoles,
     isLoading,
     searchQuery,
     selectedUser,
@@ -82,7 +81,6 @@ export default function UsersManagement(): JSX.Element {
 
       <ManageRoleDialog
         user={selectedUser}
-        roles={allRoles}
         userRoles={roles}
         isOpen={isRoleDialogOpen}
         onClose={() => setIsRoleDialogOpen(false)}

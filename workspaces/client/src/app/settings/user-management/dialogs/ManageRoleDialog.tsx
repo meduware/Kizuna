@@ -8,12 +8,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ManageRoleDialogProps, roles_with_users } from "@shared/types";
+import { ManageRoleDialogProps, Role } from "@shared/types";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ManageRoleDialog({
   user,
-  roles,
   userRoles,
   isOpen,
   onClose,
@@ -24,7 +23,7 @@ export default function ManageRoleDialog({
     return <></>;
   }
 
-  const getUserRole = (userId: string): roles_with_users | null => {
+  const getUserRole = (userId: string): Role | null => {
     const userRole = userRoles.find((role) =>
       role.users.some((userRole) => userRole.id === userId)
     );
@@ -44,7 +43,7 @@ export default function ManageRoleDialog({
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="space-y-4">
-            {roles?.map((role) => {
+            {userRoles?.map((role) => {
               const hasRole = currentUserRole?.id === role.id;
 
               return (

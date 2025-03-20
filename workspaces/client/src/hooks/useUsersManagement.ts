@@ -1,26 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { apiHandler } from "@/lib/handlers/api";
-import { User, Role, roles_with_users } from "@shared/types";
+import { User, Role } from "@shared/types";
 import { baseUrls } from "@/lib/constants";
 
 export function useUsersManagement() {
-  const [roles, setRoles] = useState<roles_with_users[]>([]);
-  const [allRoles, setAllRoles] = useState<Role[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  const fetchAllRoles = useCallback(async () => {
-    try {
-      const response = await apiHandler("/api/role-management/get-roles", null, "GET");
-      setAllRoles(response.data);
-    } catch (err) {
-      console.error("Error fetching all roles:", err);
-    }
-  }, []);
 
   const fetchRolesWithUsers = useCallback(async () => {
     setIsLoading(true);
@@ -37,12 +27,6 @@ export function useUsersManagement() {
   useEffect(() => {
     fetchRolesWithUsers();
   }, [fetchRolesWithUsers]);
-
-  useEffect(() => {
-    if (isRoleDialogOpen) {
-      fetchAllRoles();
-    }
-  }, [isRoleDialogOpen, fetchAllRoles]);
 
   const getAllUsers = useCallback((): User[] => {
     const usersMap = new Map<string, User>();
@@ -205,7 +189,6 @@ export function useUsersManagement() {
 
   return {
     roles,
-    allRoles,
     users,
     searchQuery,
     selectedUser,

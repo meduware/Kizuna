@@ -17,13 +17,16 @@ export const useFormattedDate = () => {
 
       const options: Intl.DateTimeFormatOptions = {
         day: "numeric",
-        month: "long",
+        month: "numeric",
         year: "numeric",
         hour: "numeric",
         minute: "numeric",
       };
 
-      const formatter = new Intl.DateTimeFormat(languagePreference || defaultLocale, options);
+      const formatter = new Intl.DateTimeFormat(
+        languagePreference || defaultLocale,
+        options,
+      );
       return formatter.format(date);
     } catch (error) {
       console.error("Error formatting date:", error);

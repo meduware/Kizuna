@@ -17,6 +17,25 @@ export function parseJwt(token: string) {
   return JSON.parse(window.atob(base64));
 }
 
+export function getCurrentChannel(currentServer: Server) {
+  if (!currentServer) return null;
+  const cookie = getCookie("channelStates");
+  if (!cookie) return null;
+  try {
+    const channelStates = JSON.parse(cookie);
+    if (!Array.isArray(channelStates)) return null;
+    const currentChannel = channelStates.find(
+      (channel: { ipAddress: string; port: number; channel_id: string }) =>
+        channel.ipAddress === currentServer.technical_details.ipAddress &&
+        channel.port === currentServer.technical_details.port,
+    );
+    return currentChannel ? parseJwt(currentChannel.channel_id) : null;
+  } catch (error) {
+    console.error("Error parsing channelStates cookie:", error);
+    return null;
+  }
+}
+
 // Mevcut sunucuya bağlı hesabı döndürür
 export function getCurrentAccount(currentServer: Server) {
   if (!currentServer) return null;
@@ -82,11 +101,73 @@ export function changeUser(token: string, currentServer: Server | null) {
   setCookie("accountTokens", JSON.stringify(accountTokens));
 }
 
+export function changeChannel(
+  channel_id: number,
+  ipAddress: string,
+  port: number,
+  setCurrentChannel: React.Dispatch<any>,
+) {
+  const cookie = getCookie("channelStates");
+
+  // If the cookie doesn't exist, initialize it with an empty array or with the new channel data
+  if (!cookie) {
+    const initialChannelState = [
+      {
+        ipAddress,
+        port,
+        channel_id,
+      },
+    ];
+    setCookie("channelStates", JSON.stringify(initialChannelState));
+    setCurrentChannel(channel_id); // Update the current channel state
+    return;
+  }
+
+  try {
+    let channelStates = JSON.parse(cookie);
+
+    // Ensure that channelStates is an array
+    if (!Array.isArray(channelStates)) {
+      console.error("Invalid cookie format for channelStates");
+      channelStates = [];
+    }
+
+    const existingChannelIndex = channelStates.findIndex(
+      (channel: { ipAddress: string; port: number; channel_id: string }) =>
+        channel.ipAddress === ipAddress && channel.port === port,
+    );
+
+    if (existingChannelIndex !== -1) {
+      // Update the existing channel with the new channel_id
+      channelStates[existingChannelIndex] = {
+        ...channelStates[existingChannelIndex],
+        channel_id,
+      };
+    } else {
+      // Add the new channel to the list
+      channelStates.push({
+        ipAddress,
+        port,
+        channel_id,
+      });
+    }
+
+    // Update the cookie with the new channel states
+    setCookie("channelStates", JSON.stringify(channelStates));
+
+    // Update the current channel state with the new channel_id
+    setCurrentChannel(channel_id);
+  } catch (error) {
+    console.error("Error changing channel:", error);
+  }
+}
+
 export async function changeServer(
   server: localServer,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   currentServer: Server | null,
   setCurrentServer: React.Dispatch<Server | null>,
+  setCurrentChannel: React.Dispatch<any>,
   setServerList: React.Dispatch<React.SetStateAction<Server[]>>,
 ) {
   setLoading(true);
@@ -99,7 +180,6 @@ export async function changeServer(
     if (!serverResponse) {
       throw new Error(`${server.ipAddress}:${server.port} is not available`);
     }
-    // Kanal ve rol verilerini çek
     const channelResponse = await apiHandler(
       `http://${server.ipAddress}:${server.port}/api/channel-management/get-channels`,
       {},
@@ -157,6 +237,21 @@ export async function changeServer(
     });
     setCurrentServer(serverResponse.server_details);
     localStorage.setItem("currentServer", JSON.stringify(newServerInfo));
+
+    if (newServerInfo) {
+      const channelsCookie = getCookie("channelStates");
+      const parsedChannelsCookie = channelsCookie
+        ? JSON.parse(channelsCookie)
+        : [];
+
+      setCurrentChannel(
+        parsedChannelsCookie.find(
+          (channel: { ipAddress: string; port: number; channel_id: string }) =>
+            channel.ipAddress === newServerInfo.ipAddress &&
+            channel.port === newServerInfo.port,
+        )?.channel_id,
+      );
+    }
   } catch (error) {
     console.error("Error changing server:", error);
   } finally {
@@ -168,6 +263,7 @@ export async function reloadServerList(
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setServerList: React.Dispatch<React.SetStateAction<Server[]>>,
   setCurrentServer: React.Dispatch<Server | null>,
+  setCurrentChannel: React.Dispatch<any>,
 ) {
   const storedServerList = localStorage.getItem("serverList");
   const storedCurrentServer = localStorage.getItem("currentServer");
@@ -228,6 +324,25 @@ export async function reloadServerList(
             serverResponse.server_details.channels = channelResponse.channels;
             serverResponse.server_details.roles = roleResponse;
             setCurrentServer(serverResponse.server_details);
+
+            const channelsCookie = getCookie("channelStates");
+            const parsedChannelsCookie = channelsCookie
+              ? JSON.parse(channelsCookie)
+              : [];
+
+            setCurrentChannel(
+              parsedChannelsCookie.find(
+                (channel: {
+                  ipAddress: string;
+                  port: number;
+                  channel_id: string;
+                }) =>
+                  channel.ipAddress ===
+                    serverResponse.server_details.technical_details.ipAddress &&
+                  channel.port ===
+                    serverResponse.server_details.technical_details.port,
+              )?.channel_id,
+            );
           }
           fetchedServers.push(serverResponse.server_details);
         } catch (error) {
