@@ -1,3 +1,4 @@
+import { useGlobalContext } from "@/context/store";
 import { createSupabaseClient } from "../../../shared/src/supabase/createClient";
 import { v4 as uuidv4 } from "uuid";
 

@@ -99,6 +99,7 @@ export interface RolePermissions {
 
 export interface Role {
   id: number;
+  index: number;
   role_name: string;
   permissions: RolePermissions;
   role_color: string;

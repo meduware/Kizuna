@@ -10,11 +10,10 @@ import {
   changeServer,
   changeUser,
   getCurrentAccount,
-  parseJwt,
   reloadServerList,
   sortServersByPort,
 } from "@/lib/utils";
-import { getCookie } from "cookies-next";
+import { createSupabaseClient } from "@shared/supabase/createClient";
 import { createContext, useContext, useState, useEffect } from "react";
 
 export const GlobalContext =
@@ -26,6 +25,7 @@ export const GlobalContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [currentServer, setCurrentServer] = useState<Server | null>(null);
+  const [messages, setMessages] = useState<any[]>([]);
   const [serverList, setServerList] = useState<Server[]>([]);
   const [currentChannel, setCurrentChannel] = useState<any>(null); // Add state for currentChannel
   const [loading, setLoading] = useState<boolean>(true);
@@ -66,6 +66,89 @@ export const GlobalContextProvider = ({
     );
   }
 
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from("messages")
+      .select(
+        `
+        id,
+        message,
+        files,
+        created_at,
+        userData:user_roles(
+          id,
+          user:users(id, username, photo_url),
+          role:roles(
+            role_name,
+            role_color,
+            permissions
+          )
+        )
+      `,
+      )
+      .eq("channel_id", currentChannel)
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error fetching messages:", error);
+      return;
+    }
+
+    setMessages(data || []);
+  };
+
+  const supabase = createSupabaseClient();
+
+  supabase
+    .channel("roles")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "roles" },
+      (payload: any) => {
+        if (!currentServer) return;
+
+        const updatedRoles = currentServer.roles.map((role) => {
+          if (role.id === payload.new.id) {
+            return {
+              ...role,
+              index: payload.new.index,
+              role_name: payload.new.role_name,
+              role_color: payload.new.role_color,
+              permissions: payload.new.permissions,
+            };
+          }
+          return role;
+        });
+        setCurrentServer({ ...currentServer, roles: updatedRoles });
+        fetchMessages();
+      },
+    )
+    .subscribe();
+
+  supabase
+    .channel("channels")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "channels" },
+      (payload: any) => {
+        if (!currentServer) return;
+        const updatedChannels = currentServer.channels.map((channel) => {
+          if (channel.id === payload.new.id) {
+            return {
+              ...channel,
+              index: payload.new.index,
+              channel_name: payload.new.channel_name,
+              channel_description: payload.new.channel_description,
+              channel_permissions: payload.new.channel_permissions,
+            };
+          }
+          return channel;
+        });
+        setCurrentServer({ ...currentServer, channels: updatedChannels });
+      },
+    )
+    .subscribe();
+
   // Add function to change the currentChannel
   async function handleChangeChannel(
     channel_id: number,
@@ -83,6 +166,9 @@ export const GlobalContextProvider = ({
         currentUser: currentAccount,
         currentServer,
         currentChannel,
+        messages,
+        setMessages,
+        fetchMessages,
         changeServer: handleChangeServer,
         changeUser: handleChangeUser,
         reloadServerList: handleReloadServerList,

@@ -41,6 +41,7 @@ export type FooterLink = {
 
 export interface Role {
   id: number;
+  index: number;
   role_name: string;
   role_color: string;
   permissions: {};
@@ -49,6 +50,7 @@ export interface Role {
 
 export interface Channel {
   id: number;
+  index: number;
   channel_type: "text" | "voice";
   channel_name: string;
   channel_description: string;
@@ -87,6 +89,9 @@ export interface GlobalContextType {
   currentChannel: any;
   changeChannel: any;
   setCurrentChannel: any;
+  messages: any[];
+  setMessages: any;
+  fetchMessages: () => void;
   changeServer: (server: localServer) => void;
   changeUser: (token: string) => void;
   reloadServerList: () => void;
@@ -99,6 +104,9 @@ export const initialGlobalContext: GlobalContextType = {
   currentUser: null,
   currentServer: null,
   currentChannel: null,
+  messages: [],
+  setMessages: () => {},
+  fetchMessages: () => {},
   setCurrentChannel: () => {},
   changeChannel: () => {},
   changeServer: () => {},
