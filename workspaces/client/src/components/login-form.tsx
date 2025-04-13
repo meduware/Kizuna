@@ -20,6 +20,7 @@ import { useGlobalContext } from "@/context/store";
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"form"> {
   authConfig: AuthSettings;
+  onClose: () => void;
 }
 
 const loginSchema = z.object({
@@ -27,7 +28,7 @@ const loginSchema = z.object({
   password: z.string().min(6, { message: "Şifre en az 6 karakter olmalıdır" }),
 });
 
-export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
+export function LoginForm({ authConfig, onClose, className, ...props }: LoginFormProps) {
   const { changeUser } = useGlobalContext();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -39,11 +40,8 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      const response = await apiHandler(
-        "/api/user-management/login",
-        data,
-        "GET",
-      );
+      const response = await apiHandler("/api/user-management/login", data, "GET");
+      onClose();
       changeUser(response.access_token);
     } catch (error) {
       console.error("Error:", error);
@@ -52,14 +50,10 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit}
-        className={cn("flex flex-col gap-6", className)}
-        {...props}
-      >
+      <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
-          {authConfig.allowNewAccounts && (
+          {authConfig.passwordAuth && (
             <p className="text-balance text-sm text-muted-foreground">
               Enter your email below to login to your account
             </p>
@@ -67,7 +61,7 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
         </div>
 
         <div className="grid gap-6">
-          {authConfig.allowNewAccounts && (
+          {authConfig.passwordAuth && (
             <div className="grid gap-6">
               <FormField
                 control={form.control}
@@ -76,12 +70,7 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        {...field}
-                      />
+                      <Input id="email" type="email" placeholder="m@example.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -95,10 +84,7 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
                   <FormItem>
                     <div className="flex items-center">
                       <FormLabel>Password</FormLabel>
-                      <a
-                        href="#"
-                        className="ml-auto text-sm underline-offset-4 hover:underline"
-                      >
+                      <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
                         Forgot your password?
                       </a>
                     </div>
@@ -115,31 +101,50 @@ export function LoginForm({ authConfig, className, ...props }: LoginFormProps) {
               </Button>
             </div>
           )}
-
-          {authConfig.allowNewAccounts && (
+          {authConfig.allowRegister && (
             <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
               <span className="relative z-10 bg-background px-2 text-muted-foreground">
                 Or continue with
               </span>
             </div>
           )}
-
-          {authConfig.allowGitHubAuth && (
-            <Button variant="outline" type="button" className="w-full">
-              Login with GitHub
-            </Button>
+          {authConfig.oAuthSupport && (
+            <>
+              {authConfig.oAuthProviders.google && (
+                <Button variant="outline" type="button" className="w-full">
+                  Login with Google
+                </Button>
+              )}
+              {authConfig.oAuthProviders.github && (
+                <Button variant="outline" type="button" className="w-full">
+                  Login with GitHub
+                </Button>
+              )}
+              {authConfig.oAuthProviders.apple && (
+                <Button variant="outline" type="button" className="w-full">
+                  Login with Apple
+                </Button>
+              )}
+            </>
           )}
-          {authConfig.allowGoogleAuth && (
-            <Button variant="outline" type="button" className="w-full">
-              Login with Google
-            </Button>
-          )}
-          {authConfig.allowAnonymous && (
+          {authConfig.anonymousLogin && (
             <Button variant="outline" type="button" className="w-full">
               Login Anonymously
             </Button>
           )}
         </div>
+        {authConfig.allowRegister && (
+          <div className="text-center text-sm">
+            You can register on this server!{" "}
+            <a
+              href="#"
+              className="underline underline-offset-4"
+              onClick={() => console.log("Signup Page/Dialog")}
+            >
+              Sign up
+            </a>
+          </div>
+        )}
       </form>
     </Form>
   );

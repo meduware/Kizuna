@@ -16,7 +16,10 @@ export default function LoginDialog({ onClose, isOpen }: loginDialog) {
           <div className="flex flex-col gap-4 p-6 md:p-10">
             <div className="flex flex-1 items-center justify-center">
               <div className="w-full max-w-md">
-                <LoginForm authConfig={settings.technical_details.login_methods} />
+                <LoginForm
+                  authConfig={settings.technical_details.login_methods}
+                  onClose={onClose}
+                />
               </div>
             </div>
           </div>
