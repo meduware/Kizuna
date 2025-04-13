@@ -123,3 +123,68 @@ export interface RoleEditorProps {
   onTogglePermission: (permissionId: string) => void;
 }
 // Roles
+
+// Technical Details
+
+export interface TechnicalSettings {
+  created_at: Date;
+  server_image: string;
+  server_name: string;
+  technical_details: technical_details;
+}
+
+interface technical_details {
+  login_methods: AuthSettings;
+  capacities: CapacitySettings;
+  file_sharing: FileSettings;
+}
+
+export interface AuthSettings {
+  passwordAuth: boolean;
+  oAuthSupport: boolean;
+  allowRegister: boolean;
+  anonymousLogin: boolean;
+  oAuthProviders: {
+    google: boolean;
+    github: boolean;
+    apple: boolean;
+  };
+}
+export interface CapacitySettings {
+  maxServerCapacity: number;
+  maxRoomCapacity: number;
+  maxConcurrentConnections: number;
+  apiRateLimit: number;
+  bitrate: number;
+  streamFps: number;
+  streamQuality: string;
+}
+
+export interface FileSettings {
+  maxFileSize: number;
+  userStorageQuota: number;
+  retentionPolicy: "forever" | "90days" | "30days" | "7days";
+  allowedFileTypes: {
+    images: boolean;
+    documents: boolean;
+    audio: boolean;
+    video: boolean;
+  };
+}
+
+export interface AuthenticationTabProps {
+  settings: AuthSettings;
+  onChange: (settings: AuthSettings) => void;
+}
+
+export interface CapacitiesTabProps {
+  settings: CapacitySettings;
+  onChange: (settings: CapacitySettings) => void;
+}
+
+export interface FileSharingTabProps {
+  settings: FileSettings;
+  onChange: (settings: FileSettings) => void;
+}
+
+// Technical Details

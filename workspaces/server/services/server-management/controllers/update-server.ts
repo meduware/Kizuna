@@ -3,15 +3,7 @@ import { createSupabaseClient } from "../../../../shared/src/supabase/createClie
 import { v4 as uuidv4 } from "uuid";
 
 export const updateServer = async (req: Request, res: Response) => {
-  const {
-    server_name,
-    login_methods,
-    max_participants_per_vc,
-    bitrate,
-    stream_quality,
-    stream_fps,
-    file_upload_limit,
-  } = req.body;
+  const { server_name, login_methods, file_sharing, capacities } = req.body;
 
   const server_image = req.file;
 
@@ -50,8 +42,7 @@ export const updateServer = async (req: Request, res: Response) => {
       return res.status(400).json({ error: uploadError.message });
     }
 
-    publicUrl = supabase.storage.from("avatars").getPublicUrl(filePath)
-      .data.publicUrl;
+    publicUrl = supabase.storage.from("avatars").getPublicUrl(filePath).data.publicUrl;
   }
 
   const { error: serverUpdateError } = await supabase
@@ -67,39 +58,83 @@ export const updateServer = async (req: Request, res: Response) => {
 
   if (login_methods) {
     try {
-      technicalUpdateData.login_methods = login_methods
-        .split(",")
-        .map((method: string) => method.trim());
+      const parsed = typeof login_methods === "string" ? JSON.parse(login_methods) : login_methods;
+
+      technicalUpdateData.login_methods = {
+        passwordAuth: parsed.passwordAuth,
+        oAuthSupport: parsed.oAuthSupport,
+        allowRegister: parsed.allowRegister,
+        anonymousLogin: parsed.anonymousLogin,
+        oAuthProviders: {
+          google: parsed.oAuthProviders?.google,
+          github: parsed.oAuthProviders?.github,
+          apple: parsed.oAuthProviders?.apple,
+        },
+      };
     } catch (error) {
-      console.log("Raw login_methods:", req.body.login_methods);
-      console.log("login_methods:", login_methods);
       return res.status(400).json({
-        error: "Invalid login_methods format. It should be a JSON array.",
+        error: "Invalid login_methods format. It should be a JSON object.",
       });
     }
   }
 
-  if (max_participants_per_vc)
-    technicalUpdateData.max_participants_per_vc = max_participants_per_vc;
-  if (bitrate) technicalUpdateData.bitrate = bitrate;
-  if (stream_quality) technicalUpdateData.stream_quality = stream_quality;
-  if (stream_fps) technicalUpdateData.stream_fps = stream_fps;
-  if (file_upload_limit)
-    technicalUpdateData.file_upload_limit = file_upload_limit;
+  if (file_sharing) {
+    try {
+      const parsed = typeof file_sharing === "string" ? JSON.parse(file_sharing) : file_sharing;
 
-  const { error: technicalUpdateError } = await supabase
-    .from("technical_details")
-    .update(technicalUpdateData)
-    .eq("server_id", serverId);
+      technicalUpdateData.file_sharing = {
+        maxFileSize: parsed.maxFileSize,
+        retentionPolicy: parsed.retentionPolicy,
+        allowedFileTypes: {
+          audio: parsed.allowedFileTypes?.audio,
+          video: parsed.allowedFileTypes?.video,
+          images: parsed.allowedFileTypes?.images,
+          documents: parsed.allowedFileTypes?.documents,
+        },
+        userStorageQuota: parsed.userStorageQuota,
+      };
+    } catch (error) {
+      return res.status(400).json({
+        error: "Invalid file_sharing format. It should be a JSON object.",
+      });
+    }
+  }
 
-  if (technicalUpdateError) {
-    return res.status(400).json({ error: technicalUpdateError.message });
+  if (capacities) {
+    try {
+      const parsed = typeof capacities === "string" ? JSON.parse(capacities) : capacities;
+
+      technicalUpdateData.capacities = {
+        bitrate: parsed.bitrate,
+        streamFps: parsed.streamFps,
+        apiRateLimit: parsed.apiRateLimit,
+        streamQuality: parsed.streamQuality,
+        maxRoomCapacity: parsed.maxRoomCapacity,
+        maxServerCapacity: parsed.maxServerCapacity,
+        maxConcurrentConnections: parsed.maxConcurrentConnections,
+      };
+    } catch (error) {
+      return res.status(400).json({
+        error: "Invalid capacities format. It should be a JSON object.",
+      });
+    }
+  }
+
+  if (Object.keys(technicalUpdateData).length > 0) {
+    const { error: technicalUpdateError } = await supabase
+      .from("technical_details")
+      .update(technicalUpdateData)
+      .eq("server_id", serverId);
+
+    if (technicalUpdateError) {
+      return res.status(400).json({ error: technicalUpdateError.message });
+    }
   }
 
   return res.status(200).json({
     msg: "Server information updated successfully.",
     server: {
-      server_name,
+      server_name: serverName,
       server_image: publicUrl,
       technical_details: technicalUpdateData,
     },

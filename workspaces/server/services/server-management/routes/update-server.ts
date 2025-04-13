@@ -19,7 +19,6 @@ const upload = multer({ storage: multer.memoryStorage() });
  *     summary: Update server details
  *     tags: [Server management]
  *     requestBody:
- *       required: true
  *       content:
  *         multipart/form-data:
  *           schema:
@@ -27,38 +26,24 @@ const upload = multer({ storage: multer.memoryStorage() });
  *             properties:
  *               server_name:
  *                 type: string
- *                 description: The server name
+ *                 description: Server name
  *                 example: ""
  *               server_image:
  *                 type: string
  *                 format: binary
- *                 description: The server image
+ *                 description: Server image file (optional)
  *               login_methods:
- *                 type: array
- *                 items:
- *                   type: string
- *                 description: Login methods for joining the server
- *                 example: ["email"]
- *               max_participants_per_vc:
- *                 type: integer
- *                 description: Maximum number of participants per voice chat
- *                 example: ""
- *               bitrate:
- *                 type: integer
- *                 description: Quality of the voice chat
- *                 example: ""
- *               stream_quality:
  *                 type: string
- *                 description: Quality of the stream (you cant use words so 720p is 720, 1080p is 1080, 4K is 4000 etc.)
- *                 example: ""
- *               stream_fps:
- *                 type: integer
- *                 description: Frame rate of the stream
- *                 example: ""
- *               file_upload_limit:
- *                 type: integer
- *                 description: Maximum file size allowed to be uploaded (in MB)
- *                 example: ""
+ *                 description: JSON string of login method settings (optional)
+ *                 example: '{"passwordAuth": true, "oAuthSupport": false, "allowRegister": true, "anonymousLogin": false, "oAuthProviders": {"google": true, "github": false, "apple": false}}'
+ *               file_sharing:
+ *                 type: string
+ *                 description: JSON string of file sharing settings (optional)
+ *                 example: '{"maxFileSize": 250, "retentionPolicy": "30days", "allowedFileTypes": {"audio": true, "video": true, "images": true, "documents": true}, "userStorageQuota": 1024}'
+ *               capacities:
+ *                 type: string
+ *                 description: JSON string of server capacities (optional)
+ *                 example: '{"bitrate": 96, "streamFps": 30, "apiRateLimit": 60, "streamQuality": "720", "maxRoomCapacity": 10, "maxServerCapacity": 10, "maxConcurrentConnections": 100}'
  *     responses:
  *       200:
  *         description: Server information updated successfully
@@ -82,35 +67,69 @@ const upload = multer({ storage: multer.memoryStorage() });
  *                     technical_details:
  *                       type: object
  *                       properties:
- *                         bitrate:
- *                           type: integer
- *                           example: 128
- *                         stream_fps:
- *                           type: integer
- *                           example: 60
  *                         login_methods:
- *                           type: array
- *                           items:
- *                             type: string
- *                           example: ["email"]
- *                         stream_quality:
- *                           type: integer
- *                           example: 4000
- *                         max_participants_per_vc:
- *                           type: integer
- *                           example: 150
- *                         file_upload_limit:
- *                           type: integer
- *                           example: 1024
+ *                           type: object
+ *                           properties:
+ *                             passwordAuth:
+ *                               type: boolean
+ *                             oAuthSupport:
+ *                               type: boolean
+ *                             allowRegister:
+ *                               type: boolean
+ *                             anonymousLogin:
+ *                               type: boolean
+ *                             oAuthProviders:
+ *                               type: object
+ *                               properties:
+ *                                 google:
+ *                                   type: boolean
+ *                                 github:
+ *                                   type: boolean
+ *                                 apple:
+ *                                   type: boolean
+ *                         file_sharing:
+ *                           type: object
+ *                           properties:
+ *                             maxFileSize:
+ *                               type: integer
+ *                             retentionPolicy:
+ *                               type: string
+ *                             allowedFileTypes:
+ *                               type: object
+ *                               properties:
+ *                                 audio:
+ *                                   type: boolean
+ *                                 video:
+ *                                   type: boolean
+ *                                 images:
+ *                                   type: boolean
+ *                                 documents:
+ *                                   type: boolean
+ *                             userStorageQuota:
+ *                               type: integer
+ *                         capacities:
+ *                           type: object
+ *                           properties:
+ *                             bitrate:
+ *                               type: integer
+ *                             streamFps:
+ *                               type: integer
+ *                             apiRateLimit:
+ *                               type: integer
+ *                             streamQuality:
+ *                               type: string
+ *                             maxRoomCapacity:
+ *                               type: integer
+ *                             maxServerCapacity:
+ *                               type: integer
+ *                             maxConcurrentConnections:
+ *                               type: integer
  *       400:
- *         description: Bad request (e.g., missing required fields or invalid input)
+ *         description: Bad request (invalid input or parsing errors)
  *       404:
  *         description: Server not found
  */
-router.put(
-  "/server-management/update-server",
-  upload.single("server_image"),
-  updateServer,
-);
+
+router.put("/server-management/update-server", upload.single("server_image"), updateServer);
 
 export default router;
