@@ -8,7 +8,7 @@ export const serverDetails = async (req: Request, res: Response) => {
   const { data: server_details, error } = await supabase
     .from("server_details")
     .select(
-      "server_name, server_image, created_at, technical_details(bitrate, stream_fps, login_methods, stream_quality, max_participants_per_vc, file_upload_limit)",
+      "server_name, server_image, created_at, technical_details(login_methods, capacities, file_sharing)"
     )
     .single();
 
@@ -23,7 +23,7 @@ export const serverDetails = async (req: Request, res: Response) => {
   const modifiedServerDetails = {
     ...server_details,
     technical_details: {
-      ...server_details.technical_details,
+      ...server_details.technical_details[0],
       ipAddress: getService()!.domain,
       port: process.env.GATEWAY_PORT || 3001,
     },

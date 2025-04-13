@@ -29,13 +29,6 @@ export interface Database {
   };
 }
 
-export interface AuthSettings {
-  allowAnonymous: boolean;
-  allowGoogleAuth: boolean;
-  allowGitHubAuth: boolean;
-  allowNewAccounts: boolean;
-}
-
 export const ipAddressSchema = z.string().refine(
   (value) => {
     const ipv4Regex =
@@ -67,6 +60,11 @@ export const serverAddressSchema = z.object({
   ipAddress: ipAddressSchema,
   port: portSchema,
 });
+
+export interface loginDialog {
+  onClose: () => void;
+  isOpen: boolean;
+}
 
 export interface Channel {
   id: string;
