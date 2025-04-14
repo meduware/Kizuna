@@ -13,28 +13,30 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { ValidationError } from "@/components/(settingspage)/validationError";
 import { createValidator, min, useValidation } from "@shared/utils/validation";
-
-const concurrentConnValidator = createValidator([min(1, "Must allow at least 1 connection")]);
-
-const apiRateLimitValidator = createValidator([min(1, "Rate limit must be at least 1")]);
-
-const bitrateValidator = createValidator([min(8, "Bitrate must be at least 8 kbps")]);
-
-const streamFpsValidator = createValidator([min(1, "FPS must be at least 1")]);
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
   const [localSettings, setLocalSettings] = useState(settings);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const translation = useTranslation();
+
+  const concurrentConnValidator = createValidator([
+    min(1, translation("Must allow at least 1 connection")),
+  ]);
+  const apiRateLimitValidator = createValidator([
+    min(1, translation("Rate limit must be at least 1")),
+  ]);
+  const bitrateValidator = createValidator([
+    min(8, translation("Bitrate must be at least 8 kbps")),
+  ]);
+  const streamFpsValidator = createValidator([min(1, translation("FPS must be at least 1"))]);
 
   const concurrentConnectionsValidation = useValidation(
     localSettings.maxConcurrentConnections,
     concurrentConnValidator
   );
-
   const apiRateLimitValidation = useValidation(localSettings.apiRateLimit, apiRateLimitValidator);
-
   const bitrateValidation = useValidation(localSettings.bitrate, bitrateValidator);
-
   const streamFpsValidation = useValidation(localSettings.streamFps, streamFpsValidator);
 
   useEffect(() => {
@@ -76,15 +78,15 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Server & Room Capacities</CardTitle>
+        <CardTitle>{translation("Server & Room Capacities")}</CardTitle>
         <CardDescription>
-          Define the system limitations to optimize performance and stability.
+          {translation("Define the system limitations to optimize performance and stability")}.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="server-capacity">Max Server Capacity</Label>
+            <Label htmlFor="server-capacity">{translation("Max Server Capacity")}</Label>
             <Slider
               id="server-capacity"
               min={1}
@@ -95,11 +97,13 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
                 handleNumericChange("maxServerCapacity", value[0].toString());
               }}
             />
-            <p className="text-sm text-muted-foreground">{localSettings.maxServerCapacity} users</p>
+            <p className="text-sm text-muted-foreground">
+              {localSettings.maxServerCapacity} {translation("users")}
+            </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="room-capacity">Max Room Capacity</Label>
+            <Label htmlFor="room-capacity">{translation("Max Room Capacity")}</Label>
             <Slider
               id="room-capacity"
               min={1}
@@ -111,13 +115,15 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
                 setTouched((prev) => ({ ...prev, maxRoomCapacity: true }));
               }}
             />
-            <p className="text-sm text-muted-foreground">{localSettings.maxRoomCapacity} users</p>
+            <p className="text-sm text-muted-foreground">
+              {localSettings.maxRoomCapacity} {translation("users")}
+            </p>
           </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label htmlFor="concurrent-connections">Concurrent Connections</Label>
+            <Label htmlFor="concurrent-connections">{translation("Concurrent Connections")}</Label>
             <Input
               id="concurrent-connections"
               type="number"
@@ -138,7 +144,7 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="api-rate-limit">API Rate Limit</Label>
+            <Label htmlFor="api-rate-limit">{translation("API Rate Limit")}</Label>
             <Input
               id="api-rate-limit"
               type="number"
@@ -157,7 +163,7 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="bitrate">Bitrate Limit (kbps)</Label>
+            <Label htmlFor="bitrate">{translation("Bitrate Limit")} (kbps)</Label>
             <Input
               id="bitrate"
               type="number"
@@ -172,7 +178,7 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="stream-fps">Stream FPS Limit</Label>
+            <Label htmlFor="stream-fps">{translation("Stream FPS Limit")}</Label>
             <Input
               id="stream-fps"
               type="number"
@@ -188,10 +194,10 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="stream-quality">Stream Quality</Label>
+          <Label htmlFor="stream-quality">{translation("Stream Quality")}</Label>
           <Select value={localSettings.streamQuality} onValueChange={handleStreamQualityChange}>
             <SelectTrigger id="stream-quality">
-              <SelectValue placeholder="Select stream quality" />
+              <SelectValue placeholder={translation("Select Stream Quality")} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="480">480p</SelectItem>

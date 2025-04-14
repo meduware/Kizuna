@@ -4,8 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { AuthSettings, AuthenticationTabProps } from "@shared/types";
 import { SettingSwitch } from "@/components/(settingspage)/settingsSwitch";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function AuthenticationTab({ settings, onChange }: AuthenticationTabProps) {
+  const translation = useTranslation();
   if (!settings) return null;
 
   const handleToggle = (key: keyof AuthSettings, value: boolean) => {
@@ -28,39 +30,41 @@ export function AuthenticationTab({ settings, onChange }: AuthenticationTabProps
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Authentication Methods</CardTitle>
-        <CardDescription>Configure how users can log in to your server.</CardDescription>
+        <CardTitle>{translation("Authentication Methods")}</CardTitle>
+        <CardDescription>
+          {translation("Configure how users can log in to your server")}.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <SettingSwitch
             id="password-auth"
-            label="Password Authentication"
-            description="Allow users to sign in with username and password"
+            label={translation("Password Authentication")}
+            description={translation("Allow users to sign in with username and password")}
             checked={settings.passwordAuth}
             onToggle={(checked) => handleToggle("passwordAuth", checked)}
           />
 
           <SettingSwitch
             id="oauth-auth"
-            label="OAuth Integration"
-            description="Enable sign in with third-party services"
+            label={translation("OAuth Integration")}
+            description={translation("Enable sign in with third-party services")}
             checked={settings.oAuthSupport}
             onToggle={(checked) => handleToggle("oAuthSupport", checked)}
           />
 
           <SettingSwitch
             id="register-auth"
-            label="Allow Register"
-            description="Allow users to create new accounts"
+            label={translation("Allow Register")}
+            description={translation("Allow users to create new accounts")}
             checked={settings.allowRegister}
             onToggle={(checked) => handleToggle("allowRegister", checked)}
           />
 
           <SettingSwitch
             id="anonymous-auth"
-            label="Anonymously Login"
-            description="Allow users to login anonymously"
+            label={translation("Anonymously Login")}
+            description={translation("Allow users to login anonymously")}
             checked={settings.anonymousLogin}
             onToggle={(checked) => handleToggle("anonymousLogin", checked)}
           />
@@ -68,7 +72,7 @@ export function AuthenticationTab({ settings, onChange }: AuthenticationTabProps
 
         {settings.oAuthSupport && (
           <div className="space-y-4">
-            <Label>OAuth Providers</Label>
+            <Label>{translation("OAuth Providers")}</Label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Object.entries(settings.oAuthProviders).map(([provider, isEnabled]) => (
                 <div key={provider} className="flex items-center space-x-2">

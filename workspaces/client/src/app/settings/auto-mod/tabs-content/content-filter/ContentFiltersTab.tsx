@@ -20,6 +20,7 @@ import {
 import { ContentFilterItem } from "./ContentFilterItem";
 import { ReactNode } from "react";
 import { ContentFilters } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ContentFiltersTabProps {
   contentFilters: ContentFilters;
@@ -42,41 +43,42 @@ export function ContentFiltersTab({
   filterSeverity,
   onChangeSeverity,
 }: ContentFiltersTabProps) {
+  const translation = useTranslation();
   const filterItems: FilterItem[] = [
     {
       id: "filter-profanity",
       key: "profanity",
       icon: <MessageSquare size={16} />,
-      title: "Profanity Filter",
-      description: "Automatically detect and moderate profane language",
+      title: translation("Profanity Filter"),
+      description: translation("Automatically detect and moderate profane language"),
     },
     {
       id: "filter-spam",
       key: "spam",
       icon: <Repeat size={16} />,
-      title: "Spam Detection",
+      title: translation("Spam Detection"),
       description: "Detect repeated messages and spam patterns",
     },
     {
       id: "filter-links",
       key: "links",
       icon: <LinkIcon size={16} />,
-      title: "Link Filter",
-      description: "Control which links can be shared in your server",
+      title: translation("Link Filter"),
+      description: translation("Control which links can be shared in your server"),
     },
     {
       id: "filter-mentions",
       key: "mentions",
       icon: <BadgeAlert size={16} />,
-      title: "Mass Mention Prevention",
-      description: "Prevent users from mentioning too many people at once",
+      title: translation("Mass Mention Prevention"),
+      description: translation("Prevent users from mentioning too many people at once"),
     },
     {
       id: "filter-new-accounts",
       key: "newAccounts",
       icon: <User size={16} />,
-      title: "New Account Restrictions",
-      description: "Apply stricter rules to newly created accounts",
+      title: translation("New Account Restrictions"),
+      description: translation("Apply stricter rules to newly created accounts"),
     },
   ];
 
@@ -85,9 +87,11 @@ export function ContentFiltersTab({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Filter size={20} />
-          Content Filter Settings
+          {translation("Content Filter Settings")}
         </CardTitle>
-        <CardDescription>Enable or disable automated content filtering features</CardDescription>
+        <CardDescription>
+          {translation("Enable or disable automated content filtering features")}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
@@ -111,10 +115,10 @@ export function ContentFiltersTab({
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <Gauge size={16} />
-                <Label htmlFor="filter-severity">Filter Sensitivity</Label>
+                <Label htmlFor="filter-severity">{translation("Filter Sensitivity")}</Label>
               </div>
               <p className="text-xs text-muted-foreground">
-                Adjust how strictly the AutoMod enforces content rules
+                {translation("Adjust how strictly the AutoMod enforces content rules")}
               </p>
             </div>
             <div className="sm:w-1/6">
@@ -123,9 +127,9 @@ export function ContentFiltersTab({
                   <SelectValue placeholder="Filter Severity" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Low">Low</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
+                  <SelectItem value="Low">{translation("Low")}</SelectItem>
+                  <SelectItem value="Medium">{translation("Medium")}</SelectItem>
+                  <SelectItem value="High">{translation("High")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
