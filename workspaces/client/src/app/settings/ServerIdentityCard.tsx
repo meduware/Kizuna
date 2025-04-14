@@ -7,13 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Upload } from "lucide-react";
-import { FC } from "react";
+import { FC, useState, useRef } from "react";
 
 interface ServerIdentityProps {
   serverName: string;
   serverPhoto?: string;
   onServerNameChange: (name: string) => void;
-  onPhotoChange: () => void;
+  onPhotoChange: (file: File) => void;
 }
 
 export const ServerIdentityCard: FC<ServerIdentityProps> = ({
@@ -23,11 +23,35 @@ export const ServerIdentityCard: FC<ServerIdentityProps> = ({
   onPhotoChange,
 }) => {
   const translation = useTranslation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+
+    try {
+      onPhotoChange(file);
+    } catch (error) {
+      console.error("Error handling avatar change:", error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleUpload = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>{translation("Server Identity")}</CardTitle>
-        <CardDescription>{"Customize how your server appears to users"}</CardDescription>
+        <CardDescription>
+          {translation("Customize how your server appears to users")}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex flex-col md:flex-row gap-6">
@@ -37,20 +61,16 @@ export const ServerIdentityCard: FC<ServerIdentityProps> = ({
               <AvatarFallback className="text-2xl">{serverName.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex items-center">
-              <input
+              <Input
                 type="file"
-                id="server-photo"
+                ref={fileInputRef}
                 className="hidden"
                 accept="image/*"
-                onChange={onPhotoChange}
+                onChange={handleFileChange}
               />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => document.getElementById("server-photo")?.click()}
-              >
+              <Button variant="outline" size="sm" onClick={handleUpload} disabled={isUploading}>
                 <Upload className="h-4 w-4 mr-2" />
-                {translation("Change Photo")}
+                {isUploading ? `${translation("Processing")}...` : `${translation("Change Photo")}`}
               </Button>
             </div>
           </div>
