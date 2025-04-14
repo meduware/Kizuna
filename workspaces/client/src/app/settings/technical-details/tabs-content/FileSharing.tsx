@@ -14,13 +14,16 @@ import { Slider } from "@/components/ui/slider";
 import { FileTypeToggle } from "@/components/(settingspage)/fileTypeSwitch";
 import { ValidationError } from "@/components/(settingspage)/validationError";
 import { createValidator, min, useValidation } from "@shared/utils/validation";
-
-const storageQuotaValidator = createValidator([min(1, "Storage quota must be at least 1MB")]);
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function FileSharingTab({ settings, onChange }: FileSharingTabProps) {
   const [localSettings, setLocalSettings] = useState(settings);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const translation = useTranslation();
 
+  const storageQuotaValidator = createValidator([
+    min(1, translation("Storage quota must be at least 1MB")),
+  ]);
   const storageQuotaValidation = useValidation(
     localSettings.userStorageQuota,
     storageQuotaValidator
@@ -80,14 +83,14 @@ export function FileSharingTab({ settings, onChange }: FileSharingTabProps) {
   return (
     <Card>
       <CardHeader className="p-6">
-        <CardTitle>File Sharing Settings</CardTitle>
+        <CardTitle>{translation("File Sharing Settings")}</CardTitle>
         <CardDescription>
-          Adjust storage limits and define which file types users can upload.
+          {translation("Adjust storage limits and define which file types users can upload")}.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         <div className="space-y-2">
-          <Label htmlFor="file-size-slider">Max File Size (MB)</Label>
+          <Label htmlFor="file-size-slider">{translation("Max File Size")} (MB)</Label>
           <Slider
             id="file-size-slider"
             min={1}
@@ -100,12 +103,12 @@ export function FileSharingTab({ settings, onChange }: FileSharingTabProps) {
             }}
           />
           <p className="text-sm text-muted-foreground">
-            Current limit: {localSettings.maxFileSize} MB
+            {translation("Current limit")}: {localSettings.maxFileSize} MB
           </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="storage-quota">User Storage Quota (MB)</Label>
+          <Label htmlFor="storage-quota">{translation("User Storage Quota")} (MB)</Label>
           <Input
             id="storage-quota"
             type="number"
@@ -125,13 +128,13 @@ export function FileSharingTab({ settings, onChange }: FileSharingTabProps) {
         </div>
 
         <div className="space-y-2">
-          <Label>Allowed File Types</Label>
+          <Label>{translation("Allowed File Types")}</Label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {Object.entries(localSettings.allowedFileTypes).map(([type, isEnabled]) => (
               <FileTypeToggle
                 key={type}
                 id={type}
-                label={type.charAt(0).toUpperCase() + type.slice(1)}
+                label={translation(type.charAt(0).toUpperCase() + type.slice(1))}
                 checked={isEnabled}
                 onChange={(checked) =>
                   handleFileTypeToggle(type as keyof FileSettings["allowedFileTypes"], checked)
@@ -142,16 +145,16 @@ export function FileSharingTab({ settings, onChange }: FileSharingTabProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="retention-policy">File Retention Policy</Label>
+          <Label htmlFor="retention-policy">{translation("File Retention Policy")}</Label>
           <Select value={localSettings.retentionPolicy} onValueChange={handleRetentionPolicyChange}>
             <SelectTrigger id="retention-policy">
-              <SelectValue placeholder="Select retention period" />
+              <SelectValue placeholder={translation("Select retention period")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="forever">Keep Forever</SelectItem>
-              <SelectItem value="90days">90 Days</SelectItem>
-              <SelectItem value="30days">30 Days</SelectItem>
-              <SelectItem value="7days">7 Days</SelectItem>
+              <SelectItem value="forever">{translation("Keep Forever")}</SelectItem>
+              <SelectItem value="90days">90 {translation("Days")}</SelectItem>
+              <SelectItem value="30days">30 {translation("Days")}</SelectItem>
+              <SelectItem value="7days">7 {translation("Days")}</SelectItem>
             </SelectContent>
           </Select>
         </div>

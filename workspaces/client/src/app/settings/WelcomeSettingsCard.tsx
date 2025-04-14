@@ -42,8 +42,8 @@ export const WelcomeSettingsCard: FC<WelcomeSettingsProps> = ({
             </SelectTrigger>
             <SelectContent>
               {channels.map((channel) => (
-                <SelectItem key={channel.id} value={channel.id}>
-                  #{channel.name}
+                <SelectItem key={channel.id} value={channel.channel_name}>
+                  #{channel.channel_name}
                 </SelectItem>
               ))}
             </SelectContent>

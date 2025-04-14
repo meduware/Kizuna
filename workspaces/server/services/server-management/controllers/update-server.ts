@@ -3,7 +3,15 @@ import { createSupabaseClient } from "../../../../shared/src/supabase/createClie
 import { v4 as uuidv4 } from "uuid";
 
 export const updateServer = async (req: Request, res: Response) => {
-  const { server_name, login_methods, file_sharing, capacities } = req.body;
+  const {
+    server_name,
+    welcome_channel,
+    log_channel,
+    log_enabled,
+    login_methods,
+    file_sharing,
+    capacities,
+  } = req.body;
 
   const server_image = req.file;
 
@@ -11,7 +19,7 @@ export const updateServer = async (req: Request, res: Response) => {
 
   const { data: serverData, error: fetchError } = await supabase
     .from("server_details")
-    .select("id, server_name, server_image")
+    .select("id, server_name, server_image, welcome_channel, log_channel, log_enabled")
     .single();
 
   if (fetchError) {
@@ -21,6 +29,8 @@ export const updateServer = async (req: Request, res: Response) => {
   const serverId = serverData.id;
   let publicUrl = serverData.server_image;
   let serverName = server_name || serverData.server_name;
+  let welcomeChannel = welcome_channel || serverData.welcome_channel;
+  let logChannel = log_channel || serverData.log_channel;
 
   if (server_image) {
     if (publicUrl) {
@@ -47,7 +57,13 @@ export const updateServer = async (req: Request, res: Response) => {
 
   const { error: serverUpdateError } = await supabase
     .from("server_details")
-    .update({ server_name: serverName, server_image: publicUrl })
+    .update({
+      server_name: serverName,
+      server_image: publicUrl,
+      welcome_channel: welcomeChannel,
+      log_channel: logChannel,
+      log_enabled,
+    })
     .eq("id", serverId);
 
   if (serverUpdateError) {

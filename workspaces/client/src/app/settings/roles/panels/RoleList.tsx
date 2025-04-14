@@ -4,18 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RoleListProps } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function RoleList({ roles, activeRole, onRoleSelect, onCreateRoleClick }: RoleListProps) {
+  const translation = useTranslation();
   return (
     <Card className="lg:w-1/4 md:min-w-[300px] h-2/3 lg:h-full">
       <ScrollArea className="h-full">
         <CardHeader className="sm:px-4">
-          <CardTitle>Roles</CardTitle>
-          <CardDescription>Select a role to edit its permissions or create one!</CardDescription>
+          <CardTitle>{translation("Roles")}</CardTitle>
+          <CardDescription>
+            {translation("Select a role to edit its permissions or create one")}!
+          </CardDescription>
           <div className="w-full pt-4">
             <Button className="gap-2 w-full" onClick={onCreateRoleClick}>
               <PlusCircle size={16} />
-              Create Role
+              {translation("Create Role")}
             </Button>
           </div>
         </CardHeader>
@@ -36,7 +40,7 @@ export function RoleList({ roles, activeRole, onRoleSelect, onCreateRoleClick }:
                 <span className="font-medium pl-6">{role.role_name}</span>
               </div>
               <Badge className="truncate" variant="outline">
-                {role.users.length} users
+                {role.users.length} {translation("users")}
               </Badge>
             </div>
           ))}

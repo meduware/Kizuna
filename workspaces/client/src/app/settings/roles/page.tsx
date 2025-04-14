@@ -8,10 +8,13 @@ import { RoleList } from "./panels/RoleList";
 import { RoleEditor } from "./panels/RoleEditor";
 import { EmptyRoleState } from "./panels/EmptyRoleState";
 import { useRoleManagement } from "@/hooks/useRoleManagement";
+import { useTranslation } from "@/hooks/useTranslation";
+import { LoadingSpinner } from "@/components/(settingspage)/LoadingSpinner";
 
 export default function RoleManagement() {
   const formatLocalizedDate = useFormattedDate();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const translation = useTranslation();
 
   const {
     roles,
@@ -27,14 +30,7 @@ export default function RoleManagement() {
   } = useRoleManagement();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-500">Loading roles...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading Roles" />;
   }
 
   const permCategories: PermissionCategory[] = [
@@ -53,9 +49,11 @@ export default function RoleManagement() {
       <div className="md:p-4 py-6 overflow-y-auto h-full">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Role Management</h1>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+              {translation("Role Management")}
+            </h1>
             <p className="text-gray-600 dark:text-gray-300">
-              Create and manage roles and permissions for your server
+              {translation("Create and manage roles and permissions for your server")}
             </p>
           </div>
         </div>

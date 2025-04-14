@@ -67,16 +67,16 @@ export interface loginDialog {
 }
 
 export interface Channel {
-  id: string;
-  name: string;
+  id: number;
+  channel_name: string;
 }
 
 export interface Server {
-  serverName: string;
-  serverPhoto?: string;
-  welcomeChannel: string;
-  logEnabled: boolean;
-  logChannel: string;
+  server_name: string;
+  server_image?: string;
+  welcome_channel: string;
+  log_enabled: boolean;
+  log_channel: string;
   channels: Channel[];
 }
 
