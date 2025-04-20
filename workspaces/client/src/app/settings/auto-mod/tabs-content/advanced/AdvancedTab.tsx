@@ -1,15 +1,7 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Shield } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import { MultiSelect } from "./MultiSelect";
 import {
   Select,
@@ -18,6 +10,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AdvancedTabProps {
   notificationChannel: string;
@@ -44,6 +37,7 @@ export function AdvancedTab({
   onQuarantineModeChange,
   onExemptedRolesChange,
 }: AdvancedTabProps) {
+  const translation = useTranslation();
   const roleOptions = [
     { value: "admin", label: "Admin" },
     { value: "moderator", label: "Moderator" },
@@ -60,16 +54,18 @@ export function AdvancedTab({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Shield size={20} />
-          Advanced AutoMod Settings
+          {translation("Advanced AutoMod Settings")}
         </CardTitle>
-        <CardDescription>Fine-tune your automated moderation system</CardDescription>
+        <CardDescription>
+          {translation("Fine-tune your automated moderation system")}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="notification-channel">Notification Channel</Label>
+          <Label htmlFor="notification-channel">{translation("Notification Channel")}</Label>
           <Select value={notificationChannel} onValueChange={onNotificationChannelChange}>
             <SelectTrigger id="notification-channel">
-              <SelectValue placeholder="Select a channel" />
+              <SelectValue placeholder={translation("Select a channel")} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="none">None (Disabled)</SelectItem>
@@ -79,13 +75,13 @@ export function AdvancedTab({
             </SelectContent>
           </Select>
           <p className="text-xs text-muted-foreground">
-            Choose where AutoMod should send notifications about actions taken
+            {translation("Choose where AutoMod should send notifications about actions taken")}
           </p>
         </div>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="log-all-actions">Log All AutoMod Actions</Label>
+            <Label htmlFor="log-all-actions">{translation("Log All AutoMod Actions")}</Label>
             <Switch
               id="log-all-actions"
               checked={logAllActions}
@@ -93,27 +89,13 @@ export function AdvancedTab({
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Keep a detailed log of all actions taken by AutoMod
+            {translation("Keep a detailed log of all actions taken by AutoMod")}
           </p>
         </div>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="dm-notifications">DM Users on Actions</Label>
-            <Switch
-              id="dm-notifications"
-              checked={dmNotifications}
-              onCheckedChange={onDmNotificationsChange}
-            />
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Send direct messages to users when AutoMod takes action against them
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="quarantine-mode">Quarantine Mode</Label>
+            <Label htmlFor="quarantine-mode">{translation("Quarantine Mode")}</Label>
             <Switch
               id="quarantine-mode"
               checked={quarantineMode}
@@ -121,29 +103,26 @@ export function AdvancedTab({
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Instead of taking action immediately, hold messages for moderator review
+            {translation(
+              "Instead of taking action immediately, hold messages for moderator review"
+            )}
           </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="exempted-roles">Exempted Roles</Label>
+          <Label htmlFor="exempted-roles">{translation("Exempted Roles")}</Label>
           <MultiSelect
             id="exempted-roles"
             options={roleOptions}
             value={exemptedRoles}
             onChange={handleRolesChange}
-            placeholder="Select exempted roles"
+            placeholder={translation("Select exempted roles")}
           />
           <p className="text-xs text-muted-foreground">
-            Users with these roles will not be affected by AutoMod
+            {translation("Users with these roles will not be affected by AutoMod")}
           </p>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button variant="outline" className="w-full">
-          Reset to Default Settings
-        </Button>
-      </CardFooter>
     </Card>
   );
 }

@@ -1,16 +1,20 @@
 import { RolePermissionsProps } from "@shared/types";
 import { Switch } from "@/components/ui/switch";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function RolePermissions({
   permissionCategories,
   activePermissions,
   onTogglePermission,
 }: RolePermissionsProps) {
+  const translation = useTranslation();
   return (
     <div className="space-y-6">
       {permissionCategories.map((category) => (
         <div key={category.name} className="space-y-2">
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{category.name}</h3>
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            {translation(category.name)}
+          </h3>
           <div className="space-y-2">
             {category.permissions.map((permission) => (
               <div

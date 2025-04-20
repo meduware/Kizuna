@@ -34,11 +34,7 @@ interface ServerAddressDialogProps {
   isAvailable: (arg: boolean) => void;
 }
 
-export function IpDialog({
-  isOpen,
-  onClose,
-  isAvailable,
-}: ServerAddressDialogProps) {
+export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogProps) {
   const form = useForm<ServerAddressFormValues>({
     resolver: zodResolver(serverAddressSchema),
     defaultValues: {
@@ -51,20 +47,16 @@ export function IpDialog({
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
       const response = await apiHandler(
-        "http://" +
-        data.ipAddress +
-        ":" +
-        data.port +
-        "/api/server-management/is-joinable",
+        "http://" + data.ipAddress + ":" + data.port + "/api/server-management/is-joinable",
         {},
-        "GET",
+        "GET"
       );
       if (response.msg === "Server is joinable") {
         isAvailable(true);
         const server = await apiHandler(
           `http://${data.ipAddress}:${data.port}/api/server-management/server-details`,
           {},
-          "GET",
+          "GET"
         );
         if (!server) {
           throw new Error("Server is not available");
@@ -83,13 +75,10 @@ export function IpDialog({
           if (Array.isArray(parsedLocalServerList)) {
             const exists = parsedLocalServerList.some(
               (server) =>
-                server.ipAddress === currentServer.ipAddress &&
-                server.port === currentServer.port,
+                server.ipAddress === currentServer.ipAddress && server.port === currentServer.port
             );
 
-            serverList = exists
-              ? parsedLocalServerList
-              : [...parsedLocalServerList, currentServer];
+            serverList = exists ? parsedLocalServerList : [...parsedLocalServerList, currentServer];
           } else {
             serverList = [currentServer];
           }
@@ -99,6 +88,7 @@ export function IpDialog({
         localStorage.setItem("currentServer", JSON.stringify(currentServer));
         localStorage.setItem("serverList", JSON.stringify(serverList));
         reloadServerList();
+        onClose(false);
       } else {
         throw new Error("Server is not joinable");
       }
@@ -151,11 +141,7 @@ export function IpDialog({
             />
 
             <DialogFooter className="mt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => onClose(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => onClose(false)}>
                 Cancel
               </Button>
               <Button type="submit">Connect</Button>

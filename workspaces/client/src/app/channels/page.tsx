@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useGlobalContext } from "@/context/store";
 import { Hash, Volume2 } from "lucide-react";
+import Link from "next/link";
 
 export default function Page() {
   const { currentUser, currentChannel, currentServer } = useGlobalContext();

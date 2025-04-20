@@ -9,17 +9,32 @@ export type postRequest = {
 };
 
 export type userData = {
-  id: string;
+  id: number;
   sub: string;
-  photo_url: string;
-  username: string;
-  email: string;
-  user_metadata: {
+  user: {
+    id: string;
     username: string;
     email: string;
     photo_url: string;
   };
-  created_at: number;
+  role: {
+    id: number;
+    role_name: string;
+    role_color: string;
+    permissions: {
+      power_level: number;
+      access_server_settings: boolean;
+      manage_server: boolean;
+      manage_channel: boolean;
+      manage_roles: boolean;
+      manage_users: boolean;
+      manage_logs: boolean;
+      manage_technical_details: boolean;
+      manage_automod: boolean;
+      manage_bans: boolean;
+      manage_messages: boolean;
+    };
+  };
 };
 
 export type message = {
@@ -45,7 +60,7 @@ export interface Role {
   role_name: string;
   role_color: string;
   permissions: {};
-  users: userData[];
+  users: userData["user"][];
 }
 
 export interface Channel {
@@ -89,6 +104,7 @@ export interface GlobalContextType {
   currentChannel: any;
   changeChannel: any;
   setCurrentChannel: any;
+  setCurrentServer: any;
   messages: any[];
   setMessages: any;
   fetchMessages: () => void;
@@ -105,13 +121,14 @@ export const initialGlobalContext: GlobalContextType = {
   currentServer: null,
   currentChannel: null,
   messages: [],
-  setMessages: () => {},
-  fetchMessages: () => {},
-  setCurrentChannel: () => {},
-  changeChannel: () => {},
-  changeServer: () => {},
-  changeUser: () => {},
-  reloadServerList: () => {},
+  setMessages: () => { },
+  fetchMessages: () => { },
+  setCurrentChannel: () => { },
+  setCurrentServer: () => { },
+  changeChannel: () => { },
+  changeServer: () => { },
+  changeUser: () => { },
+  reloadServerList: () => { },
   serverList: [],
   loading: true,
 };

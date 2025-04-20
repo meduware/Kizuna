@@ -4,12 +4,13 @@ import {
   initialGlobalContext,
   localServer,
   Server,
+  userData,
 } from "@/lib/types";
 import {
   changeChannel,
   changeServer,
   changeUser,
-  getCurrentAccount,
+  getCurrentAccountToken,
   reloadServerList,
   sortServersByPort,
 } from "@/lib/utils";
@@ -25,10 +26,12 @@ export const GlobalContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [currentServer, setCurrentServer] = useState<Server | null>(null);
+  const [currentUser, setCurrentUser] = useState<userData | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [serverList, setServerList] = useState<Server[]>([]);
-  const [currentChannel, setCurrentChannel] = useState<any>(null); // Add state for currentChannel
+  const [currentChannel, setCurrentChannel] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const supabase = createSupabaseClient();
 
   useEffect(() => {
     handleReloadServerList();
@@ -36,9 +39,54 @@ export const GlobalContextProvider = ({
 
   sortServersByPort(serverList);
 
-  const currentAccount = currentServer
-    ? getCurrentAccount(currentServer)
-    : null;
+  async function handleGetAccountDetails(): Promise<userData | null> {
+    setLoading(true);
+    try {
+      if (!currentServer) return null;
+
+      const accountId = getCurrentAccountToken(currentServer);
+      if (!accountId) return null;
+
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select(
+          `
+        id,
+        user:users(id, username, email, photo_url),
+        role:roles(
+          role_name,
+          role_color,
+          permissions
+        )
+      `,
+        )
+        .eq("user_id", accountId)
+        .single<userData>();
+
+      if (error) {
+        console.error("Error fetching account details:", error);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching account details:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchAccountDetails() {
+      const userDetail: userData | null = await handleGetAccountDetails();
+      setCurrentUser(userDetail);
+    }
+
+    if (currentServer) {
+      fetchAccountDetails();
+    }
+  }, [currentServer]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleChangeUser(token: string) {
     changeUser(token, currentServer);
@@ -58,12 +106,8 @@ export const GlobalContextProvider = ({
   }
 
   async function handleReloadServerList() {
-    await reloadServerList(
-      setLoading,
-      setServerList,
-      setCurrentServer,
-      setCurrentChannel,
-    );
+    await reloadServerList(setServerList, setCurrentServer, setCurrentChannel);
+    setLoading(false);
   }
 
   const fetchMessages = async () => {
@@ -96,8 +140,6 @@ export const GlobalContextProvider = ({
 
     setMessages(data || []);
   };
-
-  const supabase = createSupabaseClient();
 
   supabase
     .channel("roles")
@@ -163,7 +205,7 @@ export const GlobalContextProvider = ({
   return (
     <GlobalContext.Provider
       value={{
-        currentUser: currentAccount,
+        currentUser,
         currentServer,
         currentChannel,
         messages,
@@ -176,6 +218,7 @@ export const GlobalContextProvider = ({
         loading,
         changeChannel: handleChangeChannel,
         setCurrentChannel,
+        setCurrentServer,
       }}
     >
       {children}

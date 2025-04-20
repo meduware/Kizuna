@@ -10,10 +10,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CreateRoleDialogProps } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
-export function CreateRoleDialog({ isOpen, onClose, onCreateRole }: CreateRoleDialogProps) {
+export function CreateRoleDialog({
+  isOpen,
+  onClose,
+  onCreateRole,
+}: CreateRoleDialogProps) {
   const [roleName, setRoleName] = useState("");
   const [roleColor, setRoleColor] = useState("#ea580c");
+  const translation = useTranslation();
 
   const handleCreateRole = async () => {
     const success = await onCreateRole(roleName, roleColor);
@@ -28,26 +34,26 @@ export function CreateRoleDialog({ isOpen, onClose, onCreateRole }: CreateRoleDi
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Role</DialogTitle>
+          <DialogTitle>{translation("Create New Role")}</DialogTitle>
           <DialogDescription>
-            Add a new role to your server with custom permissions
+            {translation("Add a new role to your server with custom permissions")}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
             <label htmlFor="name" className="text-sm font-medium">
-              Role Name
+              {translation("Role Name")}
             </label>
             <Input
               id="name"
-              placeholder="Enter role name"
+              placeholder={translation("Enter role name")}
               value={roleName}
               onChange={(e) => setRoleName(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
             <label htmlFor="color" className="text-sm font-medium">
-              Role Color
+              {translation("Role Color")}
             </label>
             <div className="flex items-center gap-2">
               <Input
@@ -63,9 +69,9 @@ export function CreateRoleDialog({ isOpen, onClose, onCreateRole }: CreateRoleDi
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {translation("Cancel")}
           </Button>
-          <Button onClick={handleCreateRole}>Create Role</Button>
+          <Button onClick={handleCreateRole}>{translation("Create Role")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

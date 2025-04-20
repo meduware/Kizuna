@@ -5,6 +5,7 @@ import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FilterRulesListProps {
   filterRules: FilterRule[];
@@ -27,16 +28,19 @@ export function FilterRulesList({
   onToggleFilter,
   onDeleteFilter,
 }: FilterRulesListProps) {
+  const translation = useTranslation();
   return (
     <>
       <div className="flex flex-col space-y-1.5 p-4">
-        <h3 className="font-semibold tracking-tight text-base">Filter Rules</h3>
-        <p className="text-sm text-muted-foreground">Manage your custom word filters</p>
+        <h3 className="font-semibold tracking-tight text-base">{translation("Filter Rules")}</h3>
+        <p className="text-sm text-muted-foreground">
+          {translation("Manage your custom word filters")}
+        </p>
       </div>
 
       <div className="flex w-full gap-2 p-2 pr-6">
         <Input
-          placeholder="New filter name"
+          placeholder={translation("New filter name")}
           value={newFilterName}
           onChange={(e) => onNewFilterNameChange(e.target.value)}
         />

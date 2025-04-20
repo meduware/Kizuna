@@ -30,7 +30,7 @@ export function Users({ roles }: { roles: Role[] }) {
                   <Avatar>
                     <AvatarImage
                       src={user.photo_url}
-                      className="w-8 h-8 rounded-full overflow-hidden object-cover"
+                      className="w-8 h-8 rounded-full overflow-hidden"
                     />
                     <AvatarFallback className="text-sm font-semibold">
                       {user.username.charAt(0)}

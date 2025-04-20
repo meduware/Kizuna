@@ -12,6 +12,8 @@ import { RoleEditorProps } from "@shared/types";
 import { RoleGeneralSettings } from "../role-settings/GeneralSettings";
 import { RoleMembers } from "../role-settings/RoleMembers";
 import { RolePermissions } from "../role-settings/RolePerms";
+import { useTranslation } from "@/hooks/useTranslation";
+import { Save, Trash } from "lucide-react";
 
 export function RoleEditor({
   role,
@@ -24,18 +26,19 @@ export function RoleEditor({
   onRoleColorChange,
   onTogglePermission,
 }: RoleEditorProps) {
+  const translation = useTranslation();
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle>Role Settings</CardTitle>
-        <CardDescription>Edit role details and permissions</CardDescription>
+        <CardTitle>{translation("Role Settings")}</CardTitle>
+        <CardDescription>{translation("Edit role details and permissions")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="general">
           <TabsList className="mb-4">
-            <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="permissions">Permissions</TabsTrigger>
-            <TabsTrigger value="members">Members</TabsTrigger>
+            <TabsTrigger value="general">{translation("General")}</TabsTrigger>
+            <TabsTrigger value="permissions">{translation("Permissions")}</TabsTrigger>
+            <TabsTrigger value="members">{translation("Members")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="general">
@@ -66,9 +69,11 @@ export function RoleEditor({
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline" onClick={() => onDeleteRole(role.id)}>
-          Delete Role
+          <Trash className="mr-2" size={20} /> {translation("Delete Role")}
         </Button>
-        <Button onClick={() => onUpdateRole(role)}>Save Changes</Button>
+        <Button onClick={() => onUpdateRole(role)}>
+          <Save className="mr-2" size={20} /> {translation("Save Changes")}
+        </Button>
       </CardFooter>
     </Card>
   );

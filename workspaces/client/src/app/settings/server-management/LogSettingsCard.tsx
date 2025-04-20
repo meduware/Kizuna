@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
@@ -40,11 +46,15 @@ export const LogSettingsCard: FC<LogSettingsProps> = ({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
-          <Label htmlFor="log-enabled">{translation("Enable New User Logs")}</Label>
+          <Label htmlFor="log-enabled">
+            {translation("Enable New User Logs")}
+          </Label>
           <div className="flex items-center space-x-2">
             <Checkbox
               checked={logEnabled}
-              onCheckedChange={(checked) => onLogEnabledChange(checked as boolean)}
+              onCheckedChange={(checked) =>
+                onLogEnabledChange(checked as boolean)
+              }
             />
           </div>
         </div>
@@ -58,14 +68,16 @@ export const LogSettingsCard: FC<LogSettingsProps> = ({
               </SelectTrigger>
               <SelectContent>
                 {channels.map((channel) => (
-                  <SelectItem key={channel.id} value={channel.id}>
-                    #{channel.name}
+                  <SelectItem key={channel.id} value={channel.channel_name}>
+                    #{channel.channel_name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              {translation("All new user join events will be posted to this channel")}
+              {translation(
+                "All new user join events will be posted to this channel",
+              )}
             </p>
           </div>
         )}
