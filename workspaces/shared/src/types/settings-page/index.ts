@@ -1,4 +1,4 @@
-import { User, Role, RolePermissions } from "..";
+import { User, Role, RolePermissions, Channel } from "..";
 
 // AutoMod
 export type ActionType = "delete" | "warn" | "timeout" | "kick" | "ban";
@@ -77,10 +77,21 @@ export interface RoleListProps {
   onCreateRoleClick: () => void;
 }
 
+export interface ChannelListProps {
+  activeChannel: Channel | null;
+  onChannelSelect: (channel: Channel | null) => void;
+  onCreateChannelClick: () => void;
+}
+
 export interface CreateRoleDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onCreateRole: (roleName: string, roleColor: string) => Promise<boolean>;
+}
+
+export interface CreateChannelDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export interface RoleGeneralSettingsProps {
@@ -88,6 +99,13 @@ export interface RoleGeneralSettingsProps {
   roleColor: string;
   onRoleNameChange: (name: string) => void;
   onRoleColorChange: (color: string) => void;
+}
+
+export interface ChannelGeneralSettingsProps {
+  channelName: string;
+  channelDescription: string;
+  onChannelNameChange: (name: string) => void;
+  onChannelDescriptionChange: (description: string) => void;
 }
 
 export interface Permission {
@@ -122,10 +140,8 @@ export interface RoleEditorProps {
   onRoleColorChange: (color: string) => void;
   onTogglePermission: (permissionId: string) => void;
 }
-// Roles
 
 // Technical Details
-
 export interface TechnicalSettings {
   created_at: Date;
   server_image: string;
@@ -187,4 +203,13 @@ export interface FileSharingTabProps {
   onChange: (settings: FileSettings) => void;
 }
 
-// Technical Details
+// Channels
+export interface ChannelEditorProps {
+  channel: Channel;
+  onUpdateChannel: (channel: Channel) => void;
+  onDeleteChannel: (channelId: number) => void;
+  onChannelNameChange: (name: string) => void;
+  onChannelDescriptionChange: (description: string) => void;
+  onChannelTypeChange: (type: "text" | "voice") => void;
+  onTogglePermission: (permissionId: string) => void;
+}

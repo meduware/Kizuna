@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -30,12 +36,16 @@ export const WelcomeSettingsCard: FC<WelcomeSettingsProps> = ({
       <CardHeader>
         <CardTitle>{translation("Welcome Settings")}</CardTitle>
         <CardDescription>
-          {translation("Configure what new users see when they first join your server")}
+          {translation(
+            "Configure what new users see when they first join your server",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="welcome-channel">{translation("Default Welcome Channel")}</Label>
+          <Label htmlFor="welcome-channel">
+            {translation("Default Welcome Channel")}
+          </Label>
           <Select value={welcomeChannel} onValueChange={onWelcomeChannelChange}>
             <SelectTrigger id="welcome-channel">
               <SelectValue placeholder={translation("Select a channel")} />
@@ -49,7 +59,9 @@ export const WelcomeSettingsCard: FC<WelcomeSettingsProps> = ({
             </SelectContent>
           </Select>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {translation("This is the first channel users will see when they join your server")}
+            {translation(
+              "This is the first channel users will see when they join your server",
+            )}
           </p>
         </div>
       </CardContent>

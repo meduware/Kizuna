@@ -1,80 +1,60 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ServerIdentityCard } from "./ServerIdentityCard";
-import { WelcomeSettingsCard } from "./WelcomeSettingsCard";
-import { LogSettingsCard } from "./LogSettingsCard";
-import { useServerSettings } from "@/hooks/useServerSettings";
-import { Save, RefreshCw } from "lucide-react";
-import { useTranslation } from "@/hooks/useTranslation";
-import { LoadingSpinner } from "@/components/(settingspage)/LoadingSpinner";
+import { useGlobalContext } from "@/context/store";
+import { redirect } from "next/navigation";
+
+interface NavItem {
+  path: string;
+  permission: boolean;
+}
 
 export default function ServerOverview() {
-  const translation = useTranslation();
+  const { currentUser } = useGlobalContext();
 
-  const {
-    localServerInfo,
-    isLoading,
-    hasChanges,
-    resetChanges,
-    updateServerName,
-    updateServerPhoto,
-    updateWelcomeChannel,
-    updateLogEnabled,
-    updateLogChannel,
-    saveSettings,
-  } = useServerSettings();
-
-  if (isLoading) {
-    return <LoadingSpinner message={translation("Loading server settings...")} />;
+  if (!currentUser) {
+    return <div>Loading...</div>;
   }
 
-  if (!localServerInfo) return null;
+  const navItems: NavItem[] = [
+    {
+      path: "/settings/server-management",
+      permission: currentUser.role.permissions.manage_server,
+    },
+    {
+      path: "/settings/channels",
+      permission: currentUser.role.permissions.manage_channel,
+    },
+    {
+      path: "/settings/roles",
+      permission: currentUser.role.permissions.manage_roles,
+    },
+    {
+      path: "/settings/user-management",
+      permission: currentUser.role.permissions.manage_users,
+    },
+    {
+      path: "/settings/logs",
+      permission: currentUser.role.permissions.manage_logs,
+    },
+    {
+      path: "/settings/technical-details",
+      permission: currentUser.role.permissions.manage_technical_details,
+    },
+    {
+      path: "/settings/auto-mod",
+      permission: currentUser.role.permissions.manage_automod,
+    },
+    {
+      path: "/settings/bans-management",
+      permission: currentUser.role.permissions.manage_bans,
+    },
+  ];
 
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">
-          {translation("Server Overview Settings")}
-        </h1>
-      </div>
-      <div className="w-full space-y-4">
-        <ServerIdentityCard
-          serverName={localServerInfo.server_name}
-          serverPhoto={localServerInfo.server_image}
-          onServerNameChange={updateServerName}
-          onPhotoChange={updateServerPhoto}
-        />
+  const firstPermission = navItems.find((item) => item.permission);
 
-        <WelcomeSettingsCard
-          welcomeChannel={localServerInfo.welcome_channel}
-          channels={localServerInfo.channels}
-          onWelcomeChannelChange={updateWelcomeChannel}
-        />
-
-        <LogSettingsCard
-          logEnabled={localServerInfo.log_enabled}
-          logChannel={localServerInfo.log_channel}
-          channels={localServerInfo.channels}
-          onLogEnabledChange={updateLogEnabled}
-          onLogChannelChange={updateLogChannel}
-        />
-        <div className="flex justify-end gap-2 max-sm:flex-col-reverse">
-          <Button
-            variant={"outline"}
-            onClick={resetChanges}
-            className="px-8 max-sm:w-full"
-            disabled={!hasChanges()}
-          >
-            <RefreshCw size={20} className="mr-2" />
-            {translation("Reset Changes")}
-          </Button>
-          <Button onClick={saveSettings} className="px-8 max-sm:w-full" disabled={!hasChanges()}>
-            <Save size={20} className="mr-2" />
-            {translation("Save Changes")}
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+  if (!firstPermission) {
+    redirect("/channels");
+  } else {
+    redirect(firstPermission.path);
+  }
 }

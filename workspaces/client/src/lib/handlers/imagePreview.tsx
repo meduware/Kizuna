@@ -93,9 +93,8 @@ export const ImagePreview = ({ images }: { images: string[] }) => {
               alt="Uploaded file"
               width={300}
               height={300}
-              className={`rounded-md object-cover ${
-                images.length === 1 ? "w-full h-auto" : "w-[200px] h-[200px]"
-              } cursor-pointer`}
+              className={`rounded-md object-cover ${images.length === 1 ? "w-full h-auto" : "w-[200px] h-[200px]"
+                } cursor-pointer`}
               onClick={() => setCurrentIndex(index)}
             />
             {index === (isMobile ? 1 : 3) &&

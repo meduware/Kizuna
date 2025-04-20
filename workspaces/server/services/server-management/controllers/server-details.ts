@@ -8,7 +8,7 @@ export const serverDetails = async (req: Request, res: Response) => {
   const { data: server_details, error } = await supabase
     .from("server_details")
     .select(
-      "server_name, server_image, created_at, welcome_channel, log_enabled, log_channel, technical_details(login_methods, capacities, file_sharing), channels(id,channel_name)"
+      "server_name, server_image, created_at, welcome_channel, log_enabled, log_channel, technical_details(login_methods, capacities, file_sharing), channels(id,channel_name)",
     )
     .single();
 

@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CapacitiesTabProps } from "@shared/types";
@@ -29,15 +35,26 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
   const bitrateValidator = createValidator([
     min(8, translation("Bitrate must be at least 8 kbps")),
   ]);
-  const streamFpsValidator = createValidator([min(1, translation("FPS must be at least 1"))]);
+  const streamFpsValidator = createValidator([
+    min(1, translation("FPS must be at least 1")),
+  ]);
 
   const concurrentConnectionsValidation = useValidation(
     localSettings.maxConcurrentConnections,
-    concurrentConnValidator
+    concurrentConnValidator,
   );
-  const apiRateLimitValidation = useValidation(localSettings.apiRateLimit, apiRateLimitValidator);
-  const bitrateValidation = useValidation(localSettings.bitrate, bitrateValidator);
-  const streamFpsValidation = useValidation(localSettings.streamFps, streamFpsValidator);
+  const apiRateLimitValidation = useValidation(
+    localSettings.apiRateLimit,
+    apiRateLimitValidator,
+  );
+  const bitrateValidation = useValidation(
+    localSettings.bitrate,
+    bitrateValidator,
+  );
+  const streamFpsValidation = useValidation(
+    localSettings.streamFps,
+    streamFpsValidator,
+  );
 
   useEffect(() => {
     const allValid =
@@ -49,7 +66,7 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
     if (allValid) {
       onChange(localSettings);
     }
-  }, [localSettings]);
+  }, [localSettings]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNumericChange = (key: string, value: string): void => {
     const numValue = parseInt(value, 10);
@@ -80,13 +97,18 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
       <CardHeader>
         <CardTitle>{translation("Server & Room Capacities")}</CardTitle>
         <CardDescription>
-          {translation("Define the system limitations to optimize performance and stability")}.
+          {translation(
+            "Define the system limitations to optimize performance and stability",
+          )}
+          .
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="server-capacity">{translation("Max Server Capacity")}</Label>
+            <Label htmlFor="server-capacity">
+              {translation("Max Server Capacity")}
+            </Label>
             <Slider
               id="server-capacity"
               min={1}
@@ -103,7 +125,9 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="room-capacity">{translation("Max Room Capacity")}</Label>
+            <Label htmlFor="room-capacity">
+              {translation("Max Room Capacity")}
+            </Label>
             <Slider
               id="room-capacity"
               min={1}
@@ -123,28 +147,38 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
 
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label htmlFor="concurrent-connections">{translation("Concurrent Connections")}</Label>
+            <Label htmlFor="concurrent-connections">
+              {translation("Concurrent Connections")}
+            </Label>
             <Input
               id="concurrent-connections"
               type="number"
               value={localSettings.maxConcurrentConnections}
               onChange={(e) => {
                 handleNumericChange("maxConcurrentConnections", e.target.value);
-                setTouched((prev) => ({ ...prev, maxConcurrentConnections: true }));
+                setTouched((prev) => ({
+                  ...prev,
+                  maxConcurrentConnections: true,
+                }));
               }}
               className={
-                touched.maxConcurrentConnections && !concurrentConnectionsValidation.isValid
+                touched.maxConcurrentConnections &&
+                  !concurrentConnectionsValidation.isValid
                   ? "border-red-500"
                   : ""
               }
             />
             {touched.maxConcurrentConnections && (
-              <ValidationError message={concurrentConnectionsValidation.errorMessage} />
+              <ValidationError
+                message={concurrentConnectionsValidation.errorMessage}
+              />
             )}
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="api-rate-limit">{translation("API Rate Limit")}</Label>
+            <Label htmlFor="api-rate-limit">
+              {translation("API Rate Limit")}
+            </Label>
             <Input
               id="api-rate-limit"
               type="number"
@@ -154,7 +188,9 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
                 setTouched((prev) => ({ ...prev, apiRateLimit: true }));
               }}
               className={
-                touched.apiRateLimit && !apiRateLimitValidation.isValid ? "border-red-500" : ""
+                touched.apiRateLimit && !apiRateLimitValidation.isValid
+                  ? "border-red-500"
+                  : ""
               }
             />
             {touched.apiRateLimit && (
@@ -163,7 +199,9 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="bitrate">{translation("Bitrate Limit")} (kbps)</Label>
+            <Label htmlFor="bitrate">
+              {translation("Bitrate Limit")} (kbps)
+            </Label>
             <Input
               id="bitrate"
               type="number"
@@ -172,13 +210,21 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
                 handleNumericChange("bitrate", e.target.value);
                 setTouched((prev) => ({ ...prev, bitrate: true }));
               }}
-              className={touched.bitrate && !bitrateValidation.isValid ? "border-red-500" : ""}
+              className={
+                touched.bitrate && !bitrateValidation.isValid
+                  ? "border-red-500"
+                  : ""
+              }
             />
-            {touched.bitrate && <ValidationError message={bitrateValidation.errorMessage} />}
+            {touched.bitrate && (
+              <ValidationError message={bitrateValidation.errorMessage} />
+            )}
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="stream-fps">{translation("Stream FPS Limit")}</Label>
+            <Label htmlFor="stream-fps">
+              {translation("Stream FPS Limit")}
+            </Label>
             <Input
               id="stream-fps"
               type="number"
@@ -187,15 +233,26 @@ export function CapacitiesTab({ settings, onChange }: CapacitiesTabProps) {
                 handleNumericChange("streamFps", e.target.value);
                 setTouched((prev) => ({ ...prev, streamFps: true }));
               }}
-              className={touched.streamFps && !streamFpsValidation.isValid ? "border-red-500" : ""}
+              className={
+                touched.streamFps && !streamFpsValidation.isValid
+                  ? "border-red-500"
+                  : ""
+              }
             />
-            {touched.streamFps && <ValidationError message={streamFpsValidation.errorMessage} />}
+            {touched.streamFps && (
+              <ValidationError message={streamFpsValidation.errorMessage} />
+            )}
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="stream-quality">{translation("Stream Quality")}</Label>
-          <Select value={localSettings.streamQuality} onValueChange={handleStreamQualityChange}>
+          <Label htmlFor="stream-quality">
+            {translation("Stream Quality")}
+          </Label>
+          <Select
+            value={localSettings.streamQuality}
+            onValueChange={handleStreamQualityChange}
+          >
             <SelectTrigger id="stream-quality">
               <SelectValue placeholder={translation("Select Stream Quality")} />
             </SelectTrigger>

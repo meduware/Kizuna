@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUpDown, LogOut } from "lucide-react";
+import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -22,6 +22,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import LoginDialog from "@/app/auth/login/login-dialog";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 export function NavUser() {
   const { currentUser, currentServer, changeUser, loading } =
@@ -52,9 +53,9 @@ export function NavUser() {
     );
   } else {
     const user = {
-      name: currentUser.user_metadata.username,
-      email: currentUser.user_metadata.email,
-      avatar: currentUser.user_metadata.photo_url,
+      name: currentUser.user.username,
+      email: currentUser.user.email,
+      avatar: currentUser.user.photo_url,
     };
 
     const logout = () => {
@@ -91,7 +92,7 @@ export function NavUser() {
             >
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
+                  <Avatar className="h-8 w-8 rounded-lg ">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback className="rounded-lg">
                       {user.name.charAt(0)}
@@ -104,9 +105,22 @@ export function NavUser() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
+
+              {currentUser.role.permissions.access_server_settings && (
+                <Link href="/settings">
+                  <DropdownMenuItem>
+                    <div className="flex gap-2 items-center">
+                      <Settings />
+                      <span>Server settings</span>
+                    </div>
+                  </DropdownMenuItem>
+                </Link>
+              )}
               <DropdownMenuItem onClick={() => logout()}>
-                <LogOut />
-                Log out
+                <div className="flex gap-2 items-center">
+                  <LogOut />
+                  <span>Log out</span>
+                </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

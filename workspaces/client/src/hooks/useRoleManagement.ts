@@ -2,8 +2,10 @@ import { useState, useCallback, useEffect } from "react";
 import { Role } from "@shared/types";
 import { apiHandler } from "@/lib/handlers/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useGlobalContext } from "@/context/store";
 
 export function useRoleManagement() {
+  const { currentServer } = useGlobalContext();
   const { toast } = useToast();
   const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,11 @@ export function useRoleManagement() {
   const fetchRolesWithUsers = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await apiHandler("/api/role-management/get-roles-with-users", null, "GET");
+      const response = await apiHandler(
+        "/api/role-management/get-roles-with-users",
+        null,
+        "GET",
+      );
       setRoles(response);
     } catch (err) {
       console.error("Error fetching roles:", err);
@@ -43,7 +49,7 @@ export function useRoleManagement() {
               manage_server: false,
             }),
           },
-          "POST"
+          "POST",
         );
         await fetchRolesWithUsers();
         toast({
@@ -60,13 +66,17 @@ export function useRoleManagement() {
         return false;
       }
     },
-    [fetchRolesWithUsers, toast]
+    [fetchRolesWithUsers, toast],
   );
 
   const deleteRole = useCallback(
     async (roleId: number) => {
       try {
-        await apiHandler("/api/role-management/delete-role", { id: roleId }, "DELETE");
+        await apiHandler(
+          "/api/role-management/delete-role",
+          { id: roleId },
+          "DELETE",
+        );
         setRoles((prevRoles) => prevRoles.filter((role) => role.id !== roleId));
         toast({
           title: "Success",
@@ -83,7 +93,7 @@ export function useRoleManagement() {
         return false;
       }
     },
-    [toast]
+    [toast],
   );
 
   const updateRole = useCallback(
@@ -97,7 +107,7 @@ export function useRoleManagement() {
             role_color: role.role_color,
             permissions: JSON.stringify(role.permissions),
           },
-          "PUT"
+          "PUT",
         );
         toast({
           title: "Success",
@@ -113,7 +123,7 @@ export function useRoleManagement() {
         return false;
       }
     },
-    [toast]
+    [toast],
   );
 
   const removeUserFromRole = useCallback(
@@ -127,7 +137,7 @@ export function useRoleManagement() {
             role_id: 1, // Need a Default role id @everyone
             user_id: userId,
           },
-          "POST"
+          "POST",
         );
 
         setRoles((prevRoles) =>
@@ -139,7 +149,7 @@ export function useRoleManagement() {
               };
             }
             return role;
-          })
+          }),
         );
 
         if (activeRole && activeRole.id === roleId) {
@@ -160,7 +170,7 @@ export function useRoleManagement() {
         return false;
       }
     },
-    [activeRole, fetchRolesWithUsers, toast]
+    [activeRole, fetchRolesWithUsers, toast],
   );
 
   const updateActiveRole = useCallback(
@@ -170,12 +180,14 @@ export function useRoleManagement() {
       const updatedRole = { ...activeRole, ...updates };
 
       setRoles((prevRoles) =>
-        prevRoles.map((role) => (role.id === activeRole.id ? updatedRole : role))
+        prevRoles.map((role) =>
+          role.id === activeRole.id ? updatedRole : role,
+        ),
       );
 
       setActiveRole(updatedRole);
     },
-    [activeRole]
+    [activeRole],
   );
 
   const togglePermission = useCallback(
@@ -189,7 +201,7 @@ export function useRoleManagement() {
         },
       });
     },
-    [activeRole, updateActiveRole]
+    [activeRole, updateActiveRole],
   );
 
   return {
