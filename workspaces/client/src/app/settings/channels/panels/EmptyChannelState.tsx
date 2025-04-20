@@ -9,16 +9,16 @@ export function EmptyChannelState({
 }: {
   handleDialogOpen: (open: boolean) => void;
 }) {
-  const translate = useTranslation();
+  const translation = useTranslation();
 
   return (
     <Card className="lg:flex-1 flex items-center justify-center">
       <CardContent className="text-center py-16">
         <h3 className="text-xl font-medium text-gray-500 dark:text-gray-400">
-          {translate("Select a Channel to edit")}
+          {translation("Select a Channel to edit")}
         </h3>
         <p className="text-gray-400 dark:text-gray-500 mt-2">
-          {translate("Or create a new channel to get started")}
+          {translation("Or create a new channel to get started")}
         </p>
         <Button
           variant="outline"
@@ -26,7 +26,7 @@ export function EmptyChannelState({
           onClick={() => handleDialogOpen(true)}
         >
           <PlusCircle size={16} />
-          {translate("Create Channel")}
+          {translation("Create Channel")}
         </Button>
       </CardContent>
     </Card>

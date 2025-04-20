@@ -57,7 +57,7 @@ export function ContentFiltersTab({
       key: "spam",
       icon: <Repeat size={16} />,
       title: translation("Spam Detection"),
-      description: "Detect repeated messages and spam patterns",
+      description: translation("Detect repeated messages and spam patterns"),
     },
     {
       id: "filter-links",

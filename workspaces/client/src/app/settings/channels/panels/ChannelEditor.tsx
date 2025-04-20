@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useChannelContext } from "@/context/settings/ChannelContext";
 import { useChannelActions } from "@/hooks/settings/useChannelActions";
@@ -37,7 +37,7 @@ export function ChannelEditor() {
     useChannelContext();
   const { updateChannel, deleteChannel, changeActiveRole } =
     useChannelActions();
-  const translate = useTranslation();
+  const translation = useTranslation();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   useEffect(() => {
     if (
@@ -63,10 +63,10 @@ export function ChannelEditor() {
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle>{translate("Channel Settings")}</CardTitle>
+        <CardTitle>{translation("Channel Settings")}</CardTitle>
         <CardDescription className="flex items-center">
           <span className="sm:block hidden w-full">
-            {translate("Edit channel details and permissions")}
+            {translation("Edit channel details and permissions")}
           </span>
           <span className="sm:hidden w-full" />
           <span className="w-[250px] gap-5 flex justify-end items-center">
@@ -77,9 +77,9 @@ export function ChannelEditor() {
               <PopoverContent>
                 <div className="grid gap-4">
                   <div className="space-y-2">
-                    <h4 className="font-medium leading-none">Dimensions</h4>
+                    <h4 className="font-medium leading-none">{translation("Add role")}</h4>
                     <p className="text-sm text-muted-foreground">
-                      Set the dimensions for the layer.
+                     {translation("Add a new role permission to this channel.")} 
                     </p>
                   </div>
                   {currentServer &&
@@ -110,13 +110,11 @@ export function ChannelEditor() {
                                     (r) => r.role_details.id !== role.id,
                                   );
 
-                                // ❌ Form'dan da kaldır
                                 const updatedFormRolePermissions =
                                   form.role_permissions.filter(
                                     (r) => r.role_details.id !== role.id,
                                   );
 
-                                // ❌ Eğer silinen rol seçiliyse, temizle
                                 if (selectedRole === role.role_name) {
                                   setSelectedRole(null);
                                   changeActiveRole(null);
@@ -127,7 +125,6 @@ export function ChannelEditor() {
                                   role_permissions: updatedRolePermissions,
                                 });
 
-                                // ✅ Form'dan da rolü kaldır
                                 setForm({
                                   ...form,
                                   role_permissions: updatedFormRolePermissions,
@@ -149,7 +146,6 @@ export function ChannelEditor() {
                                   ],
                                 });
 
-                                // ✅ Form’a da ekle
                                 setForm({
                                   ...form,
                                   role_permissions: [
@@ -178,7 +174,7 @@ export function ChannelEditor() {
                 value={selectedRole ? selectedRole : ""}
               >
                 <SelectTrigger id="channel-type">
-                  <SelectValue placeholder={translate("Select a role")} />
+                  <SelectValue placeholder={translation("Select a role")} />
                 </SelectTrigger>
                 <SelectContent>
                   {activeChannel.role_permissions.map(
@@ -204,13 +200,13 @@ export function ChannelEditor() {
               value="General"
               className="xl:col-span-1 sm:col-span-2 w-full"
             >
-              {translate("General")}
+              {translation("General")}
             </TabsTrigger>
             <TabsTrigger value="Channel Permissions">
-              {translate("Channel Permisions")}
+              {translation("Channel Permisions")}
             </TabsTrigger>
             <TabsTrigger value="Role Permissions">
-              {translate("Role Permissions")}
+              {translation("Role Permissions")}
             </TabsTrigger>
           </TabsList>
 
@@ -233,13 +229,13 @@ export function ChannelEditor() {
           onClick={() => deleteChannel(activeChannel.id)}
           className="sm:order-1 order-2 sm:w-fit w-full"
         >
-          {translate("Delete Channel")}
+          {translation("Delete Channel")}
         </Button>
         <Button
           className="sm:order-2 order-1 sm:w-fit w-full"
           onClick={updateChannel}
         >
-          {translate("Save Changes")}
+          {translation("Save Changes")}
         </Button>
       </CardFooter>
     </Card>

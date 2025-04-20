@@ -25,11 +25,11 @@ export function FilterRuleEditor({
 }: FilterRuleEditorProps) {
   const translation = useTranslation();
   const actionButtons = [
-    { action: "delete", icon: <Trash2 size={16} />, label: translation("Delete Message") },
-    { action: "warn", icon: <AlertTriangle size={16} />, label: translation("Warn User") },
-    { action: "timeout", icon: <Clock size={16} />, label: translation("Timeout") },
-    { action: "kick", icon: <User size={16} />, label: translation("Kick User") },
-    { action: "ban", icon: <Shield size={16} />, label: translation("Ban User") },
+    { action: translation("delete"), icon: <Trash2 size={16} />, label: translation("Delete Message") },
+    { action: translation("warn"), icon: <AlertTriangle size={16} />, label: translation("Warn User") },
+    { action: translation("timeout"), icon: <Clock size={16} />, label: translation("Timeout") },
+    { action: translation("kick"), icon: <User size={16} />, label: translation("Kick User") },
+    { action: translation("ban"), icon: <Shield size={16} />, label: translation("Ban User") },
   ];
   return (
     <>

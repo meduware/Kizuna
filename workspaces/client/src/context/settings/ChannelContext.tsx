@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import { Channel, Form } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type ChannelContextType = {
   activeChannel: Channel | null;
@@ -40,7 +41,9 @@ export const ChannelProvider = ({
 
 export const useChannelContext = () => {
   const context = useContext(ChannelContext);
+  const translation = useTranslation();
+
   if (!context)
-    throw new Error("useChannelContext must be used within ChannelProvider");
+    throw new Error(translation("useChannelContext must be used within ChannelProvider"));
   return context;
 };

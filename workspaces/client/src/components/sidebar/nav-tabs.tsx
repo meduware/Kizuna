@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsTrigger, TabsList } from "@/components/ui/tabs";
 import { Channels } from "./nav-main/channels";
 import { Users } from "./nav-main/users";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import LoadingTabs from "./nav-main/loadingTabs";
 
 export function NavTabs() {

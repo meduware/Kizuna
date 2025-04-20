@@ -24,7 +24,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { apiHandler } from "@/lib/handlers/api";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type ServerAddressFormValues = z.infer<typeof serverAddressSchema>;
 
@@ -34,7 +35,12 @@ interface ServerAddressDialogProps {
   isAvailable: (arg: boolean) => void;
 }
 
-export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogProps) {
+export function IpDialog({
+  isOpen,
+  onClose,
+  isAvailable,
+}: ServerAddressDialogProps) {
+  const translation = useTranslation();
   const form = useForm<ServerAddressFormValues>({
     resolver: zodResolver(serverAddressSchema),
     defaultValues: {
@@ -47,19 +53,23 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
       const response = await apiHandler(
-        "http://" + data.ipAddress + ":" + data.port + "/api/server-management/is-joinable",
+        "http://" +
+          data.ipAddress +
+          ":" +
+          data.port +
+          "/api/server-management/is-joinable",
         {},
-        "GET"
+        "GET",
       );
       if (response.msg === "Server is joinable") {
         isAvailable(true);
         const server = await apiHandler(
           `http://${data.ipAddress}:${data.port}/api/server-management/server-details`,
           {},
-          "GET"
+          "GET",
         );
         if (!server) {
-          throw new Error("Server is not available");
+          throw new Error(translation("Server is not available"));
         }
 
         // NOTE: This area is adding server in local storage
@@ -75,10 +85,13 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
           if (Array.isArray(parsedLocalServerList)) {
             const exists = parsedLocalServerList.some(
               (server) =>
-                server.ipAddress === currentServer.ipAddress && server.port === currentServer.port
+                server.ipAddress === currentServer.ipAddress &&
+                server.port === currentServer.port,
             );
 
-            serverList = exists ? parsedLocalServerList : [...parsedLocalServerList, currentServer];
+            serverList = exists
+              ? parsedLocalServerList
+              : [...parsedLocalServerList, currentServer];
           } else {
             serverList = [currentServer];
           }
@@ -90,7 +103,7 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
         reloadServerList();
         onClose(false);
       } else {
-        throw new Error("Server is not joinable");
+        throw new Error(translation("Server is not joinable"));
       }
     } catch (error) {
       console.log(error);
@@ -103,10 +116,12 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Server className="h-5 w-5" />
-            Connect to Server
+            {translation("Connect to Server")}
           </DialogTitle>
           <DialogDescription>
-            Enter the IP address or domain of the server you want to connect to.
+            {translation(
+              "Enter the IP address or domain of the server you want to connect to.",
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -117,7 +132,7 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
               name="ipAddress"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Server Address</FormLabel>
+                  <FormLabel>{translation("Server Address")}</FormLabel>
                   <FormControl>
                     <Input placeholder="192.168.1.1" {...field} />
                   </FormControl>
@@ -141,10 +156,14 @@ export function IpDialog({ isOpen, onClose, isAvailable }: ServerAddressDialogPr
             />
 
             <DialogFooter className="mt-4">
-              <Button type="button" variant="outline" onClick={() => onClose(false)}>
-                Cancel
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onClose(false)}
+              >
+                {translation("Cancel")}
               </Button>
-              <Button type="submit">Connect</Button>
+              <Button type="submit">{translation("Connect")}</Button>
             </DialogFooter>
           </form>
         </Form>

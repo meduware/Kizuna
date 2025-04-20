@@ -21,13 +21,12 @@ export function LangToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => changeLanguage("en")}>
-          {translation("lang_en")}
+          {translation("English")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => changeLanguage("tr")}>
-          {translation("lang_tr")}
+          {translation("Turkish")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
-

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { ChannelList } from "./panels/ChannelList";
 import { EmptyChannelState } from "./panels/EmptyChannelState";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { ChannelEditor } from "./panels/ChannelEditor";
 import { LoadingSpinner } from "@/components/(settingspage)/LoadingSpinner";
 import { useChannelContext } from "@/context/settings/ChannelContext";

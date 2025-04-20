@@ -21,7 +21,7 @@ import { IpDialog } from "@/app/auth/login/ipDialog";
 import LoginDialog from "@/app/auth/login/login-dialog";
 import Image from "next/image";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { useState } from "react";
 import { Server } from "@/lib/types";
 import LoadingServerSwitcher from "./nav-main/loadingServerSwitcher";

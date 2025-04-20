@@ -50,8 +50,8 @@ export default function AutoModSettingsPage(): JSX.Element {
   const saveSettings = () => {
     console.log("api/hook");
     toast({
-      title: "Success",
-      description: "AutoMod settings have been saved",
+      title: translation("Success") ,
+      description: translation("AutoMod settings have been saved"),
     });
   };
 

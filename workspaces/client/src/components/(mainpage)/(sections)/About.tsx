@@ -2,6 +2,7 @@
 
 import IconHolder from "@/components/ui/icon-holder";
 import ShineBorder from "@/components/ui/shine-border";
+import { useTranslation } from "@/hooks/useTranslation";
 import { aboutList, terminalCode } from "@/utils/(mainpage)/constants";
 import {
   generateFeature,
@@ -34,6 +35,8 @@ function generateCodeBlock(): JSX.Element {
   );
 }
 export default function About(): JSX.Element {
+  const translation = useTranslation();
+
   return (
     <>
       <div className="text-center gap-2 mb-10 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 items-center justify-center md:border-gradient">
@@ -50,8 +53,10 @@ export default function About(): JSX.Element {
         className="min-h-[200px] pt-[100px] flex flex-col justify-center items-center mx-3"
       >
         {generateHeader(
-          "Build the way you want",
-          "Take control of your chat app and tailor it to your unique needs with one simple config file.",
+          translation("Build the way you want"),
+          translation(
+            "Take control of your chat app and tailor it to your unique needs with one simple config file.",
+          ),
           <IconHolder icon={<Code />} />,
         )}
         {generateCodeBlock()}

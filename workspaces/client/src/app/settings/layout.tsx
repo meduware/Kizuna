@@ -14,7 +14,7 @@ import {
   Hash,
 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 interface NavItem {
   name: string;
@@ -28,7 +28,7 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { currentUser, currentServer, loading } = useGlobalContext();
+  const { currentUser, currentServer } = useGlobalContext();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const pathname = usePathname();
@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // TODO: Create a design for this section.
   if (!currentUser) {
-    return <div>You need to be logged in to see this page.</div>;
+    return <div>{translation("You need to be logged in to see this page.")}</div>;
   }
 
   if (!currentServer || !currentUser.role.permissions.access_server_settings) {

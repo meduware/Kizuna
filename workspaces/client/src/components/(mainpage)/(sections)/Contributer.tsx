@@ -3,16 +3,21 @@ import IconHolder from "@/components/ui/icon-holder";
 import { generateHeader } from "@/utils/(mainpage)/helperFunctions";
 import { Users } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function Contributor(): JSX.Element {
+  const translation = useTranslation();
+
   return (
     <section
       id="contribute"
       className="min-h-[200px] my-10 flex flex-col gap-5 justify-center items-center w-full"
     >
       {generateHeader(
-        "Get Connected!",
-        `Our project is all about fostering meaningful relationships and connections. We're excited to have you join us and contribute to our success.`,
+        translation("Get Connected!"),
+        translation(
+          "Our project is all about fostering meaningful relationships and connections. We're excited to have you join us and contribute to our success.",
+        ),
         <IconHolder icon={<Users />} />,
       )}
       <Link href="/channels">
@@ -42,7 +47,7 @@ export default function Contributor(): JSX.Element {
                   colorTo="grey"
                 />
                 <div className="bg-primary group-hover:bg-primary/80 transition-all rounded-md p-2 text-lg cursor-pointer transition-all text-primary-foreground">
-                  Get Started
+                  {translation("Get Started")}
                 </div>
               </div>
             </div>

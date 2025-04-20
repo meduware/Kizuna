@@ -25,7 +25,7 @@ const LoadingTabs = () => {
                   key={index}
                   className="bg-secondary p-2 rounded-md hover:cursor-pointer animate-pulse text-foreground flex gap-2 items-center"
                 >
-                  <span className="text-sm h-4"></span>
+                  <span className="text-sm h-4" />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -39,7 +39,7 @@ const LoadingTabs = () => {
                   key={index}
                   className="bg-secondary p-2 rounded-md hover:cursor-pointer animate-pulse text-foreground flex gap-2 items-center"
                 >
-                  <span className="text-sm h-4"></span>
+                  <span className="text-sm h-4" />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

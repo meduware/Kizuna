@@ -1,6 +1,7 @@
 "use client";
+import { useTranslation } from "@/hooks/useTranslation";
 
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { redirect } from "next/navigation";
 
 interface NavItem {
@@ -10,9 +11,10 @@ interface NavItem {
 
 export default function ServerOverview() {
   const { currentUser } = useGlobalContext();
+  const translation = useTranslation();
 
   if (!currentUser) {
-    return <div>Loading...</div>;
+    return <div>{translation("Loading...")}</div>;
   }
 
   const navItems: NavItem[] = [

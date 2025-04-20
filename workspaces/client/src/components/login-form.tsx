@@ -5,6 +5,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthSettings } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import {
   Form,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/form";
 
 import { apiHandler } from "@/lib/handlers/api";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"form"> {
   authConfig: AuthSettings;
@@ -24,11 +25,19 @@ interface LoginFormProps extends React.ComponentPropsWithoutRef<"form"> {
 }
 
 const loginSchema = z.object({
-  email: z.string().email({ message: "Geçerli bir e-posta giriniz" }),
-  password: z.string().min(6, { message: "Şifre en az 6 karakter olmalıdır" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-export function LoginForm({ authConfig, onClose, className, ...props }: LoginFormProps) {
+export function LoginForm({
+  authConfig,
+  onClose,
+  className,
+  ...props
+}: LoginFormProps) {
+  const translation = useTranslation();
   const { changeUser } = useGlobalContext();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -40,7 +49,11 @@ export function LoginForm({ authConfig, onClose, className, ...props }: LoginFor
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      const response = await apiHandler("/api/user-management/login", data, "GET");
+      const response = await apiHandler(
+        "/api/user-management/login",
+        data,
+        "GET",
+      );
       onClose();
       changeUser(response.access_token);
     } catch (error) {
@@ -50,12 +63,18 @@ export function LoginForm({ authConfig, onClose, className, ...props }: LoginFor
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
+      <form
+        onSubmit={handleSubmit}
+        className={cn("flex flex-col gap-6", className)}
+        {...props}
+      >
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Login to your account</h1>
+          <h1 className="text-2xl font-bold">
+            {translation("Login to your account")}
+          </h1>
           {authConfig.passwordAuth && (
             <p className="text-balance text-sm text-muted-foreground">
-              Enter your email below to login to your account
+              {translation("Enter your email below to login to your account")}
             </p>
           )}
         </div>
@@ -70,7 +89,12 @@ export function LoginForm({ authConfig, onClose, className, ...props }: LoginFor
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input id="email" type="email" placeholder="m@example.com" {...field} />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -83,9 +107,12 @@ export function LoginForm({ authConfig, onClose, className, ...props }: LoginFor
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center">
-                      <FormLabel>Password</FormLabel>
-                      <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
-                        Forgot your password?
+                      <FormLabel>{translation("Password")}</FormLabel>
+                      <a
+                        href="#"
+                        className="ml-auto text-sm underline-offset-4 hover:underline"
+                      >
+                        {translation("Forgot your password?")}
                       </a>
                     </div>
                     <FormControl>
@@ -97,14 +124,14 @@ export function LoginForm({ authConfig, onClose, className, ...props }: LoginFor
               />
 
               <Button type="submit" className="w-full">
-                Login
+                {translation("Login")}
               </Button>
             </div>
           )}
           {authConfig.allowRegister && (
             <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
               <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                Or continue with
+                {translation("Or continue with")}
               </span>
             </div>
           )}
@@ -112,36 +139,36 @@ export function LoginForm({ authConfig, onClose, className, ...props }: LoginFor
             <>
               {authConfig.oAuthProviders.google && (
                 <Button variant="outline" type="button" className="w-full">
-                  Login with Google
+                  {translation("Login with Google")}
                 </Button>
               )}
               {authConfig.oAuthProviders.github && (
                 <Button variant="outline" type="button" className="w-full">
-                  Login with GitHub
+                  {translation("Login with GitHub")}
                 </Button>
               )}
               {authConfig.oAuthProviders.apple && (
                 <Button variant="outline" type="button" className="w-full">
-                  Login with Apple
+                  {translation("Login with Apple")}
                 </Button>
               )}
             </>
           )}
           {authConfig.anonymousLogin && (
             <Button variant="outline" type="button" className="w-full">
-              Login Anonymously
+              {translation("Login Anonymously")}
             </Button>
           )}
         </div>
         {authConfig.allowRegister && (
           <div className="text-center text-sm">
-            You can register on this server!{" "}
+            {translation("You can register on this server!")}
             <a
               href="#"
               className="underline underline-offset-4"
               onClick={() => console.log("Signup Page/Dialog")}
             >
-              Sign up
+              {translation("Sign up")}
             </a>
           </div>
         )}

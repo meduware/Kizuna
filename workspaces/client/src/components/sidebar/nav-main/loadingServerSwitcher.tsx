@@ -20,7 +20,7 @@ const LoadingServerSwitcher = () => {
               size="lg"
               className="bg-accent hover:bg-accent animate-pulse"
             >
-              <div className="grid flex-1 text-left text-sm leading-tight"></div>
+              <div className="grid flex-1 text-left text-sm leading-tight" />
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>

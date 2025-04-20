@@ -8,17 +8,19 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { useChannelContext } from "@/context/settings/ChannelContext";
 import { Channel } from "@shared/types";
 import { useChannelActions } from "@/hooks/settings/useChannelActions";
 import { useEffect } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function ChannelList({
   handleDialogOpen,
 }: {
   handleDialogOpen: (open: boolean) => void;
 }) {
+  const translation = useTranslation();
   const { currentServer } = useGlobalContext();
   const { activeChannel } = useChannelContext();
   const { changeActiveChannel } = useChannelActions();
@@ -29,9 +31,9 @@ export function ChannelList({
     <Card className="lg:w-1/4 md:min-w-[300px] h-2/3 lg:h-full">
       <ScrollArea className="h-full">
         <CardHeader className="sm:px-4">
-          <CardTitle>Channels</CardTitle>
+          <CardTitle>{translation("Channels")}</CardTitle>
           <CardDescription>
-            Select a channel to edit its permissions or create one!
+           {translation("Select a channel to edit its permissions or create one!")} 
           </CardDescription>
           <div className="w-full pt-4">
             <Button
@@ -39,7 +41,7 @@ export function ChannelList({
               onClick={() => handleDialogOpen(true)}
             >
               <PlusCircle size={16} />
-              Create Channel
+             {translation("Create Channel")} 
             </Button>
           </div>
         </CardHeader>

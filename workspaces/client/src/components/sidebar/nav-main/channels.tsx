@@ -9,7 +9,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Channel } from "@/lib/types";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 export function Channels() {
   const { changeChannel, currentServer, currentChannel, setCurrentChannel } =

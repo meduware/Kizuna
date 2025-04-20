@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FilterRule, ActionType } from "@shared/types";
 import { toast } from "@/components/ui/use-toast";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const initialFilterRules: FilterRule[] = [
   {
@@ -26,6 +27,7 @@ export function useFilterRules() {
     initialFilterRules[0]?.id || null
   );
   const [newFilterName, setNewFilterName] = useState("");
+  const translation = useTranslation();
 
   const activeFilter = filterRules.find((rule) => rule.id === activeFilterId) || null;
 
@@ -33,7 +35,7 @@ export function useFilterRules() {
     if (!newFilterName.trim()) {
       toast({
         title: "Error",
-        description: "Filter name cannot be empty",
+        description: translation("Filter name cannot be empty") ,
         variant: "destructive",
       });
       return;

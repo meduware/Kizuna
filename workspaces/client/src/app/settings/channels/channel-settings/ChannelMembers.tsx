@@ -10,15 +10,18 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RoleMembersProps } from "@shared/types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function RoleMembers({ users, onRemoveUser, formatDate }: RoleMembersProps) {
+  const translation = useTranslation();
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>User</TableHead>
-          <TableHead>Joined</TableHead>
-          <TableHead>Actions</TableHead>
+          <TableHead>{translation("User")}</TableHead>
+          <TableHead>{translation("Joined")}</TableHead>
+          <TableHead>{translation("Actions")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -40,7 +43,7 @@ export function RoleMembers({ users, onRemoveUser, formatDate }: RoleMembersProp
               <TableCell>{formatDate(user.created_at)}</TableCell>
               <TableCell>
                 <Button variant="ghost" size="sm" onClick={() => onRemoveUser(user.id)}>
-                  Remove
+                 {translation("Remove")} 
                 </Button>
               </TableCell>
             </TableRow>
@@ -48,7 +51,7 @@ export function RoleMembers({ users, onRemoveUser, formatDate }: RoleMembersProp
         ) : (
           <TableRow>
             <TableCell colSpan={3} className="text-center py-4 text-gray-500">
-              No members with this role
+             {translation("No members with this role.")} 
             </TableCell>
           </TableRow>
         )}

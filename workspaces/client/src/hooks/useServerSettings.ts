@@ -1,4 +1,5 @@
 "use client";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import { useState, useCallback, useEffect } from "react";
 import { Server } from "@shared/types";
@@ -13,6 +14,7 @@ export const useServerSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
+  const translation = useTranslation();
 
   const fetchServerInfo = useCallback(async () => {
     try {
@@ -27,14 +29,14 @@ export const useServerSettings = () => {
     } catch (error) {
       console.error("Error fetching server info:", error);
       toast({
-        title: "Error",
-        description: "Failed to load server information",
+        title: translation("Error"),
+        description: translation("Failed to load server information"),
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchServerInfo();
@@ -58,14 +60,14 @@ export const useServerSettings = () => {
       } catch (err) {
         console.error("Error handling server image:", err);
         toast({
-          title: "Error",
-          description: "Failed to update server image",
+          title: translation("Error"),
+          description: translation("Failed to update server image"),
           variant: "destructive",
         });
         return null;
       }
     },
-    [toast]
+    [toast] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const updateWelcomeChannel = useCallback((channelName: string) => {
@@ -125,27 +127,27 @@ export const useServerSettings = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update server settings");
+        throw new Error(translation("Failed to update server settings"));
       }
 
       await fetchServerInfo();
       setSelectedFile(null);
 
       toast({
-        title: "Success",
-        description: "Server settings updated successfully",
+        title: translation("Success"),
+        description: translation("Server settings updated successfully"),
       });
     } catch (error) {
       console.error("Error saving settings:", error);
       toast({
-        title: "Error",
-        description: "Failed to save server settings",
+        title: translation("Error"),
+        description: translation("Failed to save server settings"),
         variant: "destructive",
       });
     } finally {
       setIsSaving(false);
     }
-  }, [serverInfo, localServerInfo, selectedFile, fetchServerInfo, hasChanges, toast]);
+  }, [serverInfo, localServerInfo, selectedFile, fetchServerInfo, hasChanges, toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetChanges = useCallback(() => {
     setLocalServerInfo(serverInfo);

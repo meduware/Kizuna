@@ -1,6 +1,6 @@
 "use client";
 import { useChannelContext } from "@/context/settings/ChannelContext";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { apiHandler } from "@/lib/handlers/api";
 import { Channel } from "@shared/types";
 
@@ -125,12 +125,12 @@ export const useChannelActions = () => {
         role_permissions: form.role_permissions.map((rp) =>
           rp.role_details.id === activeRole
             ? {
-              ...rp,
-              permissions: {
-                ...rp.permissions,
-                [key]: value,
-              },
-            }
+                ...rp,
+                permissions: {
+                  ...rp.permissions,
+                  [key]: value,
+                },
+              }
             : rp,
         ),
       });

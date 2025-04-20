@@ -1,4 +1,4 @@
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { createSupabaseClient } from "@shared/supabase/createClient";
 import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -12,7 +12,7 @@ const Messages = () => {
     useGlobalContext();
   const supabase = createSupabaseClient();
   const formattedDate = useFormattedDate();
-  const translate = useTranslation();
+  const translation = useTranslation();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -119,7 +119,7 @@ const Messages = () => {
           className="text-primary -mt-24"
         />
         <h1 className="text-foreground sm:text-lg text-md">
-          {translate("You need to be logged in to see messages.")}
+          {translation("You need to be logged in to see messages.")}
         </h1>
       </div>
     );
@@ -137,7 +137,7 @@ const Messages = () => {
             <MessagesSquare width={100} height={100} className="text-primary" />
 
             <h1 className="text-foreground text-lg">
-              {translate("No messages yet.")}
+              {translation("No messages yet.")}
             </h1>
           </div>
         ) : (

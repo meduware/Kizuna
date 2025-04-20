@@ -5,12 +5,12 @@ import { Input } from "../ui/input";
 import { useTranslation } from "@/hooks/useTranslation";
 import Image from "next/image";
 import { sendMessage } from "@/lib/messages";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"; // Shadcn UI Dialog bileşeni
 
 export default function MessageInput() {
   const { currentUser, currentChannel } = useGlobalContext();
-  const translate = useTranslation();
+  const translation = useTranslation();
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -62,7 +62,7 @@ export default function MessageInput() {
 
   async function handleSubmit() {
     if (!currentUser) {
-      throw new Error("User not found");
+      throw new Error(translation("User not found"));
     }
 
     const trimmedInput = inputValue.trim();
@@ -179,7 +179,7 @@ export default function MessageInput() {
             if (e.key === "Enter") handleSubmit();
           }}
           className="flex items-center gap-2 w-full h-[60px]"
-          placeholder={translate("Send a message")}
+          placeholder={translation("Send a message")}
         />
 
         <Button
@@ -188,7 +188,7 @@ export default function MessageInput() {
           onClick={handleSubmit}
           disabled={uploading}
         >
-          {uploading ? "Uploading..." : <Send />}
+          {uploading ? translation("Uploading...") : <Send />}
         </Button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { TechnicalSettings } from "@shared/types";
 import { apiHandler } from "@/lib/handlers/api";
 import { baseUrls } from "@/lib/constants";
 import { getSectionChanges } from "@shared/utils/settingsDiff";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function useTechnicalSettings() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,6 +12,7 @@ export function useTechnicalSettings() {
   const [localSettings, setLocalSettings] = useState<TechnicalSettings | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
+  const translation = useTranslation();
 
   const fetchSettings = useCallback(async () => {
     setIsLoading(true);
@@ -21,15 +23,15 @@ export function useTechnicalSettings() {
       return response.server_details;
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to load server settings",
+        title: translation("Error"),
+        description: translation("Failed to load server settings"),
         variant: "destructive",
       });
       return null;
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchSettings();
@@ -65,8 +67,8 @@ export function useTechnicalSettings() {
         });
 
         toast({
-          title: "Success",
-          description: "Settings updated successfully",
+          title: translation("Success"),
+          description: translation("Settings updated successfully"),
         });
 
         const newSettings = await fetchSettings();
@@ -75,9 +77,9 @@ export function useTechnicalSettings() {
         return newSettings;
       } catch (error) {
         toast({
-          title: "Error",
-          description: `Failed to update settings: ${
-            error instanceof Error ? error.message : "Unknown error"
+          title: translation("Error"),
+          description: `${translation("Failed to update settings")}: ${
+            error instanceof Error ? error.message : translation("Unknown error")
           }`,
           variant: "destructive",
         });
@@ -86,7 +88,7 @@ export function useTechnicalSettings() {
         setIsSaving(false);
       }
     },
-    [settings, toast, fetchSettings]
+    [settings, toast, fetchSettings] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const handleSave = async () => {

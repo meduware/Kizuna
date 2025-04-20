@@ -17,7 +17,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import LoginDialog from "@/app/auth/login/login-dialog";
 import { useState } from "react";
@@ -111,7 +111,7 @@ export function NavUser() {
                   <DropdownMenuItem>
                     <div className="flex gap-2 items-center">
                       <Settings />
-                      <span>Server settings</span>
+                      <span>{translation("Server settings")}</span>
                     </div>
                   </DropdownMenuItem>
                 </Link>
@@ -119,7 +119,7 @@ export function NavUser() {
               <DropdownMenuItem onClick={() => logout()}>
                 <div className="flex gap-2 items-center">
                   <LogOut />
-                  <span>Log out</span>
+                  <span>{translation("Log out")}</span>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>

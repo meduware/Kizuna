@@ -119,8 +119,8 @@ export function ChannelGeneralSettings() {
             <SelectValue placeholder={translation("Change Channel Type")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="text">Text</SelectItem>
-            <SelectItem value="voice">Voice</SelectItem>
+            <SelectItem value="text">{translation("Text")}</SelectItem>
+            <SelectItem value="voice">{translation("Voice")}</SelectItem>
           </SelectContent>
         </Select>
       </div>

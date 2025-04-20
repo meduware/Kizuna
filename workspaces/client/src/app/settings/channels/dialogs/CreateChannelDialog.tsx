@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGlobalContext } from "@/context/store";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { reloadServerList } from "@/lib/utils";
 import { useChannelActions } from "@/hooks/settings/useChannelActions";
 
@@ -36,25 +36,25 @@ export default function CreateChannelDialog({
     channel_type: "text",
   });
 
-  const translate = useTranslation();
+  const translation = useTranslation();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{translate("Create New Channel")}</DialogTitle>
+          <DialogTitle>{translation("Create New Channel")}</DialogTitle>
           <DialogDescription>
-            {translate("Add a new channel to your server")}
+            {translation("Add a new channel to your server")}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
             <Label htmlFor="name" className="text-sm font-medium">
-              {translate("Channel Name")}
+              {translation("Channel Name")}
             </Label>
             <Input
               id="name"
-              placeholder="Enter Channel Type"
+              placeholder={translation("Enter Channel Type")} 
               value={channelDetails.channel_name}
               onChange={(e) =>
                 setChannelDetails(() => ({
@@ -66,11 +66,11 @@ export default function CreateChannelDialog({
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description" className="text-sm font-medium">
-              {translate("Channel Description")}
+              {translation("Channel Description")}
             </Label>
             <Input
               id="description"
-              placeholder={translate(`Enter channel description`)}
+              placeholder={translation(`Enter channel description`)}
               value={channelDetails.channel_description}
               onChange={(e) =>
                 setChannelDetails(() => ({
@@ -81,7 +81,7 @@ export default function CreateChannelDialog({
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="channel-type">{translate("Channel Type")}</Label>
+            <Label htmlFor="channel-type">{translation("Channel Type")}</Label>
             <Select
               value={channelDetails.channel_type}
               onValueChange={(e: "text" | "voice") => {
@@ -92,21 +92,20 @@ export default function CreateChannelDialog({
               }}
             >
               <SelectTrigger id="channel-type">
-                <SelectValue placeholder={translate("Change Channel Type")} />
+                <SelectValue placeholder={translation("Change Channel Type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="text">Text</SelectItem>
-                <SelectItem value="voice">Voice</SelectItem>
+                <SelectItem value="text">{translation("Text")}</SelectItem>
+                <SelectItem value="voice">{translation("Voice")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
+            {translation("Cancel")}</Button>
           <Button onClick={() => createChannel(channelDetails)}>
-            Create Role
+           {translation("Create Role")} 
           </Button>
         </DialogFooter>
       </DialogContent>

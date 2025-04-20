@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { apiHandler } from "@/lib/handlers/api";
 import { User, Role } from "@shared/types";
 import { baseUrls } from "@/lib/constants";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function useUsersManagement() {
   const [roles, setRoles] = useState<Role[]>([]);
@@ -11,6 +12,7 @@ export function useUsersManagement() {
   const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const translation = useTranslation();
 
   const fetchRolesWithUsers = useCallback(async () => {
     setIsLoading(true);
@@ -107,7 +109,7 @@ export function useUsersManagement() {
 
   const handleRemoveUser = useCallback(
     async (userId: string) => {
-      if (window.confirm("Are you sure you want to remove this user from the server?")) {
+      if (window.confirm(translation("Are you sure you want to remove this user from the server?"))) {
         try {
           await apiHandler(`/api/user-management/delete-user/${userId}`, null, "DELETE");
           await fetchRolesWithUsers();
@@ -116,7 +118,7 @@ export function useUsersManagement() {
         }
       }
     },
-    [fetchRolesWithUsers]
+    [fetchRolesWithUsers] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const handleSaveUserDetails = useCallback(async () => {

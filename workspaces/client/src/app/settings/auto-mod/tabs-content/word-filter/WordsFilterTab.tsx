@@ -2,6 +2,7 @@ import { FilterRule, ActionType } from "@shared/types";
 import { Card } from "@/components/ui/card";
 import { FilterRulesList } from "./FilterRulesList";
 import { FilterRuleEditor } from "./FilterRuleEditor";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface WordFiltersTabProps {
   filterRules: FilterRule[];
@@ -34,6 +35,8 @@ export function WordFiltersTab({
   onToggleAction,
   onUpdateTimeoutDuration,
 }: WordFiltersTabProps) {
+  const translation = useTranslation();
+
   return (
     <div className="flex lg:flex-row flex-col gap-4 w-full h-full">
       <Card className="lg:w-[30%] w-full h-full overflow-hidden">
@@ -60,7 +63,9 @@ export function WordFiltersTab({
           />
         ) : (
           <div className="flex flex-col items-center justify-center h-96">
-            <p className="text-muted-foreground">Select a filter to configure</p>
+            <p className="text-muted-foreground">
+              {translation("Select a filter to configure")}
+            </p>
           </div>
         )}
       </Card>

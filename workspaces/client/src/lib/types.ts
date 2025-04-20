@@ -1,13 +1,3 @@
-export type formValues = {
-  username?: string;
-  email: string;
-  password: string;
-};
-
-export type postRequest = {
-  json: () => Promise<any>;
-};
-
 export type userData = {
   id: number;
   sub: string;
@@ -35,15 +25,6 @@ export type userData = {
       manage_messages: boolean;
     };
   };
-};
-
-export type message = {
-  id: string;
-  channel_id: string;
-  user_id: string;
-  message: string;
-  files: string[];
-  created_at: number;
 };
 
 export type FooterLink = {
@@ -121,14 +102,14 @@ export const initialGlobalContext: GlobalContextType = {
   currentServer: null,
   currentChannel: null,
   messages: [],
-  setMessages: () => { },
-  fetchMessages: () => { },
-  setCurrentChannel: () => { },
-  setCurrentServer: () => { },
-  changeChannel: () => { },
-  changeServer: () => { },
-  changeUser: () => { },
-  reloadServerList: () => { },
+  setMessages: () => {},
+  fetchMessages: () => {},
+  setCurrentChannel: () => {},
+  setCurrentServer: () => {},
+  changeChannel: () => {},
+  changeServer: () => {},
+  changeUser: () => {},
+  reloadServerList: () => {},
   serverList: [],
   loading: true,
 };
