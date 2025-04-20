@@ -12,7 +12,11 @@ import {
 import { CreateRoleDialogProps } from "@shared/types";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export function CreateRoleDialog({ isOpen, onClose, onCreateRole }: CreateRoleDialogProps) {
+export function CreateRoleDialog({
+  isOpen,
+  onClose,
+  onCreateRole,
+}: CreateRoleDialogProps) {
   const [roleName, setRoleName] = useState("");
   const [roleColor, setRoleColor] = useState("#ea580c");
   const translation = useTranslation();

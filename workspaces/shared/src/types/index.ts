@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
 
 export interface Database {
   public: {
@@ -34,7 +40,8 @@ export const ipAddressSchema = z.string().refine(
     const ipv4Regex =
       /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
-    const domainRegex = /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+    const domainRegex =
+      /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
 
     return (
       ipv4Regex.test(value) ||
@@ -43,7 +50,7 @@ export const ipAddressSchema = z.string().refine(
       value === "localhost"
     );
   },
-  { message: "Please enter a valid IP address or domain name" }
+  { message: "Please enter a valid IP address or domain name" },
   //all simplified
 );
 
@@ -53,7 +60,7 @@ export const portSchema = z.string().refine(
     const port = parseInt(value);
     return !isNaN(port) && port >= 0 && port <= 65535;
   },
-  { message: "Port must be between 0 and 65535" }
+  { message: "Port must be between 0 and 65535" },
 );
 
 export const serverAddressSchema = z.object({
@@ -68,7 +75,77 @@ export interface loginDialog {
 
 export interface Channel {
   id: number;
+  index: number;
+  power_level: number;
+  cooldown: number;
+  channel_type: "text" | "voice";
   channel_name: string;
+  channel_description: string;
+  channel_permissions: {
+    join_vc: boolean;
+    send_media: boolean;
+    send_message: boolean;
+    read_history: boolean;
+  };
+  role_permissions: {
+    role_details: {
+      id: number;
+      role_name: string;
+      role_color: string;
+    };
+    permissions: {
+      join_vc: boolean;
+      cooldown: number;
+      send_media: boolean;
+      send_message: boolean;
+      read_history: boolean;
+    };
+  }[];
+}
+
+export interface ChannelRole {
+  role_details: {
+    id: number;
+    role_name: string;
+    role_color: string;
+  };
+  permissions: {
+    join_vc: boolean;
+    cooldown: number;
+    send_media: boolean;
+    send_message: boolean;
+    read_history: boolean;
+  };
+}
+
+export interface Form {
+  channel_details: {
+    channel_name: string;
+    channel_description: string;
+    channel_type: "text" | "voice";
+    power_level: number;
+    index: number;
+    cooldown: number;
+  };
+  channel_permissions: {
+    join_vc: boolean;
+    send_media: boolean;
+    send_message: boolean;
+    read_history: boolean;
+  };
+  role_permissions: {
+    permissions: {
+      join_vc: boolean;
+      cooldown: number;
+      send_media: boolean;
+      send_message: boolean;
+      read_history: boolean;
+    };
+    role_details: {
+      role_name: string;
+      role_color: string;
+    };
+  };
 }
 
 export interface Server {
@@ -97,6 +174,7 @@ export interface RolePermissions {
 
 export interface Role {
   id: number;
+  index: number;
   role_name: string;
   permissions: RolePermissions;
   role_color: string;

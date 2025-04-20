@@ -37,7 +37,7 @@ export function getCurrentChannel(currentServer: Server) {
 }
 
 // Mevcut sunucuya bağlı hesabı döndürür
-export function getCurrentAccount(currentServer: Server) {
+export function getCurrentAccountToken(currentServer: Server) {
   if (!currentServer) return null;
   const cookie = getCookie("accountTokens");
   if (!cookie) return null;
@@ -49,7 +49,8 @@ export function getCurrentAccount(currentServer: Server) {
         account.ipAddress === currentServer.technical_details.ipAddress &&
         account.port === currentServer.technical_details.port,
     );
-    return currentAccount ? parseJwt(currentAccount.token) : null;
+
+    return currentAccount ? parseJwt(currentAccount.token).sub : null;
   } catch (error) {
     console.error("Error parsing accountTokens cookie:", error);
     return null;
@@ -260,7 +261,6 @@ export async function changeServer(
 }
 
 export async function reloadServerList(
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setServerList: React.Dispatch<React.SetStateAction<Server[]>>,
   setCurrentServer: React.Dispatch<Server | null>,
   setCurrentChannel: React.Dispatch<any>,
@@ -352,7 +352,6 @@ export async function reloadServerList(
     );
     setServerList(fetchedServers);
   }
-  setLoading(false);
 }
 
 export function sortServersByPort(serverList: Server[]) {

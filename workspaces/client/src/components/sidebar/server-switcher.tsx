@@ -83,10 +83,10 @@ export function ServerSwitcher() {
                   "bg-secondary/50"
                   }`}
               >
-                <div className="flex size-6 items-center justify-center rounded-sm border">
+                <div className="flex size-6 items-center justify-center rounded-full">
                   <Image
                     src={server.server_image}
-                    className="size-4 shrink-0"
+                    className="size-6 object-cover rounded-full"
                     alt={server.server_name}
                     width={100}
                     height={100}

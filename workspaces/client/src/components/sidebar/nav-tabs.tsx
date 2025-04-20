@@ -32,7 +32,7 @@ export function NavTabs() {
           </TabsList>
 
           <TabsContent value="channels" className="mt-4">
-            <Channels channels={currentServer.channels} />
+            <Channels />
           </TabsContent>
           <TabsContent value="users" className="mt-4">
             <Users roles={currentServer.roles} />

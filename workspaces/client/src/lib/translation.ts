@@ -5,7 +5,6 @@ export const defaultLocale = "en";
 
 export const useFormattedDate = () => {
   const languagePreference = getCookie("languagePreference");
-  console.log(languagePreference);
 
   return (isoDateString: Date): string => {
     try {

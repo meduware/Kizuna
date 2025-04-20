@@ -6,6 +6,7 @@ export const getRolesWithUsers = async (req: Request, res: Response) => {
   const { data, error } = await supabase.from("roles").select(
     `
         id,
+        index,
         role_name,
         role_color,
         permissions,
@@ -18,7 +19,7 @@ export const getRolesWithUsers = async (req: Request, res: Response) => {
             photo_url
           )
         )
-      `
+      `,
   );
 
   if (error) {

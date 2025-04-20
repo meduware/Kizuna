@@ -8,9 +8,9 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { ImagePreview } from "@/lib/handlers/imagePreview";
 
 const Messages = () => {
-  const { currentUser, currentChannel } = useGlobalContext();
+  const { currentUser, currentChannel, messages, setMessages, fetchMessages } =
+    useGlobalContext();
   const supabase = createSupabaseClient();
-  const [messages, setMessages] = useState<any[]>([]);
   const formattedDate = useFormattedDate();
   const translate = useTranslation();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -34,37 +34,6 @@ const Messages = () => {
 
   useEffect(() => {
     if (!currentChannel) return;
-
-    const fetchMessages = async () => {
-      const { data, error } = await supabase
-        .from("messages")
-        .select(
-          `
-          id,
-          message,
-          files,
-          created_at,
-          userData:user_roles(
-            id,
-            user:users(id, username, photo_url),
-            role:roles(
-              role_name,
-              role_color,
-              permissions
-            )
-          )
-        `,
-        )
-        .eq("channel_id", currentChannel)
-        .order("created_at", { ascending: true });
-
-      if (error) {
-        console.error("Error fetching messages:", error);
-        return;
-      }
-
-      setMessages(data || []);
-    };
 
     fetchMessages();
 
@@ -109,7 +78,7 @@ const Messages = () => {
             userData,
           };
 
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
+          setMessages((prevMessages: any) => [...prevMessages, newMessage]);
         },
       )
       .subscribe();
@@ -143,7 +112,7 @@ const Messages = () => {
   if (!currentUser) {
     if (!currentChannel) return null;
     return (
-      <div className="w-full h-full bg-blue-500 flex flex-col gap-5 items-center justify-center">
+      <div className="w-full h-full flex flex-col gap-5 items-center justify-center">
         <OctagonAlert
           width={100}
           height={100}
