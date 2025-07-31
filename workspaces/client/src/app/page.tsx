@@ -1,10 +1,11 @@
 "use client";
-import About from "@/components/(mainpage)/(sections)/About";
-import Contributor from "@/components/(mainpage)/(sections)/Contributer";
-import Footer from "@/components/(mainpage)/(sections)/Footer";
-import Hero from "@/components/(mainpage)/(sections)/Hero";
-import Features from "@/components/(mainpage)/(sections)/Product";
-import Navbar from "@/components/(mainpage)/Navbar/Navbar";
+
+import About from "@/components/(routes)/marketing/(sections)/About";
+import Contributor from "@/components/(routes)/marketing/(sections)/Contributer";
+import Footer from "@/components/(routes)/marketing/(sections)/Footer";
+import Hero from "@/components/(routes)/marketing/(sections)/Hero";
+import Features from "@/components/(routes)/marketing/(sections)/Product";
+import Navbar from "@/components/(routes)/marketing/Navbar/Navbar";
 
 export default function Home(): JSX.Element {
   return (

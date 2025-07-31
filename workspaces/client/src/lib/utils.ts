@@ -37,7 +37,7 @@ export function getCurrentChannel(currentServer: Server) {
 }
 
 // Mevcut sunucuya bağlı hesabı döndürür
-export function getCurrentAccountToken(currentServer: Server) {
+export function getCurrentAccountToken(currentServer: Server | null) {
   if (!currentServer) return null;
   const cookie = getCookie("accountTokens");
   if (!cookie) return null;
