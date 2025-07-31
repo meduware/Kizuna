@@ -67,7 +67,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // TODO: Create a design for this section.
   if (!currentUser) {
-    return <div>{translation("You need to be logged in to see this page.")}</div>;
+    return (
+      <div>{translation("You need to be logged in to see this page.")}</div>
+    );
   }
 
   if (!currentServer || !currentUser.role.permissions.access_server_settings) {
@@ -99,12 +101,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       path: "/settings/user-management",
       permission: currentUser.role.permissions.manage_users,
     },
-    {
-      name: translation("Logs"),
-      icon: <FileText size={20} />,
-      path: "/settings/logs",
-      permission: currentUser.role.permissions.manage_logs,
-    },
+    // {
+    //   name: translation("Logs"),
+    //   icon: <FileText size={20} />,
+    //   path: "/settings/logs",
+    //   permission: currentUser.role.permissions.manage_logs,
+    // },
     {
       name: translation("Technical Details"),
       icon: <Server size={20} />,
@@ -117,16 +119,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       path: "/settings/auto-mod",
       permission: currentUser.role.permissions.manage_automod,
     },
-    {
-      name: translation("Bans Management"),
-      icon: <UserX size={20} />,
-      path: "/settings/bans-management",
-      permission: currentUser.role.permissions.manage_bans,
-    },
+    // {
+    //   name: translation("Bans Management"),
+    //   icon: <UserX size={20} />,
+    //   path: "/settings/bans-management",
+    //   permission: currentUser.role.permissions.manage_bans,
+    // },
   ];
 
   const checkPermission = (path: string) => {
-    const item = navItems.find((item) => item.path === path);
+    const item = navItems.find(item => item.path === path);
     if (item) {
       if (!item.permission) {
         redirect("/channels");
@@ -169,7 +171,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex-1 overflow-y-auto">
           <nav className="space-y-1 px-2 py-4">
             {navItems.map(
-              (item) =>
+              item =>
                 item.permission && (
                   <Link
                     href={item.path}
@@ -190,7 +192,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       </div>
                     )}
                   </Link>
-                ),
+                )
             )}
           </nav>
         </div>
