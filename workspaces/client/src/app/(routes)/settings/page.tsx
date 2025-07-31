@@ -34,10 +34,10 @@ export default function Page() {
       path: "/settings/user-management",
       permission: currentUser.role.permissions.manage_users,
     },
-    {
-      path: "/settings/logs",
-      permission: currentUser.role.permissions.manage_logs,
-    },
+    // {
+    //   path: "/settings/logs",
+    //   permission: currentUser.role.permissions.manage_logs,
+    // },
     {
       path: "/settings/technical-details",
       permission: currentUser.role.permissions.manage_technical_details,
@@ -46,13 +46,13 @@ export default function Page() {
       path: "/settings/auto-mod",
       permission: currentUser.role.permissions.manage_automod,
     },
-    {
-      path: "/settings/bans-management",
-      permission: currentUser.role.permissions.manage_bans,
-    },
+    // {
+    //   path: "/settings/bans-management",
+    //   permission: currentUser.role.permissions.manage_bans,
+    // },
   ];
 
-  const firstPermission = navItems.find((item) => item.permission);
+  const firstPermission = navItems.find(item => item.permission);
 
   if (!firstPermission) {
     redirect("/channels");

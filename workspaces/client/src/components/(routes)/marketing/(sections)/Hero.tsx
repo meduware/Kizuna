@@ -3,6 +3,7 @@
 import Meteors from "@/components/ui/meteors";
 import GridPattern from "@/components/ui/grid-pattern";
 import { useTranslation } from "@/hooks/useTranslation";
+import Image from "next/image";
 
 export default function Hero(): JSX.Element {
   const translation = useTranslation();
@@ -56,7 +57,13 @@ export default function Hero(): JSX.Element {
       </div>
 
       <div className="h-[500px] w-full max-w-[1231px] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] rounded-xl border bg-secondary mx-auto">
-        {/* TODO: Add image or gif here. */}
+        <Image
+          src="https://rzaovnuywoiiquidnqhe.supabase.co/storage/v1/object/public/files/images/9815c279-671c-4be1-ba02-743e44437673-image.png"
+          alt="image"
+          width={2000}
+          height={2000}
+          className="w-full h-auto rounded-lg object-cover"
+        />
       </div>
     </section>
   );

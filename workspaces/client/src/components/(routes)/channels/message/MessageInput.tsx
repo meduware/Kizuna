@@ -70,12 +70,11 @@ export default function MessageInput() {
     if (trimmedInput === "" && selectedFiles.length === 0) {
       return;
     }
-
     await sendMessage(
       trimmedInput,
       selectedFiles,
-      currentUser.sub,
-      currentChannel,
+      currentUser.id,
+      currentChannel
     );
 
     setInputValue("");
@@ -91,16 +90,16 @@ export default function MessageInput() {
   }
 
   function addFiles(files: File[]) {
-    setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
-    setPreviewUrls((prevUrls) => [
+    setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, ...files]);
+    setPreviewUrls(prevUrls => [
       ...prevUrls,
-      ...files.map((file) => URL.createObjectURL(file)),
+      ...files.map(file => URL.createObjectURL(file)),
     ]);
   }
 
   function removeFile(index: number) {
-    setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setPreviewUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
+    setSelectedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+    setPreviewUrls(prevUrls => prevUrls.filter((_, i) => i !== index));
   }
 
   return (
@@ -174,8 +173,8 @@ export default function MessageInput() {
 
         <Input
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={(e) => {
+          onChange={e => setInputValue(e.target.value)}
+          onKeyDown={e => {
             if (e.key === "Enter") handleSubmit();
           }}
           className="flex items-center gap-2 w-full h-[60px]"

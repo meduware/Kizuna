@@ -34,7 +34,7 @@ const Messages = () => {
 
   useEffect(() => {
     if (!currentChannel) return;
-
+    console.log(currentChannel);
     fetchMessages();
 
     const subscription = supabase
@@ -52,14 +52,14 @@ const Messages = () => {
             .from("user_roles")
             .select(
               `
-            id,
-            user:users(id, username, photo_url),
-            role:roles(
-              role_name,
-              role_color,
-              permissions
-            )
-          `
+              id,
+              user:users(id, username, photo_url),
+              role:roles(
+                role_name,
+                role_color,
+                permissions
+              )
+            `
             )
             .eq("id", payload.new.user_role_id)
             .single();
