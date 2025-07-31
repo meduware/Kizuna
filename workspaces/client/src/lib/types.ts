@@ -1,34 +1,30 @@
-export type formValues = {
-  username?: string;
-  email: string;
-  password: string;
-};
-
-export type postRequest = {
-  json: () => Promise<any>;
-};
-
 export type userData = {
-  id: string;
+  id: number;
   sub: string;
-  photo_url: string;
-  username: string;
-  email: string;
-  user_metadata: {
+  user: {
+    id: string;
     username: string;
     email: string;
     photo_url: string;
   };
-  created_at: number;
-};
-
-export type message = {
-  id: string;
-  channel_id: string;
-  user_id: string;
-  message: string;
-  files: string[];
-  created_at: number;
+  role: {
+    id: number;
+    role_name: string;
+    role_color: string;
+    permissions: {
+      power_level: number;
+      access_server_settings: boolean;
+      manage_server: boolean;
+      manage_channel: boolean;
+      manage_roles: boolean;
+      manage_users: boolean;
+      manage_logs: boolean;
+      manage_technical_details: boolean;
+      manage_automod: boolean;
+      manage_bans: boolean;
+      manage_messages: boolean;
+    };
+  };
 };
 
 export type FooterLink = {
@@ -41,14 +37,16 @@ export type FooterLink = {
 
 export interface Role {
   id: number;
+  index: number;
   role_name: string;
   role_color: string;
   permissions: {};
-  users: userData[];
+  users: userData["user"][];
 }
 
 export interface Channel {
   id: number;
+  index: number;
   channel_type: "text" | "voice";
   channel_name: string;
   channel_description: string;
@@ -87,6 +85,10 @@ export interface GlobalContextType {
   currentChannel: any;
   changeChannel: any;
   setCurrentChannel: any;
+  setCurrentServer: any;
+  messages: any[];
+  setMessages: any;
+  fetchMessages: () => void;
   changeServer: (server: localServer) => void;
   changeUser: (token: string) => void;
   reloadServerList: () => void;
@@ -99,7 +101,11 @@ export const initialGlobalContext: GlobalContextType = {
   currentUser: null,
   currentServer: null,
   currentChannel: null,
+  messages: [],
+  setMessages: () => {},
+  fetchMessages: () => {},
   setCurrentChannel: () => {},
+  setCurrentServer: () => {},
   changeChannel: () => {},
   changeServer: () => {},
   changeUser: () => {},

@@ -2,28 +2,36 @@ import { useState, useCallback, useEffect } from "react";
 import { Role } from "@shared/types";
 import { apiHandler } from "@/lib/handlers/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useGlobalContext } from "@/context/GlobalContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function useRoleManagement() {
+  const { currentServer } = useGlobalContext();
   const { toast } = useToast();
   const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeRole, setActiveRole] = useState<Role | null>(null);
+  const translation = useTranslation();
 
   const fetchRolesWithUsers = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await apiHandler("/api/role-management/get-roles-with-users", null, "GET");
+      const response = await apiHandler(
+        "/api/role-management/get-roles-with-users",
+        null,
+        "GET",
+      );
       setRoles(response);
     } catch (err) {
       console.error("Error fetching roles:", err);
       toast({
-        title: "Failed",
-        description: "Error fetching roles",
+        title: translation("Failed"),
+        description: translation("Error fetching roles"),
       });
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchRolesWithUsers();
@@ -43,47 +51,51 @@ export function useRoleManagement() {
               manage_server: false,
             }),
           },
-          "POST"
+          "POST",
         );
         await fetchRolesWithUsers();
         toast({
-          title: "Success",
-          description: "Role Created Successfully",
+          title: translation("Success"),
+          description: translation("Role Created Successfully") ,
         });
         return true;
       } catch (err) {
         console.error("Error While Creating Role", err);
         toast({
-          title: "Failed",
-          description: "Error While Creating Role",
+          title: translation("Failed"),
+          description: translation("Error While Creating Role"),
         });
         return false;
       }
     },
-    [fetchRolesWithUsers, toast]
+    [fetchRolesWithUsers, toast], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const deleteRole = useCallback(
     async (roleId: number) => {
       try {
-        await apiHandler("/api/role-management/delete-role", { id: roleId }, "DELETE");
+        await apiHandler(
+          "/api/role-management/delete-role",
+          { id: roleId },
+          "DELETE",
+        );
         setRoles((prevRoles) => prevRoles.filter((role) => role.id !== roleId));
         toast({
-          title: "Success",
-          description: "Role Deleted Successfully",
+          title: translation("Success"),
+          description: translation("Role Deleted Successfully"),
         });
         setActiveRole(null);
         return true;
       } catch (error) {
         console.error("Error while deleting role", error);
         toast({
-          title: "Failed",
-          description: "Something went wrong",
+          title: translation("Failed"),
+          description: translation("Something went wrong"),
         });
         return false;
       }
     },
-    [toast]
+    [toast], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const updateRole = useCallback(
@@ -97,23 +109,23 @@ export function useRoleManagement() {
             role_color: role.role_color,
             permissions: JSON.stringify(role.permissions),
           },
-          "PUT"
+          "PUT",
         );
         toast({
-          title: "Success",
-          description: "Role Updated Successfully",
+          title: translation("Success"),
+          description: translation("Role Updated Successfully"),
         });
         return true;
       } catch (err) {
         console.error("Error While Updating Role", err);
         toast({
-          title: "Failed",
+          title: translation("Failed"),
           description: "Error While Updating Role",
         });
         return false;
       }
     },
-    [toast]
+    [toast], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const removeUserFromRole = useCallback(
@@ -127,7 +139,7 @@ export function useRoleManagement() {
             role_id: 1, // Need a Default role id @everyone
             user_id: userId,
           },
-          "POST"
+          "POST",
         );
 
         setRoles((prevRoles) =>
@@ -139,7 +151,7 @@ export function useRoleManagement() {
               };
             }
             return role;
-          })
+          }),
         );
 
         if (activeRole && activeRole.id === roleId) {
@@ -154,13 +166,13 @@ export function useRoleManagement() {
       } catch (err) {
         console.error("Error removing user from role", err);
         toast({
-          title: "Failed",
-          description: "Error removing user from role",
+          title: translation("Failed"),
+          description: translation("Error removing user from role"),
         });
         return false;
       }
     },
-    [activeRole, fetchRolesWithUsers, toast]
+    [activeRole, fetchRolesWithUsers, toast], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const updateActiveRole = useCallback(
@@ -170,12 +182,14 @@ export function useRoleManagement() {
       const updatedRole = { ...activeRole, ...updates };
 
       setRoles((prevRoles) =>
-        prevRoles.map((role) => (role.id === activeRole.id ? updatedRole : role))
+        prevRoles.map((role) =>
+          role.id === activeRole.id ? updatedRole : role,
+        ),
       );
 
       setActiveRole(updatedRole);
     },
-    [activeRole]
+    [activeRole],
   );
 
   const togglePermission = useCallback(
@@ -189,7 +203,7 @@ export function useRoleManagement() {
         },
       });
     },
-    [activeRole, updateActiveRole]
+    [activeRole, updateActiveRole],
   );
 
   return {

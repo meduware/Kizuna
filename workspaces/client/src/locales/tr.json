@@ -69,5 +69,72 @@
 
   "Users Management": "Kullanıcıları Yönet",
   "Manage users, assign roles, and edit user profiles": "Kullanıcıları yönet, roller ata ve kullanıcı profillerini düzenle",
-  "users in this server": "kullanıcı bu sunucuda"
+  "users in this server": "kullanıcı bu sunucuda",
+
+  "------": "Technical Details Page -------",
+  "Configure server technical settings, capacities, and file sharing limits": "Sunucu teknik ayarlarını, kapasitelerini ve dosya paylaşım sınırlarını yapılandırın",
+  "Authentication": "Kimlik Doğrulama",
+  "Capacities": "Kapasiteler",
+  "File Sharing": "Dosya Paylaşımı",
+
+  "Authentication Methods": "Kimlik Doğrulama Yöntemleri",
+  "Configure how users can log in to your server": "Sunucunuza kullanıcıların nasıl giriş yapabileceğini yapılandırın",
+  "Password Authentication": "Parola ile Kimlik Doğrulama",
+  "Allow users to sign in with username and password": "Kullanıcıların kullanıcı adı ve parola ile giriş yapmasına izin ver",
+  "OAuth Integrations": "OAuth Entegrasyonları",
+  "Enable sign in with third party services": "Üçüncü taraf hizmetlerle giriş yapmayı etkinleştir",
+  "Allow Register": "Kayıt Olmaya İzin Ver",
+  "Allow users to create new accounts": "Kullanıcıların yeni hesaplar oluşturmasına izin ver",
+  "Anonymously Login": "Anonim Giriş",
+  "Allow users to login anonymously": "Kullanıcıların anonim olarak giriş yapmasına izin ver",
+  "OAuth Providers": "OAuth Sağlayıcıları",
+
+  "Server & Room Capacities": "Sunucu ve Oda Kapasitesileri",
+  "Define the system limitations to optimize performance and stability": "Sunucu ve oda kapasitelerini tanımlayın, performansı ve kararlılığı optimize edin",
+  "Max Server Capacity": "Maksimum Sunucu Kapasitesi",
+  "Max Room Capacity": "Maksimum Oda Kapasitesi",
+  "users": "kullanıcı",
+  "Concurrent Connections": "Eşzamanlı Bağlantılar",
+  "API Rate Limit": " API Çağrı Sınırı",
+  "Bitrate Limit": "Bitrate Sınırı",
+  "Stream FPS Limit": "Yayın FPS Sınırı",
+  "Stream Quality": " Yayın Kalitesi",
+
+  "File Sharing Settings": "Dosya Paylaşım Ayarları",
+  "Adjust storage limits and define which file types users can upload": "Depolama sınırlarını ayarlayın ve kullanıcıların hangi dosya türlerini yükleyebileceğini tanımlayın",
+  "Max File Size": "Maksimum Dosya Boyutu",
+  "Current limit": "Mevcut limit",
+  "User Storage Quota": "Kullanıcı Depolama Kotası",
+  "Allowed File Types": "İzin Verilen Dosya Türleri",
+  "Audio": "Ses",
+  "Video": "Video",
+  "Images": "Görüntü",
+  "Documents": "Belge",
+  "File Retention Policy": "Dosya Saklama Politikası",
+  "Days": "Gün",
+  "Keep Forever": "Sonsuza Kadar Sakla",
+  "Technical Details Loading": "Teknik Detaylar Yükleniyor",
+
+  "------------------": "Roles Page --------------------------------------",
+  "Role Management": "Rol Yönetimi",
+  "Create and manage roles and permissions for your server": "Sunucunuz için roller ve izinler oluşturun ve yönetin",
+  "Select a role to edit its permissions or create one": "İzinlerini düzenlemek veya oluşturmak için bir rol seçin",
+  "Create Role": "Rol Oluştur",
+
+  "Select a role to edit": "Düzenlemek için bir rol seçin",
+  "Or create a new role to get started": "Veya başlamak için yeni bir rol oluşturun",
+
+  "Role Settings": "Rol Ayarları",
+  "Edit role details and permissions": "Rol ayrıntılarını ve izinlerini düzenle",
+
+  "General": "Genel",
+  "Role Name": "Rol İsmi",
+  "Role Color": "Rol Rengi",
+  "Delete Role": "Rolü Sil",
+
+  "Permissions": "İzinler",
+  "General Server Permissions": "Genel Sunucu İzinleri",
+
+  "Members": "Üyeler",
+  "Joined": "Katılma Tarihi"
 }

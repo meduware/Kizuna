@@ -1,3 +1,4 @@
+import { useGlobalContext } from "@/context/GlobalContext";
 import { createSupabaseClient } from "../../../shared/src/supabase/createClient";
 import { v4 as uuidv4 } from "uuid";
 
@@ -28,15 +29,15 @@ async function uploadFiles(files: File[]): Promise<string[]> {
 export async function sendMessage(
   inputValue: string,
   files: File[],
-  user_id: string,
-  channel_id: number,
+  user_id: number,
+  channel_id: number
 ) {
   const fileUrls = await uploadFiles(files);
 
   const { data: user_role, error: userRolesError } = await supabase
     .from("user_roles")
     .select("id")
-    .eq("user_id", user_id)
+    .eq("id", user_id)
     .single();
 
   if (userRolesError) {

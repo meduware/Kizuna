@@ -1,5 +1,5 @@
 import React from "react";
-import { BorderBeam } from "../magicui/border-beam";
+import { BorderBeam } from "./border-beam";
 
 interface IconHolderProps {
   icon: React.ReactNode;

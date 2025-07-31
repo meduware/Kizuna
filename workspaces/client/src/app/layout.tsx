@@ -1,10 +1,7 @@
-import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-import { GlobalContextProvider } from "@/context/store";
+import { ContextProviders } from "@/context/ContextProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,18 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`flex flex-col ${inter}`}>
-        <GlobalContextProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <SpeedInsights />
-            <Toaster />
-          </ThemeProvider>
-        </GlobalContextProvider>
+        <ContextProviders>{children}</ContextProviders>
       </body>
     </html>
   );
